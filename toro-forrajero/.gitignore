@@ -1,11 +1,11 @@
+# Archivos de ayuda de Spring
 HELP.md
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### STS ###
+# Archivos de compilación y caché de Gradle
+.gradle/
+build/
+
+# Archivos de configuración de IDEs (Eclipse, STS, IntelliJ, NetBeans, VS Code)
 .apt_generated
 .classpath
 .factorypath
@@ -14,24 +14,41 @@ build/
 .springBeans
 .sts4-cache
 bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### IntelliJ IDEA ###
 .idea
 *.iws
 *.iml
 *.ipr
 out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### NetBeans ###
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-
-### VS Code ###
 .vscode/
+
+# Logs y temporales
+*.log
+log/
+logs/
+temp/
+tmp/
+*.tmp
+*.bak
+*~
+
+# Archivos del Sistema Operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Archivos de entorno y credenciales locales
+.env
+application-local.properties
+
+# Excepciones: Asegura que el Gradle Wrapper y configuraciones clave sí se suban
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+!gradlew
+!gradlew.bat
+!build.gradle
+!settings.gradle

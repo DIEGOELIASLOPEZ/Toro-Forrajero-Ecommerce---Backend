@@ -26,7 +26,7 @@ public class Usuario {
     private String nombre;
 
     @NotBlank(message = "El apellido es obligatorio")
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "apellido", nullable = false)
     private String apellido;
 
     @NotBlank(message = "El teléfono es obligatorio")
@@ -50,6 +50,7 @@ public class Usuario {
     @Column(name = "contrasena", nullable = false)
     private String contrasena;
 
+    @Builder.Default
     @Column(name = "rol", nullable = false, columnDefinition = "ENUM('cliente', 'admin') DEFAULT 'cliente'")
     private String rol = "cliente";
 

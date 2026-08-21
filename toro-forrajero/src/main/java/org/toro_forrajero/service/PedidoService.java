@@ -25,22 +25,26 @@ public class PedidoService implements IPedidoService{
 
     @Override
     public PedidoDTO.PedidoResponse mostrarPedidoPorId(Long id) {
-        return null;
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(()-> new RuntimeException("ID " + id + " no encontrado"));
+
+        return entidadAResponse(pedido);
+
     }
 
     @Override
     public List<PedidoDTO.PedidoResponse> mostrarPedidosDeUsuario(Long idUsuario) {
-        return List.of();
+        return pedidoRepository.findByIdUsuario(idUsuario).stream().map(this::entidadAResponse).toList();
     }
 
     @Override
     public List<PedidoDTO.PedidoResponse> mostrarPedidoUsuarioPorStatus(Long idUsuario, String status) {
-        return List.of();
+        return pedidoRepository.findByIdUsuarioAndStatus(idUsuario, status).stream().map(this::entidadAResponse).toList();
     }
 
     @Override
     public List<PedidoDTO.PedidoResponse> mostrarPedidosEntreFechas(Date fechaInicio, Date fechaFin) {
-        return List.of();
+        return pedidoRepository.findByFechaPedidoBetween(fechaInicio, fechaFin).stream().map(this::entidadAResponse).toList();
     }
 
     @Override

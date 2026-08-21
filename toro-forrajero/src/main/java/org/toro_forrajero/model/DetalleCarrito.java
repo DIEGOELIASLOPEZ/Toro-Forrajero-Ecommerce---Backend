@@ -19,12 +19,12 @@ public class DetalleCarrito {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idCarrito")
-    @JoinColumn(name = "id_carrito", foreignKey = @ForeignKey(name = "fk_detalle_carrito_carrito1"))
+    @JoinColumn(name = "id_carrito", foreignKey = @ForeignKey(name = "fk_detalle_carrito_carrito"))
     private Carrito carrito;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idProducto")
-    @JoinColumn(name = "id_producto", foreignKey = @ForeignKey(name = "fk_detalle_carrito_productos1"))
+    @JoinColumn(name = "id_producto", foreignKey = @ForeignKey(name = "fk_detalle_carrito_productos"))
     private Productos producto; // Ajustado al nombre de tu entidad de productos
 
     @Column(name = "cantidad", nullable = false)

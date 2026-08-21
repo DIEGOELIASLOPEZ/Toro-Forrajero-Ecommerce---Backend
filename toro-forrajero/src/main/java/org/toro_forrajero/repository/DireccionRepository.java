@@ -10,7 +10,7 @@ public interface DireccionRepository extends JpaRepository<Direccion, Long>{
     //Contar cuantas direcciones se tienen registradas por usuario
     long countByUsuarioId(Long idUsuario);
 
-    //Listar - Obtener direcciones
+    //Listar - Obtener direcciones de un mismo Usuario
     List<Direccion> findByUsuarioId(Long idUsuario);
 
     //Verificar si ya existe una direccion registrada

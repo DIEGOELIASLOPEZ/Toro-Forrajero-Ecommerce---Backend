@@ -16,7 +16,7 @@ public interface ProductosRepository extends JpaRepository<Productos, Long>{
     List<Productos> findByEspecieIgnoreCase(String especie);
 
     //Mostrar productos por marca && especie - a ver si funciona
-    List<Productos> findByMarcaIgnoreCaseAndespecieIgnoreCase(
+    List<Productos> findByMarcaIgnoreCaseAndEspecieIgnoreCase(
             String marca,
             String especie
     );

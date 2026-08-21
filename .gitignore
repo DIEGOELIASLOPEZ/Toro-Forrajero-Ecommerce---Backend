@@ -42,7 +42,8 @@ Thumbs.db
 Desktop.ini
 
 # Archivos de entorno y credenciales locales
-.env
+env
+*.env
 application-local.properties
 
 # Excepciones: Asegura que el Gradle Wrapper y configuraciones clave sí se suban

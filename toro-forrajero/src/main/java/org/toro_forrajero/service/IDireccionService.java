@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IDireccionService {
     //Mostrar direcciones guardadas
-    List<Direccion> mostrarDirecciones(idUsuario);
+    List<Direccion> mostrarDirecciones(Long idUsuario);
 
     //crear direccion
     //verficiar que aributos sean > 0

@@ -22,7 +22,7 @@ public class Usuario {
     private Long idUsuario;
 
     @NotBlank(message = "El nombre es obligatorio")
-    @Column(name = "nombre", nullable = false)
+    @Column(name = "apellido", nullable = false)
     private String nombre;
 
     @NotBlank(message = "El apellido es obligatorio")

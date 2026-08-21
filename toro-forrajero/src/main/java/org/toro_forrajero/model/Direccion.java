@@ -1,69 +1,60 @@
 package org.toro_forrajero.model;
+
 import jakarta.validation.constraints.*;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-import java.time.LocalDate;
-
-
-// Creamos tabla direccion
 @Entity
-@Table(name = "Direccion")
-@Data // GENERA SETTER AND GETTER
+@Table(name = "direccion")
+@Data
 @NoArgsConstructor
-@AllArgsConstructor// CONSTRUCTOR ARGUMENTOS
-
-//Agregamos atributos
+@AllArgsConstructor
 public class Direccion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id_direccion")
+    private Long idDireccion;
 
-  // calle
-    @NotBlank(message = "Este campo no puede ester vacio ")
-    @Column(nullable = false)
-     private String  calle;
-// numExterior
-    @NotBlank(message = "Este campo no puede ester vacio ")
-    @Column(nullable = false)
-     private int numExterior;
-    @Column
-     private int numInterior;
- // CP
-    @NotBlank(message = "Este campo no puede ester vacio ")
-    @Column(nullable = false)
-     private int codigoPostal;
- // Acaldia
-    @NotBlank(message = "Este campo no puede ester vacio ")
-    @Column(nullable = false)
-     private String acaldia;
- //   Estado
-    @NotBlank(message = "Este campo no puede ester vacio ")
-    @Column(nullable = false)
-     private String estado;
- // Tel
-     @NotBlank(message = "Este campo no puede ester vacio ")
-    @Column(nullable = false)
-     private String tel;
-     //email
-    @NotBlank(message = "El email no puede estar vacio")
-    @Column(nullable = false, length = 100 , unique = true)
-    @Email(message = "Email debe ser válido.")
-     private String email;
+    @NotBlank(message = "La calle no puede estar vacía")
+    @Column(nullable = false, length = 100)
+    private String calle;
 
+    @NotBlank(message = "El número exterior no puede estar vacío")
+    @Column(name = "num_exterior", nullable = false, length = 10)
+    private String numExterior;
 
-    // CARDINALIDAD
-    //un usuario  tienen muchas direcciones
+    // Cambiado a String para admitir valores como "A", "102-B" o nulos
+    @Column(name = "num_interior", length = 10)
+    private String numInterior;
 
-    @ManyToOne(optional = false)
-    // esta es mi FOREINGKEY
-    @JoinColumn(name = "idUsuario", nullable = false)
-    private Usuario usuario ;
+    // Cambiado a String para no perder ceros a la izquierda (ej. 01000)
+    @NotBlank(message = "El código postal no puede estar vacío")
+    @Pattern(regexp = "\\d{5}", message = "El código postal debe contener 5 dígitos")
+    @Column(name = "codigo_postal", nullable = false, length = 10)
+    private String codigoPostal;
 
-    // HACEMOS CONSTRUCTORES CON ETIQUETA, GET Y SET
+    @NotBlank(message = "La alcaldía/municipio no puede estar vacía")
+    @Column(name = "alcaldia", nullable = false, length = 100)
+    private String alcaldia;
 
+    @NotBlank(message = "El estado no puede estar vacío")
+    @Column(nullable = false, length = 50)
+    private String estado;
+
+    @NotBlank(message = "El teléfono no puede estar vacío")
+    @Column(nullable = false, length = 15)
+    private String tel;
+
+    @NotBlank(message = "El email no puede estar vacío")
+    @Email(message = "El email debe ser válido.")
+    @Column(nullable = false, length = 100)
+    private String email;
+
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private Usuario usuario;
 
 }

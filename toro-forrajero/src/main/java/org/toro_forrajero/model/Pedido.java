@@ -41,10 +41,11 @@ public class Pedido {
     private String status;
 
     // Relación Foreign Key con Usuario
+// Relación Foreign Key con Usuario
     @NotNull(message = "El usuario es obligatorio")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)
-    private  usuario;
+    private Usuario usuario;
 
     // Relación Foreign Key con MetodoPago
     @NotNull(message = "El método de pago es obligatorio")

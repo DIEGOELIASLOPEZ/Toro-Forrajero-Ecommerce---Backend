@@ -26,7 +26,7 @@ public class MetodoPago {
     private Long id;
 
     @Column(name = "num_tarjeta",nullable = false, length = 100)
-    private String num_tarjeta;
+    private String numTarjeta;
 
     /**
      * Convertidor. Es para guardar la fecha en String, para que SQL pueda guardarlo
@@ -36,8 +36,6 @@ public class MetodoPago {
     @Column(name = "fecha_expiracion", nullable = false, length = 7)
     private YearMonth fechaExpiracion;
 
-    @Column(name = "id_usuario", nullable = false)
-    private Integer idUsuario;
 
     /**
      * @foreignKey le pone nombre a la restricción de la llave foránea

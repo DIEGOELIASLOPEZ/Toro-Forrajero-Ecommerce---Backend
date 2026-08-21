@@ -2,7 +2,7 @@
 HELP.md
 
 # Archivos de compilación y caché de Gradle
-.gradle/
+toro-forrajero/.gradle/
 build/
 
 # Archivos de configuración de IDEs (Eclipse, STS, IntelliJ, NetBeans, VS Code)
@@ -42,7 +42,8 @@ Thumbs.db
 Desktop.ini
 
 # Archivos de entorno y credenciales locales
-.env
+env
+*.env
 application-local.properties
 
 # Excepciones: Asegura que el Gradle Wrapper y configuraciones clave sí se suban

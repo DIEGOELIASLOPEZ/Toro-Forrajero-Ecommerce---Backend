@@ -2,22 +2,22 @@ package org.toro_forrajero.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.toro_forrajero.model.Pedido;
+import org.toro_forrajero.model.Usuario;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 
-    //Mostrar los pedidios de un usuario
-    Optional<Pedido> findByIdUsuario(Long id_usuario);
+    // Opción A: Buscar navegando por el ID del usuario (usuario.idUsuario)
+    List<Pedido> findByUsuario_IdUsuario(Long idUsuario);
 
-    //Mostrar el tipo de  Status de los pedidos de un Usuario
-    List<Pedido> findByIdUsuarioAndStatus(Long id_usuario, String status);
+    // Opción B: Buscar pasando directamente el objeto Usuario
+    List<Pedido> findByUsuario(Usuario usuario);
 
-    // Mostrar Pedidos realizadas en ciertas fechas
-    List<Pedido> findByFechaPedidoBetween(Date fechaInicio, Date fechaFin);
+    // Buscar por ID de usuario y Status
+    List<Pedido> findByUsuario_IdUsuarioAndStatus(Long idUsuario, String status);
 
-
-
+    // Buscar pedidos realizados en un rango de fechas (Permanece igual)
+    List<Pedido> findByFechaPedidoBetween(LocalDateTime fechaInicio, LocalDateTime fechaFin);
 }

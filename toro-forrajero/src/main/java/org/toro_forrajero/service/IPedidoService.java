@@ -2,7 +2,7 @@ package org.toro_forrajero.service;
 
 import org.toro_forrajero.dto.PedidoDTO;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IPedidoService {
@@ -15,7 +15,7 @@ public interface IPedidoService {
 
     List<PedidoDTO.PedidoResponse> mostrarPedidoUsuarioPorStatus(Long idUsuario, String status);
 
-    List<PedidoDTO.PedidoResponse> mostrarPedidosEntreFechas(Date fechaInicio, Date fechaFin);
+    List<PedidoDTO.PedidoResponse> mostrarPedidosEntreFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin);
 
     PedidoDTO.PedidoResponse crearPedido(PedidoDTO.PedidoRequestCliente pedidoRequestCliente);
 
@@ -23,7 +23,7 @@ public interface IPedidoService {
 
     PedidoDTO.PedidoResponse modificarStatusPedido(Long id, String status);
 
-    void cancelarPedido(Long id);
+    PedidoDTO.PedidoResponse modificarFechaEntregaPedido(Long id, LocalDateTime fechaNueva);
 
-
+    PedidoDTO.PedidoResponse cancelarPedido(Long id);
 }

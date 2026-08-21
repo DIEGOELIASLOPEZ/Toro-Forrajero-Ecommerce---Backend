@@ -2,32 +2,29 @@ package org.toro_forrajero.dto;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class PedidoDTO {
 
-    // REQUEST ADMIN: Permite actualizaciones parciales (campos opcionales)
+    // REQUEST ADMIN: Para actualizar status, monto o fecha de entrega
     @Data
     public static class PedidoRequestAdmin {
 
-        private Date fechaPedido;
+        private LocalDateTime fechaEntrega;
 
         @DecimalMin(value = "0.01", message = "El monto debe ser mayor a 0")
         private BigDecimal montoTotal;
 
         private String status;
 
-        private String metodoPago;
-
-        @Min(value = 1, message = "El ID de la dirección debe ser mayor a 0")
-        private Long idDireccion;
+        @Min(value = 1, message = "El ID del método de pago debe ser mayor a 0")
+        private Long idMetodoPago;
     }
 
-    // REQUEST CLIENTE: Campos obligatorios para crear el pedido
+    // REQUEST CLIENTE: Campos obligatorios para crear el pedido desde el frontend
     @Data
     public static class PedidoRequestCliente {
 
@@ -39,24 +36,20 @@ public class PedidoDTO {
         @Min(value = 1, message = "El ID usuario debe ser mayor a 0")
         private Long idUsuario;
 
-        @NotBlank(message = "Se requiere un metodo de pago obligatorio")
-        private String metodoPago;
-
-        @NotNull(message = "El ID de la dirección es obligatorio")
-        @Min(value = 1, message = "La ID de la direccion debe ser mayor a 0")
-        private Long idDireccion;
+        @NotNull(message = "El ID del método de pago es obligatorio")
+        @Min(value = 1, message = "El ID del método de pago debe ser mayor a 0")
+        private Long idMetodoPago;
     }
 
-    // RESPONSE: Salida de datos hacia el frontend
+    // RESPONSE: Salida de datos hacia el cliente/frontend
     @Data
     public static class PedidoResponse {
         private Long idPedido;
-        private Date fechaPedido;
+        private LocalDateTime fechaPedido;
+        private LocalDateTime fechaEntrega;
         private BigDecimal montoTotal;
         private String status;
         private Long idUsuario;
-        private String metodoPago;
-        private Long idDireccion;
+        private Long idMetodoPago;
     }
-
 }

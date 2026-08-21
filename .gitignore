@@ -2,7 +2,7 @@
 HELP.md
 
 # Archivos de compilación y caché de Gradle
-.gradle/
+toro-forrajero/.gradle/
 build/
 
 # Archivos de configuración de IDEs (Eclipse, STS, IntelliJ, NetBeans, VS Code)

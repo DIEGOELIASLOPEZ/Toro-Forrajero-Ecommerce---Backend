@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.toro_forrajero.dto.MetodoPagoResponseDTO;
 import org.toro_forrajero.model.MetodoPago;
 import org.toro_forrajero.service.IMetodoPagoService;
 
@@ -13,39 +14,31 @@ import java.util.List;
 @RequestMapping("api/metodos-pago")
 @RequiredArgsConstructor
 public class MetodoPagoController {
+
     private final IMetodoPagoService metodoPagoService;
 
-
     // GET
-    @GetMapping("usuario/{idUsuario}")
-    public ResponseEntity<List<MetodoPago>> obtenerMetdodoPagoPorUsuario(@PathVariable Long idUsuario){
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<List<MetodoPagoResponseDTO>> obtenerMetodoPagoPorUsuario(@PathVariable Long idUsuario){
         return ResponseEntity.ok(metodoPagoService.obtenerMetodosPorUsuario(idUsuario));
     }
 
     // POST
     @PostMapping("/usuario/{idUsuario}")
-    public ResponseEntity<MetodoPago> agregarMetodoPago(
+    public ResponseEntity<MetodoPagoResponseDTO> agregarMetodoPago(
             @PathVariable Long idUsuario,
             @RequestBody MetodoPago metodoPago
     ){
-        /**
-         * Created: Regresa el 201. Indica que se creó en la base de datos
-         * .body regresa en formato json lo que regresó el servicio
-         */
-        return ResponseEntity.status(HttpStatus.CREATED).body(metodoPagoService.agregarMetodoPago(metodoPago,idUsuario));
+        return ResponseEntity.status(HttpStatus.CREATED).body(metodoPagoService.agregarMetodoPago(metodoPago, idUsuario));
     }
 
-    // DELETE
-    @DeleteMapping("usuario/{idUsuario}")
-    public ResponseEntity<Void> eliminarMetodoPago(@PathVariable Long idMetodoPago){
-        metodoPagoService.eliminarMetodoPago(idMetodoPago);
-        return ResponseEntity.noContent().build();
+    // PUT
+    @PutMapping("/{idMetodoPago}")
+    public ResponseEntity<MetodoPagoResponseDTO> actualizarMetodoPago(
+            @PathVariable Long idMetodoPago,
+            @RequestBody MetodoPago metodoPagoActualizado
+    ) {
+        MetodoPagoResponseDTO tarjetaModificada = metodoPagoService.actualizarMetodoPago(idMetodoPago, metodoPagoActualizado);
+        return ResponseEntity.ok(tarjetaModificada);
     }
-
-    @DeleteMapping("/usuario/{idUsuario")
-    public ResponseEntity<Void> eliminarTodosLosMetodosDeUsuario(@PathVariable Long idUsuario){
-        metodoPagoService.eliminarTodosLosMetodosDeUsuario(idUsuario);
-        return ResponseEntity.noContent().build();
-    }
-
 }

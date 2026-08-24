@@ -17,7 +17,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByCorreo(Long id_usuario);
 
     // Mostrar clientes o administradores por Id y rol:
-    List<Usuario> findByIdAndRolIgnoreCase(Long id_usuario, String rol);
+    List<Usuario> findByIdUsuarioAndRolIgnoreCase(Long idUsuario, String rol);
 
     // Filtro para identificar mayor demanda en Estado:
     List<Usuario> findByEstadoIgnoreCase(String estado);

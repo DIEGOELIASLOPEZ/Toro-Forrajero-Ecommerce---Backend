@@ -14,7 +14,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByCorreo(String correo);
 
     // Buscar el Usuario por correo:
-    Optional<Usuario> findByCorreo(Long id_usuario);
+    Optional<Usuario> findByCorreo(String correo);
 
     // Mostrar clientes o administradores por Id y rol:
     List<Usuario> findByIdUsuarioAndRolIgnoreCase(Long idUsuario, String rol);

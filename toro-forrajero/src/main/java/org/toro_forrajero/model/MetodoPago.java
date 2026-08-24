@@ -1,5 +1,7 @@
 package org.toro_forrajero.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +43,7 @@ public class MetodoPago {
      * Al consultarlo, el convertidor lo devuelve en formato YearMonth
      */
     @Convert(converter = YearMonthConverter.class)
+    @JsonFormat(pattern = "MM/yyyy")
     @Column(name = "fecha_expiracion", nullable = false, length = 7)
     private YearMonth fechaExpiracion;
 
@@ -48,6 +51,7 @@ public class MetodoPago {
      * @foreignKey le pone nombre a la restricción de la llave foránea
      * @ManyToOne significa que muchos métodos de pago pueden pertenecer a un usuario
      */
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "id_usuario",

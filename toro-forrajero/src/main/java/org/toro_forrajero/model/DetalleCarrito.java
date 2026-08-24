@@ -1,5 +1,6 @@
 package org.toro_forrajero.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +16,13 @@ public class DetalleCarrito {
     @EmbeddedId
     private DetalleCarritoId id = new DetalleCarritoId();
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idCarrito")
     @JoinColumn(name = "id_carrito", foreignKey = @ForeignKey(name = "fk_detalle_carrito_carrito1"))
     private Carrito carrito;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("idProducto")
     @JoinColumn(name = "id_producto", foreignKey = @ForeignKey(name = "fk_detalle_carrito_productos1"))

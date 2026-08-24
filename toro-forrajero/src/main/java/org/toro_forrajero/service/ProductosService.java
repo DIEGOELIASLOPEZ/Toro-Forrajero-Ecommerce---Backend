@@ -3,6 +3,7 @@ package org.toro_forrajero.service;
 import java.util.List;
 import java.time.LocalDate;
 import org.springframework.stereotype.Service;
+import org.toro_forrajero.dto.ProductosRequestDTO;
 import org.toro_forrajero.model.Productos;
 import org.toro_forrajero.repository.ProductosRepository;
 
@@ -29,24 +30,37 @@ public class ProductosService implements IProductosService {
     }
 
     @Override
-    public Productos guardar(Productos producto) {
+    public Productos guardar(ProductosRequestDTO dto) {
+
+        Productos producto = new Productos();
+
+        producto.setNombre(dto.getNombre());
+        producto.setMarca(dto.getMarca());
+        producto.setEspecie(dto.getEspecie());
+        producto.setStock(dto.getStock());
+        producto.setCosto(dto.getCosto());
+        producto.setPrecioVenta(dto.getPrecioVenta());
+        producto.setVisibilidad(dto.getVisibilidad());
+        producto.setDestacado(dto.getDestacado());
+        producto.setDescripcion(dto.getDescripcion());
+
         return productosRepository.save(producto);
     }
 
     @Override
-    public Productos actualizar(Long id, Productos producto) {
+    public Productos actualizar(Long id, ProductosRequestDTO dto) {
 
         Productos productoExistente = obtenerPorId(id);
 
-        productoExistente.setNombre(producto.getNombre());
-        productoExistente.setMarca(producto.getMarca());
-        productoExistente.setEspecie(producto.getEspecie());
-        productoExistente.setStock(producto.getStock());
-        productoExistente.setCosto(producto.getCosto());
-        productoExistente.setPrecioVenta(producto.getPrecioVenta());
-        productoExistente.setVisibilidad(producto.getVisibilidad());
-        productoExistente.setDestacado(producto.getDestacado());
-        productoExistente.setDescripcion(producto.getDescripcion());
+        productoExistente.setNombre(dto.getNombre());
+        productoExistente.setMarca(dto.getMarca());
+        productoExistente.setEspecie(dto.getEspecie());
+        productoExistente.setStock(dto.getStock());
+        productoExistente.setCosto(dto.getCosto());
+        productoExistente.setPrecioVenta(dto.getPrecioVenta());
+        productoExistente.setVisibilidad(dto.getVisibilidad());
+        productoExistente.setDestacado(dto.getDestacado());
+        productoExistente.setDescripcion(dto.getDescripcion());
 
         return productosRepository.save(productoExistente);
     }

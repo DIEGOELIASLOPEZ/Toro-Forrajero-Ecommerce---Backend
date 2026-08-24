@@ -1,6 +1,8 @@
 package org.toro_forrajero.service;
 
 import java.util.List;
+
+import org.toro_forrajero.dto.ProductosRequestDTO;
 import org.toro_forrajero.model.Productos;
 
 public interface IProductosService {
@@ -9,9 +11,9 @@ public interface IProductosService {
 
     Productos obtenerPorId(Long id);
 
-    Productos guardar(Productos producto);
+    Productos guardar(ProductosRequestDTO dto);
 
-    Productos actualizar(Long id, Productos producto);
+    Productos actualizar(Long id, ProductosRequestDTO dto);
 
     void eliminar(Long id);
 

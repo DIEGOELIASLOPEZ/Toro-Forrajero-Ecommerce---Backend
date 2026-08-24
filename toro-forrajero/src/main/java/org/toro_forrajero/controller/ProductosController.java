@@ -48,14 +48,17 @@ public class ProductosController {
     }
 
     @GetMapping("/buscar")
-    public List<Productos> buscar(@RequestParam(required = false) String marca, @RequestParam(required = false) String especie){
+    public List<Productos> buscar(@RequestParam(name = "marca", required = false) String marca, @RequestParam(name = "especie", required = false) String especie){
         if(marca != null && especie != null){
             return productosService.buscarPorMarcaYEspecie(marca, especie);
-        } else if (marca != null){
+        }
+        if(marca != null){
             return productosService.buscarPorMarca(marca);
-        } else if (especie != null){
+        }
+        if(especie != null){
             return productosService.buscarPorEspecie(especie);
         }
+        System.out.println(">>> LLEGARON PARAMETROS -> Marca: " + marca + ", Especie: " + especie);
 
         return productosService.listarTodos();
     }

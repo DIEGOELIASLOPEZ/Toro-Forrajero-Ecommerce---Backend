@@ -1,14 +1,16 @@
 package org.toro_forrajero.service;
 
 import org.toro_forrajero.model.Direccion;
+
 import java.util.List;
 
-// DECLARAMOS  nombre de METODOS Y QUE ARGUMENTOS TENDRA PARA DESPUES CREAR LA LOGICA
+// DECLARAMOS nombre de METODOS Y QUE ARGUMENTOS TENDRA
+// PARA DESPUES CREAR LA LOGICA
 
 public interface IDireccionService {
 
     // Crear una nueva dirección
-    Direccion crearDireccion(Direccion direccion);
+    Direccion crearDireccion(Direccion direccion, Long idUsuario);
 
     // Listar - Mostrar direcciones guardadas de un usuario
     List<Direccion> mostrarDireccion(Long idUsuario);
@@ -16,8 +18,12 @@ public interface IDireccionService {
     // Contar las direcciones de un usuario
     long contarDireccion(Long idUsuario);
 
-    // Verificar si una dirección ya existe (mismos datos)
-    boolean verificarDireccion(String calle, String numExterior, String numInterior, String codigoPostal);
+    // Verificar si una dirección ya existe
+    boolean verificarDireccion(
+            Long idUsuario,
+            String calle,
+            String numExterior,
+            String codigoPostal);
 
     // Eliminar una dirección puntual de un usuario
     void eliminarDireccion(Long idUsuario, Long idDireccion);

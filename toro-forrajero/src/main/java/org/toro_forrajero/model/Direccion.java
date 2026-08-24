@@ -13,45 +13,48 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Direccion {
 
+    //ID
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_direccion")
     private Long idDireccion;
-
+ //CALLE
     @NotBlank(message = "La calle no puede estar vacía")
     @Column(nullable = false, length = 100)
     private String calle;
-
+ //NUMEXT
     @NotBlank(message = "El número exterior no puede estar vacío")
     @Column(name = "num_exterior", nullable = false, length = 10)
     private String numExterior;
 
-    // Cambiado a String para admitir valores como "A", "102-B" o nulos
+    // NUMINTE
     @Column(name = "num_interior", length = 10)
     private String numInterior;
 
-    // Cambiado a String para no perder ceros a la izquierda (ej. 01000)
+    // CP
     @NotBlank(message = "El código postal no puede estar vacío")
     @Pattern(regexp = "\\d{5}", message = "El código postal debe contener 5 dígitos")
     @Column(name = "codigo_postal", nullable = false, length = 10)
     private String codigoPostal;
-
+ //acaldia
     @NotBlank(message = "La alcaldía/municipio no puede estar vacía")
     @Column(name = "alcaldia", nullable = false, length = 100)
     private String alcaldia;
-
+//estado
     @NotBlank(message = "El estado no puede estar vacío")
     @Column(nullable = false, length = 50)
     private String estado;
-
+//tel
     @NotBlank(message = "El teléfono no puede estar vacío")
     @Column(nullable = false, length = 15)
     private String tel;
-
+//email
     @NotBlank(message = "El email no puede estar vacío")
     @Email(message = "El email debe ser válido.")
     @Column(nullable = false, length = 100)
     private String email;
+//relaciones
+
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_usuario", nullable = false)

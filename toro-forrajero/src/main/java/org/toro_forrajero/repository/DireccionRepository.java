@@ -8,20 +8,22 @@ import java.util.List;
 public interface DireccionRepository extends JpaRepository<Direccion, Long> {
 
     // Contar cuántas direcciones se tienen registradas por usuario
+
+
     long countByUsuario_IdUsuario(Long idUsuario);
 
     // Listar - Obtener direcciones de un mismo Usuario
-    List<Direccion> findByUsuario_IdUsuario(Long idUsuario);
+    List<Direccion> findByUsuarioId(Long idUsuario);
 
     // Verificar si ya existe una dirección registrada exacta
-    boolean existsByCalleAndNumExteriorAndNumInteriorAndCodigoPostal(
+    boolean existsByDireccion(
             String calle, String numExterior, String numInterior, String codigoPostal
     );
 
     // Eliminar una dirección específica perteneciente a un usuario
-    void deleteByIdDireccionAndUsuario_IdUsuario(Long idDireccion, Long idUsuario);
+    void deleteByIdDireccion(Long idDireccion, Long idUsuario);
 
     // Eliminar todas las direcciones registradas de un usuario
-    void deleteByUsuario_IdUsuario(Long idUsuario);
+    void deleteByIdUsuario(Long idUsuario);
 
 }

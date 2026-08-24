@@ -31,7 +31,7 @@ public class DetallePedido {
     private Pedido pedido;
 
     // Relación con la entidad (Productos)
-    @ManyToOne
-    @JoinColumn(name = "producto_id", nullable = false)
-    private Productos productos;
+    // @ManyToOne
+   // @JoinColumn(name = "producto_id", nullable = false)
+   // private Productos productos;
 }

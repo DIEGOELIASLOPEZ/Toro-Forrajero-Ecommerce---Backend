@@ -42,13 +42,13 @@ public class DireccionService implements IDireccionService {
 
     @Override
     public List<Direccion> mostrarDireccion(Long idUsuario) {
-        return direccionRepository.findByUsuarioId(idUsuario);
+        return direccionRepository.findByUsuario_IdUsuario(idUsuario);
     }
 
 
     @Override
     public long contarDireccion(Long idUsuario) {
-        return direccionRepository.countByUsuarioId(idUsuario);
+        return direccionRepository.countByUsuario_IdUsuario(idUsuario);
     }
 
 
@@ -60,7 +60,7 @@ public class DireccionService implements IDireccionService {
             String codigoPostal) {
 
         List<Direccion> direcciones =
-                direccionRepository.findByUsuarioId(idUsuario);
+                direccionRepository.findByUsuario_IdUsuario(idUsuario);
 
         for (Direccion direccion : direcciones) {
 
@@ -96,7 +96,7 @@ public class DireccionService implements IDireccionService {
     public void eliminarDireccionesDeUsuario(Long idUsuario) {
 
         List<Direccion> direcciones =
-                direccionRepository.findByUsuarioId(idUsuario);
+                direccionRepository.findByUsuario_IdUsuario(idUsuario);
 
         direccionRepository.deleteAll(direcciones);
     }

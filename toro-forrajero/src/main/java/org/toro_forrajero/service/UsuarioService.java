@@ -4,6 +4,8 @@ package org.toro_forrajero.service;
 import org.springframework.stereotype.Service;
 import org.toro_forrajero.model.Usuario;
 import org.toro_forrajero.repository.UsuarioRepository;
+import org.toro_forrajero.dto.UsuarioDTO;
+
 
 import java.util.List;
 

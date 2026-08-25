@@ -1,6 +1,7 @@
 package org.toro_forrajero.service;
 
 import java.util.List;
+import org.toro_forrajero.dto.UsuarioDTO;
 
 public interface IUsuarioService {
 

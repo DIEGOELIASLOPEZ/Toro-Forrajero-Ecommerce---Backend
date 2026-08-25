@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/direcciones")
+@CrossOrigin(origins = "*") // Permite peticiones desde el frontend
 
 
 public class DireccionController {

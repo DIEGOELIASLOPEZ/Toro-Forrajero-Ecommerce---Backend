@@ -1,0 +1,93 @@
+package org.toro_forrajero.dto;
+
+import java.math.BigDecimal;
+
+public class ProductosRequestDTO {
+    private String nombre;
+    private String marca;
+    private String especie;
+    private Integer stock;
+    private BigDecimal costo;
+    private BigDecimal precioVenta;
+    private boolean visibilidad;
+    private boolean destacado;
+    private String descripcion;
+
+    //Constructor vacío
+    public ProductosRequestDTO(){
+
+    }
+
+    //Métodos get y set
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getEspecie() {
+        return especie;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public BigDecimal getCosto() {
+        return costo;
+    }
+
+    public void setCosto(BigDecimal costo) {
+        this.costo = costo;
+    }
+
+    public BigDecimal getPrecioVenta() {
+        return precioVenta;
+    }
+
+    public void setPrecioVenta(BigDecimal precioVenta) {
+        this.precioVenta = precioVenta;
+    }
+
+    public boolean getVisibilidad() {
+        return visibilidad;
+    }
+
+    public void setVisibilidad(boolean visibilidad) {
+        this.visibilidad = visibilidad;
+    }
+
+    public boolean getDestacado() {
+        return destacado;
+    }
+
+    public void setDestacado(boolean destacado) {
+        this.destacado = destacado;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+}

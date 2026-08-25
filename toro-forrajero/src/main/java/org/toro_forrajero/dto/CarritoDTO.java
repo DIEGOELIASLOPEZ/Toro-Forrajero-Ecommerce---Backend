@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DetallePedidoDTO {
+public class CarritoDTO {
+
     private Long id;
+    private Long usuarioId;
+    private Long productoId;
     private Integer cantidad;
     private Double precioUnitario;
     private Double subtotal;
-    private Long productoId;
-    private Long pedidoId;
 }

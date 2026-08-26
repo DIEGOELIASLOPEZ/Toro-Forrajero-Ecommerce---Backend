@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/detalle-carrito")
+@CrossOrigin(origins = "*") // Permite peticiones desde el frontend
 @RequiredArgsConstructor
 public class DetalleCarritoController {
 

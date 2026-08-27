@@ -1,0 +1,221 @@
+/* -----------------------------------------------------------------------------
+   SECCION: NAV BAR 1
+----------------------------------------------------------------------------- */
+
+/* --- Elemento: Barra de navegación --- */
+
+
+/* Fondo del navbar1 verde, ya definido en root */
+.navbar-1 {
+	background-color: var(--color-verdeFuerte);
+	padding: 0.75rem 0;
+}
+
+/*  para el tamaño del logo */
+.logo-navbar {
+	height: 75px;
+	width: auto;
+}
+
+/* Color de Mi cuenta y Carrito */
+.navbar-1 .nav-link {
+	color: var(--color-textoBlanco);
+	font-family: var(--fuente-cuerpo);
+}
+
+/* Color al hacer click en Mi cuenta y Carrito */
+.navbar-1 .nav-link:hover {
+	color: var(--color-naranjaClaro);
+}
+
+/* Brillo del ícono al hacer click */
+.navbar-1 .nav-link:hover i {
+	text-shadow:
+		0 0 8px rgba(221, 161, 94, 1),
+		0 0 20px rgba(221, 161, 94, 0.9),
+		0 0 40px rgba(221, 161, 94, 0.6);
+}
+
+/* Para acomodar el icono y la descripcion*/
+.icon-link {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-size: 1.7rem;
+	/* Tamaño de iconos*/
+	line-height: 1.2;
+}
+
+/* Para tamaño de iconos*/
+.icon-link i {
+	font-size: 2rem;
+}
+
+/* -----------------------------------------------------------------------------
+   SECCION: NAV BAR 2
+----------------------------------------------------------------------------- */
+
+/* --- Elemento: Barra de navegación --- */
+
+/* Contenedor principal del navbar */
+.navbar2 {
+	background: #606C38;
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+/* Lista de links del menú */
+.navbar2 ul {
+	position: relative;
+	display: flex;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+/* Cada elemento del menú (INICIO, NOSOTROS, etc.) */
+.navbar2 ul li {
+	width: 150px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	z-index: 2;
+	overflow: hidden;
+}
+
+/* Links dentro de cada elemento del menú */
+.navbar2 ul li a {
+	text-decoration: none;
+	color: wheat;
+	font-weight: bold;
+	font-size: 1rem;
+	white-space: nowrap;
+}
+
+.navbar3 {
+	background: var(--color-verdeFuerte);
+	padding: 1rem;
+	position: relative;
+	display: flex !important;
+	justify-content: center;
+	gap: 2rem;
+	list-style: none;
+
+}
+
+.navbar3 li a {
+	text-decoration: none;
+	color: var(--color-fondo);
+	font-weight: bold;
+	font-size: 1rem;
+	white-space: nowrap;
+}
+
+.navbar3 li a:hover {
+	text-decoration: none;
+	color: var(--color-naranjaFuerte);
+	font-weight: bold;
+	font-size: 1rem;
+	white-space: nowrap;
+}
+
+.navbar3-section {
+	color: var(--color-naranjaFuerte) !important;
+}
+
+
+/* circilito que se mueve detrás del texto al hacer hover */
+.indicator {
+	position: absolute;
+	width: 150px;
+	height: 60px;
+	border-radius: 30px;
+	left: 0;
+	top: 0;
+	z-index: 1;
+	transition: 0.4s;
+	box-shadow:
+		0 0 20px rgba(245, 222, 179, 0.454),
+		0 0 55px rgba(222, 196, 145, 0.4);
+}
+
+/* -----------------------------------------------------------------------------
+   SECCION: NAV BAR 3 (SUBMENÚ ADMIN)
+----------------------------------------------------------------------------- */
+
+/* Configuración base del contenedor (SIN display: flex ni !important) */
+.navbar3 {
+    background: var(--color-verdeFuerte);
+    padding: 0.75rem 1rem;
+    position: relative;
+}
+
+/* Flexbox aplicado a la lista interna para alinear items horizontalmente */
+.navbar3 ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Enlaces del submenú */
+.navbar3 li a {
+    text-decoration: none;
+    color: var(--color-fondo);
+    font-weight: bold;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.navbar3 li a:hover {
+    color: var(--color-naranjaFuerte);
+}
+
+.navbar3-section {
+    color: var(--color-naranjaFuerte) !important;
+}
+/* -----------------------------------------------------------------------------
+   POSICIÓN DEL INDICADOR (SEGÚN LA PÁGINA ACTIVA Y HOVER)
+----------------------------------------------------------------------------- */
+
+/* 1. Posición inicial por defecto según el botón que tenga la clase .active */
+.navbar2 ul li:has(a.active):nth-child(1)~.indicator {
+	left: 0;
+}
+
+.navbar2 ul li:has(a.active):nth-child(2)~.indicator {
+	left: 150px;
+}
+
+.navbar2 ul li:has(a.active):nth-child(3)~.indicator {
+	left: 300px;
+}
+
+.navbar2 ul li:has(a.active):nth-child(4)~.indicator {
+	left: 450px;
+}
+
+
+/* 2. Movimiento al pasar el mouse (sobreescribe la posición activa temporalmente) */
+.navbar2 ul li:nth-child(1):hover~.indicator {
+	left: 0 !important;
+}
+
+.navbar2 ul li:nth-child(2):hover~.indicator {
+	left: 150px !important;
+}
+
+.navbar2 ul li:nth-child(3):hover~.indicator {
+	left: 300px !important;
+}
+
+.navbar2 ul li:nth-child(4):hover~.indicator {
+	left: 450px !important;
+}

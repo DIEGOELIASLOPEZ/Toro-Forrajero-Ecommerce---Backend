@@ -1,0 +1,46 @@
+/* 1. Overlay (Fondo oscuro) */
+.logout-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: rgba(0, 0, 0, 0.6) !important; /* Fondo oscuro semitransparente */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 999999 !important; /* Por encima de cualquier header */
+    
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* 2. Tarjeta del Modal */
+.logout-modal-card {
+    background-color: #ffffff !important;
+    padding: 2.5rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+    text-align: center !important;
+    max-width: 400px !important;
+    width: 90% !important;
+    
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* --- ESTADO ACTIVO --- */
+
+/* 3. Forzar visibilidad del Overlay */
+.logout-modal-overlay.active {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+/* 4. Forzar visibilidad de la tarjeta */
+.logout-modal-overlay.active .logout-modal-card {
+    opacity: 1 !important;
+    transform: scale(1) !important;
+}

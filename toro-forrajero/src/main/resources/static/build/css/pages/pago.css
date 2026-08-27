@@ -1,0 +1,333 @@
+/* FINAL DE LA COMPRA PARTE 1 */
+
+
+#detalle-pedido {
+    padding-left: 36px;
+}
+
+.checkout-title {
+    color: var(--color-verdeFuerte);
+    font-weight: 700;
+}
+
+.checkout-subtitle {
+    color: var(--color-naranjaFuerte);
+    font-weight: 600;
+}
+
+.checkout-subtitle strong {
+    font-weight: 800;
+}
+
+/* Barra "Resumen del pedido" */
+.order-summary-bar {
+    background-color: var(--color-naranjaClaro);
+    border-radius: 10px;
+    color: var(--color-verdeFuerte);
+    font-weight: 700;
+}
+
+.order-summary-bar summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.order-summary-bar summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Botones de método de entrega */
+.delivery-method-btn {
+    background-color: var(--color-verdeFuerte);
+    color: var(--color-naranjaClaro);
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    padding: 1rem;
+    transition: opacity .2s ease;
+}
+
+.delivery-method-btn:hover,
+.delivery-method-btn:focus {
+    color: var(--color-naranjaClaro);
+    opacity: .9;
+}
+
+.delivery-method-btn.active {
+    box-shadow: 0 0 0 3px var(--color-naranjaClaro);
+}
+
+/* Inputs de dirección con borde naranja */
+.address-input {
+    background-color: var(--color-naranjaTenue);
+    border: 1px solid var(--color-naranjaClaro);
+    border-radius: 8px;
+    color: var(--color-verdeFuerte);
+}
+
+.address-input::placeholder {
+    color: #8a8a72;
+    text-align: right;
+}
+
+.address-input:focus {
+    border-color: var(--color-verdeFuerte);
+    box-shadow: 0 0 0 3px rgba(221, 161, 94, .4);
+}
+
+.checkout-section-label {
+    color: var(--color-verdeFuerte);
+    font-weight: 700;
+}
+
+body {
+    background-color: var(--color-fondo);
+}
+
+
+/******************************************************************************
+ * PÁGINA: PAGO
+ ******************************************************************************/
+
+.pago-container {
+	max-width: 950px;
+	margin: 0 auto;
+	font-family: 'Montserrat', sans-serif;
+}
+
+
+/* =========================================================
+   TARJETA
+========================================================= */
+
+.tarjeta-pago {
+	border-radius: 3px;
+	overflow: hidden;
+	background-color: #d8d8bd;
+}
+
+.tarjeta-pago-header {
+	background-color: #283618;
+	color: white;
+	padding: 15px 20px;
+	font-weight: bold;
+}
+
+.tarjeta-pago-body {
+	padding: 25px;
+}
+
+
+/* =========================================================
+   LOGOS
+========================================================= */
+
+.logos-tarjeta {
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	font-weight: bold;
+}
+
+.logo-visa {
+	color: #0d5ca6;
+	font-size: 30px;
+	font-style: italic;
+}
+
+.logo-mastercard {
+	color: #bc6c25;
+	font-size: 24px;
+}
+
+.logo-amex {
+	background-color: #1769aa;
+	color: white;
+	padding: 4px 8px;
+	font-size: 12px;
+}
+
+
+/* =========================================================
+   INPUTS
+========================================================= */
+
+.tarjeta-pago .form-label {
+	color: #606c38;
+	font-size: 14px;
+	margin-bottom: 5px;
+}
+
+.tarjeta-pago .form-control,
+.tarjeta-pago .form-select {
+	border: 1px solid #dda15e;
+	background-color: #fffaf0;
+}
+
+.tarjeta-pago .form-control:focus,
+.tarjeta-pago .form-select:focus {
+	border-color: #bc6c25;
+	box-shadow: 0 0 0 0.15rem rgba(188, 108, 37, 0.2);
+}
+
+
+/* =========================================================
+   BOTÓN FINALIZAR
+========================================================= */
+
+.btn-finalizar {
+	border: none;
+	background-color: #283618;
+	color: #dda15e;
+	padding: 13px 20px;
+	border-radius: 12px;
+	font-size: 17px;
+	font-weight: 500;
+	transition: 0.3s;
+}
+
+.btn-finalizar:hover {
+	background-color: #606c38;
+	color: white;
+}
+
+
+/* =========================================================
+   SEPARADOR
+========================================================= */
+
+.separador-pago {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	margin: 45px 0;
+}
+
+.separador-pago span {
+	height: 1px;
+	background-color: #777;
+	flex: 1;
+}
+
+.separador-pago p {
+	margin: 0;
+	font-weight: bold;
+}
+
+
+/* =========================================================
+   PAGO EXPRESS
+========================================================= */
+
+.pago-expres {
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 15px 30px;
+	border: 1px solid #dda15e;
+	border-radius: 5px;
+	background-color: #fffaf0;
+	text-align: center;
+}
+
+.titulo-expres {
+	font-size: 14px;
+	margin-bottom: 15px;
+}
+
+.btn-paypal {
+	background-color: #ffc439;
+	color: #003087;
+	font-weight: bold;
+}
+
+.btn-google {
+	background-color: #000;
+	color: white;
+}
+
+.btn-google:hover {
+	background-color: #3d3b3b;
+	color: white;
+}
+
+.btn-mercado {
+	background-color: #ffe600;
+	color: #2d3277;
+	font-weight: bold;
+}
+
+.texto-expres {
+	color: #bc6c25;
+	font-size: 10px;
+	margin: 12px 0 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+	.tarjeta-pago-body {
+		padding: 20px;
+	}
+
+	.btn-finalizar {
+		margin-top: 10px;
+	}
+
+	.pago-expres {
+		padding: 20px;
+	}
+
+}
+
+/**/
+.mensaje-error {
+    display: block;
+    color: var(--color-naranjaFuerte) !important;
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: center;
+}
+
+
+		.envio-domicilio-banner {
+			background-color: var(--color-verdeFuerte);
+			border: 2px solid var(--color-naranjaClaro);
+			border-radius: 12px;
+			padding: 18px 24px;
+		}
+
+		.envio-domicilio-icon {
+			color: var(--color-naranjaClaro);
+			font-size: 1.6rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.envio-domicilio-title {
+			color: var(--color-naranjaClaro);
+			font-weight: 700;
+			font-size: 1.05rem;
+		}
+
+		.envio-domicilio-subtitle {
+			color: var(--color-textoBlanco);
+			font-size: 0.9rem;
+		}
+
+		.envio-domicilio-check {
+			background-color: var(--color-naranjaClaro);
+			color: var(--color-verdeFuerte);
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 700;
+			flex-shrink: 0;
+		}

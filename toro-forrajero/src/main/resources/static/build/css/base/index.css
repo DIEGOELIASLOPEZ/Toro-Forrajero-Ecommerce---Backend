@@ -1,0 +1,49 @@
+/* cimientos de la pagina */
+
+@import 'variables.css';
+@import 'typography.css';
+@import 'style.css';
+
+/* SECCIÓN MEJOR ALIMENTACIÓN */
+
+/* Banner principal */
+#mejor-alimentacion {
+  background-color: var(--color-verdeCLaro);
+  min-height: 200px;
+  padding: 3rem 2rem;
+}
+
+/* Ícono de hoja */
+.mejor-alimentacion__icon {
+  stroke: var(--color-naranjaClaro);
+}
+
+/* Título de la sección */
+.mejor-alimentacion__title {
+  color: var(--color-textoBlanco);
+  font-size: 2.65rem;
+  line-height: 1.2;
+}
+
+/* Botón "Ver catálogo" */
+.mejor-alimentacion__btn {
+  background-color: var(--color-naranjaFuerte);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  border: none;
+  transition: background-color 0.2s ease;
+}
+
+.mejor-alimentacion__btn:hover {
+  background-color: #a04d1c;
+  color: var(--color-textoBlanco);
+}
+
+/* Imagen ajustada al borde inferior derecho */
+.mejor-alimentacion__img {
+  max-height: 19rem;
+  width: auto;
+  object-fit: contain;
+}
+
+/* SECCIÓN MEJOR ALIMENTACIÓN */

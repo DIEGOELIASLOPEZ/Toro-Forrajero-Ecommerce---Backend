@@ -12,18 +12,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.toro_forrajero.repository.UsuarioRepository;
 import org.toro_forrajero.security.JWTAutenticationFilter;
-
-// -- /auth/login : es público
-// -- /api/*** : esto queda protegido
-// -- Filtro JWT debe correr antes del filtro estándar
 
 @Configuration
 public class SecurityConfig {
@@ -39,24 +33,42 @@ public class SecurityConfig {
                 .sessionManagement(sesion ->
                         sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()) // Permitimos el acceso a TODAS las rutas sin autenticación
-                // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Comentamos el filtro JWT
+                        // Rutas estáticas, auth y todos los endpoints de la API totalmente públicos
+                        .requestMatchers(
+                                "/",
+                                "/*.html",
+                                "/build/**",
+                                "/img/**",
+                                "/recursos-graficos/**",
+                                "/database/**",
+                                "/auth/login",
+                                "/error",
+                                "/api/**" // <-- Permite acceso libre a controladores y datos de la BD
+                        ).permitAll()
+                        .anyRequest().permitAll())
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint((request, response, exception) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+                            response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Se requiere un JWT válido\"}");
+                        }))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     // Busca al usuario en la base de datos MySQL por su correo
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        // Admin 1 (ID 11)
+        // Admin 1
         UserDetails admin1 = User.builder()
-                .username("soporte_toro_forrajero@outlook.com") // o usa "admin" si tu login no valida correo
+                .username("soporte_toro_forrajero@outlook.com")
                 .password(passwordEncoder.encode("Admin1234*"))
                 .roles("ADMIN")
                 .build();
 
-        // Admin 2 / Soporte (ID 12)
+        // Admin 2 / Soporte
         UserDetails admin2 = User.builder()
-                .username("soporte_toro_forrajero@pro.com") // ajusta al correo exacto de tu imagen
+                .username("soporte_toro_forrajero@pro.com")
                 .password(passwordEncoder.encode("AdminPass123!"))
                 .roles("ADMIN")
                 .build();

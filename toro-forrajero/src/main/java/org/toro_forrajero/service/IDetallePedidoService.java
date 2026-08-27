@@ -10,3 +10,4 @@ public interface IDetallePedidoService {
     DetallePedidoDTO actualizar(Long id, DetallePedidoDTO detallePedidoDTO);
     void eliminar(Long id);
 }
+

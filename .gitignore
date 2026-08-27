@@ -4,7 +4,7 @@ HELP.md
 # Archivos de compilación y caché de Gradle
 toro-forrajero/.gradle/
 build/
-!src/main/resources/static/build/
+!toro-forrajero/src/main/resources/static/build/
 
 # Archivos de configuración de IDEs (Eclipse, STS, IntelliJ, NetBeans, VS Code)
 .apt_generated

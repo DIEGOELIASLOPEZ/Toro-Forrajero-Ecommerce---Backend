@@ -1,0 +1,74 @@
+/*******************************************************************************
+ * 
+ * PÁGINA: CONTÁCTANOS
+ * 
+ ******************************************************************************/
+
+/* -----------------------------------------------------------------------------
+	SECCION: PAGE HEADER
+----------------------------------------------------------------------------- */
+.page-header__logo {
+	height: 200px;
+	width: auto;
+	display: block;
+}
+
+.page-header__title {
+	margin-top: -20px;
+	position: relative;
+	z-index: 2;
+	color: var(--color-verdeCLaro);
+	font-weight: 400;
+	font-size: 3rem;
+}
+
+/* -----------------------------------------------------------------------------
+	SECCION: FORMULARIO CONTÁCTANOS
+----------------------------------------------------------------------------- */
+
+.contact-card {
+	background-color: var(--color-naranjaTenue);
+}
+
+/* Definición de la clase personalizada */
+/* Definición de la clase personalizada */
+.bg-verdeCLaro {
+	background-color: var(--color-verdeCLaro) !important;
+	color: var(--color-fondo) !important;
+}
+
+.bg-naranjaFuerte {
+	background-color: var(--color-naranjaFuerte) !important;
+	color: var(--color-fondo) !important;
+}
+
+/* -----------------------------------------------------------------------------
+    SECCION: ALERTAS
+----------------------------------------------------------------------------- */
+
+
+.narnaja-text {
+	color: var(--color-naranjaFuerte) !important;
+}
+
+.alerta-titulo {
+	font-weight: 900;
+}
+
+/* -----------------------------------------------------------------------------
+    SECCION: Botón de envio
+----------------------------------------------------------------------------- */
+.btn-primary{
+    --bs-btn-font-family: var(--fuente-cuerpo); /*fuente*/
+    --bs-btn-bg: var(--color-verdeFuerte); /*color fondo*/
+    --bs-btn-border-color: var(--color-verdeFuerte); /*color borde*/
+    --bs-btn-hover-bg: var(--color-verdeCLaro); /*color cuando se pone el puntero sobre el botón*/
+    --bs-btn-hover-border-color: var(--color-verdeCLaro); /*color borde cuando se pone el puntero sobre el botón*/
+    --bs-btn-active-bg: var(--color-naranjaFuerte); /*color fondo cuando se hace click*/
+    --bs-btn-active-border-color: var(--color-naranjaFuerte); /*color borde cuando se hace click*/
+}
+
+.alertaBoton{
+    --alert-bg: var(--color-verdeCLaro);
+    border-color: var(--color-verdeCLaro);
+}

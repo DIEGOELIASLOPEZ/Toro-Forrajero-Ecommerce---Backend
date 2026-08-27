@@ -205,14 +205,14 @@ if (formularioCheckout) {
         const inputNumExt = document.getElementById("numero-exterior");
         const inputNumInt = document.getElementById("numero-interior");
         const inputCP = document.getElementById("codigo-postal");
-        const inputCiudad2 = document.getElementById("ciudad-2");
+        //const inputCiudad2 = document.getElementById("ciudad-2");
         const inputTelefono = document.getElementById("telefono");
         const inputCorreo = document.getElementById("correo");
 
         const selectoresError = [
             "#error-estado p", "#error-ciudad p", "#error-direccion p",
             "#error-numero-exterior p", "#error-numero-interior p",
-            "#error-codigo-postal p", "#error-ciudad-2 p",
+            "#error-codigo-postal p",
             "#error-telefono p", "#error-correo p"
         ];
 
@@ -230,7 +230,7 @@ if (formularioCheckout) {
         const errorNumExt = validarNumeroExterior(inputNumExt);
         const errorNumInt = validarNumeroInterior(inputNumInt);
         const errorCP = validarCodigoPostal(inputCP);
-        const errorCiudad2 = validarCiudadCheckout(inputCiudad2, "Ciudad");
+        //const errorCiudad2 = validarCiudadCheckout(inputCiudad2, "Ciudad");
         const errorTelefono = validarTelefonoCheckout(inputTelefono);
         const errorCorreo = validarCorreoCheckout(inputCorreo);
 
@@ -240,12 +240,12 @@ if (formularioCheckout) {
         mostrarErrorCheckout("#error-numero-exterior p", errorNumExt);
         mostrarErrorCheckout("#error-numero-interior p", errorNumInt);
         mostrarErrorCheckout("#error-codigo-postal p", errorCP);
-        mostrarErrorCheckout("#error-ciudad-2 p", errorCiudad2);
+        //mostrarErrorCheckout("#error-ciudad-2 p", errorCiudad2);
         mostrarErrorCheckout("#error-telefono p", errorTelefono);
         mostrarErrorCheckout("#error-correo p", errorCorreo);
 
         const hayErrores = errorEstado || errorCiudad || errorDireccion || errorNumExt ||
-            errorNumInt || errorCP || errorCiudad2 || errorTelefono || errorCorreo;
+            errorNumInt || errorCP || errorTelefono || errorCorreo; // || errorCiudad 2
 
         if (hayErrores) {
             console.warn("Envío bloqueado: revisa los campos de dirección.");
@@ -318,12 +318,38 @@ async function guardarDireccionEnBackend(idUsuario, datosDireccion) {
 * Guarda la tarjeta
 * Ejecuta el checkout
 */
+
 const formularioPago = document.getElementById("formularioPago");
 
 if (formularioPago) {
     formularioPago.addEventListener("submit", async function (e) {
         e.preventDefault();
 
+        const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
+                           || JSON.parse(sessionStorage.getItem('usuarioActivo'));
+
+        if (!usuarioActivo || !usuarioActivo.id) {
+            alert("No hay una sesión activa.");
+            return;
+        }
+
+        const selectTarjetas = document.getElementById('select-tarjetas-guardadas');
+        const idTarjetaGuardadaSeleccionada = selectTarjetas ? selectTarjetas.dataset.idSeleccionado : null;
+
+        // CASO 1: El usuario seleccionó una tarjeta guardada
+        if (idTarjetaGuardadaSeleccionada) {
+            try {
+                // Ejecuta directamente el checkout usando el ID de la tarjeta guardada
+                await ejecutarCheckout(usuarioActivo.id, idTarjetaGuardadaSeleccionada);
+                return;
+            } catch (error) {
+                console.error("Error al procesar el pago con tarjeta guardada:", error);
+                alert("Hubo un error al procesar tu tarjeta guardada.");
+                return;
+            }
+        }
+
+        // CASO 2: El usuario va a registrar y usar una tarjeta NUEVA
         const elErrorNombre = document.getElementById("errorNombre");
         const elErrorTarjeta = document.getElementById("errorTarjeta");
         const elErrorFecha = document.getElementById("errorFecha");
@@ -342,7 +368,6 @@ if (formularioPago) {
         const anio = document.getElementById("anioExpiracion")?.value || "";
         const cvv = document.getElementById("cvv")?.value.trim() || "";
 
-        // Validar Nombre
         if (nombre === "") {
             if (elErrorNombre) elErrorNombre.textContent = "El nombre del titular es obligatorio.";
             valido = false;
@@ -351,36 +376,22 @@ if (formularioPago) {
             valido = false;
         }
 
-        // Validar Tarjeta
         if (!/^\d{16}$/.test(tarjeta)) {
             if (elErrorTarjeta) elErrorTarjeta.textContent = "La tarjeta debe tener 16 dígitos.";
             valido = false;
         }
 
-        // Validar Fecha
         if (mes === "" || anio === "") {
             if (elErrorFecha) elErrorFecha.textContent = "Selecciona el mes y año de expiración.";
             valido = false;
         }
 
-        // Validar CVV
         if (!/^\d{3}$/.test(cvv)) {
             if (elErrorCvv) elErrorCvv.textContent = "El CVV debe tener 3 dígitos.";
             valido = false;
         }
 
         if (valido) {
-            const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
-                               || JSON.parse(sessionStorage.getItem('usuarioActivo'));
-
-            if (!usuarioActivo || !usuarioActivo.id) {
-                alert("No hay una sesión activa.");
-                return;
-            }
-
-            /*
-            Crea un objeto datosMetodoPago
-            */
             const datosMetodoPago = {
                 numTarjeta: tarjeta,
                 fechaExpiracion: `${mes}/${anio}`,
@@ -401,17 +412,15 @@ if (formularioPago) {
                 const tarjetaGuardada = await respuestaTarjeta.json();
                 const idMetodoPagoGenerado = tarjetaGuardada.idMetodoPago;
 
-                // Se ejecuta el checkout para generar el pedido y vaciar el carrito
                 await ejecutarCheckout(usuarioActivo.id, idMetodoPagoGenerado);
 
             } catch (error) {
                 console.error("Error en el proceso de pago:", error);
-                alert("Hubo al procesar tu tarjeta.");
+                alert("Hubo un error al procesar tu tarjeta.");
             }
         }
     });
 }
-
 // ==========================================
 // EJECUTAR CHECKOUT
 // ==========================================
@@ -435,4 +444,144 @@ async function ejecutarCheckout(usuarioId, idMetodoPago) {
 
     alert("¡Pago realizado y pedido generado con éxito!");
     window.location.href = 'index.html';
+}
+
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
+                       || JSON.parse(sessionStorage.getItem('usuarioActivo'));
+
+    if (usuarioActivo && usuarioActivo.id) {
+        await cargarDireccionesGuardadas(usuarioActivo.id);
+        await cargarTarjetasGuardadas(usuarioActivo.id);
+    }
+});
+
+// Cargar y mostrar direcciones guardadas
+async function cargarDireccionesGuardadas(idUsuario) {
+    try {
+        const respuesta = await fetch(`http://localhost:8080/api/direcciones/${idUsuario}`);
+        if (!respuesta.ok) return;
+
+        const direcciones = await respuesta.json();
+        const selectDir = document.getElementById('select-direcciones-guardadas');
+        if (!selectDir) return;
+
+        direcciones.forEach(dir => {
+            const option = document.createElement('option');
+            option.value = dir.idDireccion;
+            option.textContent = `${dir.calle} #${dir.numExterior}, ${dir.alcaldia || dir.ciudad}, ${dir.estado}`;
+            selectDir.appendChild(option);
+        });
+
+        selectDir.addEventListener('change', (e) => {
+            const dirSeleccionada = direcciones.find(d => d.idDireccion == e.target.value);
+            if (dirSeleccionada) {
+                document.getElementById("direccion").value = dirSeleccionada.calle || "";
+                document.getElementById("numero-exterior").value = dirSeleccionada.numExterior || "";
+                document.getElementById("numero-interior").value = dirSeleccionada.numInterior || "";
+                document.getElementById("codigo-postal").value = dirSeleccionada.codigoPostal || "";
+                document.getElementById("telefono").value = dirSeleccionada.tel || "";
+                document.getElementById("correo").value = dirSeleccionada.email || "";
+
+                // Rellenar Ciudad
+                const inputCiudad = document.getElementById("ciudad");
+                if (inputCiudad) {
+                    inputCiudad.value = dirSeleccionada.alcaldia || dirSeleccionada.ciudad || "";
+                }
+
+                // Seleccionar Estado en el menú desplegable
+                const selectEstado = document.getElementById("estado");
+                if (selectEstado && dirSeleccionada.estado) {
+                    // Busca la opción que coincida con el texto del estado guardado
+                    let optionEncontrada = Array.from(selectEstado.options).find(
+                        opt => opt.text.trim().toLowerCase() === dirSeleccionada.estado.trim().toLowerCase()
+                    );
+
+                    if (optionEncontrada) {
+                        selectEstado.value = optionEncontrada.value;
+                    }
+                }
+            } else {
+                // Si deselecciona la dirección guardada, limpia los campos
+                document.getElementById("direccion").value = "";
+                document.getElementById("numero-exterior").value = "";
+                document.getElementById("numero-interior").value = "";
+                document.getElementById("codigo-postal").value = "";
+                document.getElementById("telefono").value = "";
+                document.getElementById("correo").value = "";
+                document.getElementById("ciudad").value = "";
+                document.getElementById("estado").value = "";
+            }
+        });
+    } catch (error) {
+        console.error("Error al cargar direcciones:", error);
+    }
+}
+
+// Cargar tarjetas y mostrar exclusivamente los últimos 4 dígitos
+const estiloDinamico = document.createElement('style');
+estiloDinamico.innerHTML = `
+    .tarjeta-bloqueada {
+        background-color: #ffe5d0 !important;
+        border-color: #ff9800 !important;
+        color: #b25900 !important;
+        opacity: 1 !important;
+    }
+`;
+document.head.appendChild(estiloDinamico);
+
+async function cargarTarjetasGuardadas(idUsuario) {
+    try {
+        const respuesta = await fetch(`http://localhost:8080/api/metodos-pago/usuario/${idUsuario}`);
+        if (!respuesta.ok) return;
+
+        const tarjetas = await respuesta.json();
+        const selectTarjetas = document.getElementById('select-tarjetas-guardadas');
+        if (!selectTarjetas) return;
+
+        tarjetas.forEach(tarjeta => {
+            const numeroLimpio = tarjeta.numTarjeta ? tarjeta.numTarjeta.replace(/\s/g, "") : "";
+            const ultimosCuatro = numeroLimpio.slice(-4) || "????";
+
+            const option = document.createElement('option');
+            option.value = tarjeta.idMetodoPago;
+            option.textContent = `•••• •••• •••• ${ultimosCuatro} (Exp: ${tarjeta.fechaExpiracion})`;
+            selectTarjetas.appendChild(option);
+        });
+
+        selectTarjetas.addEventListener('change', (e) => {
+            const idMetodoPago = e.target.value;
+            const inputTitular = document.getElementById("nombreTitular");
+            const inputTarjeta = document.getElementById("numeroTarjeta");
+            const selectMes = document.getElementById("mesExpiracion");
+            const selectAnio = document.getElementById("anioExpiracion");
+            const inputCvv = document.getElementById("cvv");
+
+            const camposTarjeta = [inputTitular, inputTarjeta, selectMes, selectAnio, inputCvv];
+
+            if (idMetodoPago === "") {
+                camposTarjeta.forEach(campo => {
+                    if (campo) {
+                        campo.disabled = false;
+                        campo.value = "";
+                        campo.classList.remove("tarjeta-bloqueada");
+                    }
+                });
+                delete selectTarjetas.dataset.idSeleccionado;
+            } else {
+                camposTarjeta.forEach(campo => {
+                    if (campo) {
+                        campo.disabled = true;
+                        campo.value = "•••• Guardada";
+                        campo.classList.add("tarjeta-bloqueada");
+                    }
+                });
+                selectTarjetas.dataset.idSeleccionado = idMetodoPago;
+            }
+        });
+
+    } catch (error) {
+        console.error("Error al cargar tarjetas:", error);
+    }
 }

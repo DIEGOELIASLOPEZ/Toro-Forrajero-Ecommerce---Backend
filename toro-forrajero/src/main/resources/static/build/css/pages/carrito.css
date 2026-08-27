@@ -1,0 +1,106 @@
+/**
+ * ============================================================================
+ * VISTA: CARRITO DE COMPRAS ("¿TODO LISTO?")
+ * ============================================================================
+ * ATENCIÓN: Estos estilos controlan la UI del resumen de carrito antes del pago,
+ * incluyendo los colores de marca, tarjetas de productos y controles de cantidad.
+ */
+
+/* --------------------------------------------------------------------------
+    COLORES BASE Y TEXTOS
+   -------------------------------------------------------------------------- */
+body {
+    background-color: #F8F5E6; /* Color crema de fondo para toda la página */
+}
+
+.text-forrajero-green {
+    color: #5A6D41;
+}
+
+.text-forrajero-orange {
+    color: #C36E35;
+}
+
+.bg-forrajero-orange {
+    background-color: #C36E35;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.bg-forrajero-orange:hover {
+    background-color: #A65A2A;
+    color: white;
+}
+
+/* --------------------------------------------------------------------------
+    COMPONENTES DE UI (Tarjetas y Botones)
+   -------------------------------------------------------------------------- */
+.btn-qty-control {
+    background-color: #2F3D24;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    line-height: 1;
+    padding: 2px 8px;
+    transition: transform 0.2s ease;
+}
+
+.btn-qty-control:hover {
+    transform: scale(1.1);
+}
+
+.card-articulo {
+    background-color: #F8F5E6;
+    border: 1px solid #E5CBA8;
+    border-radius: 8px;
+    transition: box-shadow 0.3s ease;
+}
+
+.card-articulo:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.img-producto-box {
+    background-color: #FFFFFF;
+    border: 1px solid #E5CBA8; 
+    padding: 10px;
+    text-align: center;
+}
+
+/* Estilo para el botón de eliminar */
+.btn-eliminar {
+    background-color: #D4A373;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 4px 10px;
+        font-size: 0.85rem;
+        transition: background-color 0.3s ease;
+        }
+
+    .btn-eliminar:hover {
+        background-color: #dc3545; /* Rojo alerta */
+        color: white;
+        }
+
+/* --------------------------------------------------------------------------
+    ANIMACIONES DE ENTRADA
+   -------------------------------------------------------------------------- */
+.fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUpAnim 0.8s ease forwards;
+}
+
+/* Retrasos escalonados para que los elementos entren uno tras otro */
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+.delay-3 { animation-delay: 0.6s; }
+
+@keyframes fadeUpAnim {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

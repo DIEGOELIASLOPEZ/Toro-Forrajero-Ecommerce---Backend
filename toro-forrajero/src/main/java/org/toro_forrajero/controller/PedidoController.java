@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.toro_forrajero.dto.PedidoDTO;
+import org.toro_forrajero.model.Pedido;
 import org.toro_forrajero.service.IPedidoService;
 
 import java.time.LocalDateTime;
@@ -48,6 +49,14 @@ public class PedidoController {
     @PostMapping
     public ResponseEntity<PedidoDTO.PedidoResponse> crearPedido(@Valid @RequestBody PedidoDTO.PedidoRequestCliente nuevoPedido) {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.crearPedido(nuevoPedido));
+    }
+
+    @PostMapping("/checkout/{usuarioId}")
+    public ResponseEntity<PedidoDTO.PedidoResponse> procesarCheckout(
+            @PathVariable Long usuarioId,
+            @RequestParam Long idMetodoPago) {
+        PedidoDTO.PedidoResponse response = pedidoService.procesarCheckout(usuarioId, idMetodoPago);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // --- PUT ---

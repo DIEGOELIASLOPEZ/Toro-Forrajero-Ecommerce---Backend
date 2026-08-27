@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/pedidos")
 @RequiredArgsConstructor
+@RequestMapping("api/pedidos")
 public class PedidoController {
 
     private final IPedidoService pedidoService;

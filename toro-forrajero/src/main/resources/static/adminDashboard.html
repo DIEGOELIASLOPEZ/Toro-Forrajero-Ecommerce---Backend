@@ -22,7 +22,6 @@
 
     <!--CSS Globales-->
     <link rel="stylesheet" href="/build/css/app.css">
-    <link rel="shortcut icon" href="recursos-graficos/favicon.png" type="image/x-icon">
 </head>
 
 <body>
@@ -31,38 +30,31 @@
         <!-- ===========================================================================
             SECCIÓN: NAV BAR 1 
         ============================================================================ -->
-        		<nav class="navbar navbar-1">
-			<div class="container-fluid px-4">
+        <nav class="navbar navbar-1">
+            <div class="container-fluid px-4">
 
-				<!-- INYECCIÓN: Redirección al index en el logo -->
-				<a class="navbar-brand" href="index.html">
-					<img src="recursos-graficos/navbar/forrajero-sinfondo.png" alt="Logo sin fondo de Toro Forrajero"
+                <!-- INYECCIÓN: Redirección al index en el logo -->
+                <a class="navbar-brand" href="index.html">
+                    <img src="recursos-graficos/navbar/forrajero-sinfondo.png" alt="Logo sin fondo de Toro Forrajero"
                          class="logo-navbar d-inline-block align-text-top me-2">
-				</a>
+                </a>
 
-				<!-- INYECCIÓN: Homologación de tamaño y alineación para íconos -->
-				<ul class="navbar-nav flex-row ms-auto gap-4 align-items-center">
-					<li class="nav-item">
-						<a class="nav-link icon-link d-flex flex-column align-items-center text-center" href="inicioSesion.html">
-							<div class="user-icon-wrapper d-flex align-items-center justify-content-center" style="height: 35px;">
-								<i class="bi bi-person fs-3"></i>
-							</div>
-							<span>Mi cuenta</span>
-						</a>
-					</li>
+                <!-- INYECCIÓN: Homologación de tamaño y alineación para íconos -->
+                <ul class="cuenta navbar-nav flex-row ms-auto gap-4 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link icon-link d-flex flex-column align-items-center text-center"
+                            href="inicioSesion.html">
+                            <div class="user-icon-wrapper d-flex align-items-center justify-content-center"
+                                style="height: 35px;">
+                                <i class="bi bi-person fs-3"></i>
+                            </div>
+                            <span class="nombre-cuenta">Mi cuenta</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-					<li class="nav-item carrito">
-						<a class="nav-link icon-link d-flex flex-column align-items-center text-center" href="carrito.html">
-							<div class="cart-icon-wrapper d-flex align-items-center justify-content-center" style="height: 35px;">
-								<i class="bi bi-cart3 fs-3"></i>
-								<!-- <span class="contador-carrito">0</span> -->
-							</div>
-							<span>Carrito</span>
-						</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
         <!-- ===========================================================================
             SECCIÓN: NAV BAR 2 
         ============================================================================ -->
@@ -79,13 +71,12 @@
 
     </header>
     <!-- Footer -->
-    <footer class="footer-forrajero" data-aos="fade-up">
+    <footer class="footer-forrajero">
         <div class="footer-container">
 
             <!-- Logo y redes sociales -->
             <div class="footer-brand">
-                <img src="recursos-graficos/footer/forrajero-verde1.png" alt="Logo Forrajero"
-                     class="footer-logo">
+                <img src="recursos-graficos/footer/forrajero-verde1.png" alt="Logo Forrajero" class="footer-logo">
 
                 <div class="footer-social">
                     <a href="#" aria-label="Facebook">
@@ -173,8 +164,7 @@
         crossorigin="anonymous"></script>
 
     <!--Script de js-->
-        <script src="build/js/cuenta.js"></script>
-        <script src="build/js/carrito.js"></script>
+    <script src="build/js/adminDashboard.js"></script>
 </body>
 
 </html>

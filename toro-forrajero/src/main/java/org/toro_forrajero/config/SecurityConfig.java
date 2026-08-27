@@ -39,27 +39,8 @@ public class SecurityConfig {
                 .sessionManagement(sesion ->
                         sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        // Rutas y estáticos totalmente públicos
-                        .requestMatchers(
-                                "/",
-                                "/*.html",
-                                "/build/**",
-                                "/img/**",
-                                "/recursos-graficos/**",
-                                "/database/**",
-                                "/auth/login",
-                                "/error"
-                        ).permitAll()
-                        // Solo aseguramos los endpoints backend de la API
-                        .requestMatchers("/api/**").authenticated()
-                        .anyRequest().permitAll())
-                .exceptionHandling(exceptions -> exceptions
-                        .authenticationEntryPoint((request, response, exception) -> {
-                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                            response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Se requiere un JWT válido\"}");
-                        }))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                        .anyRequest().permitAll()) // Permitimos el acceso a TODAS las rutas sin autenticación
+                // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Comentamos el filtro JWT
                 .build();
     }
 

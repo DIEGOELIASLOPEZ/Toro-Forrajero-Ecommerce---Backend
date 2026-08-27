@@ -12,8 +12,7 @@ import org.toro_forrajero.service.IUsuarioService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/appi/usuarios")
-@CrossOrigin(origins = "*") // Permite peticiones desde el frontend
+@RequestMapping("api/usuarios")
 @Data
 public class UsuarioController {
 

@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Cargar y mostrar direcciones guardadas
 async function cargarDireccionesGuardadas(idUsuario) {
     try {
-        const respuesta = await fetch(`http://localhost:8080/api/direcciones/${idUsuario}`);
+        const respuesta = await fetch(`http://44.202.55.123:8080/api/direcciones/${idUsuario}`);
         if (!respuesta.ok) return;
 
         const direcciones = await respuesta.json();
@@ -533,7 +533,7 @@ document.head.appendChild(estiloDinamico);
 
 async function cargarTarjetasGuardadas(idUsuario) {
     try {
-        const respuesta = await fetch(`http://localhost:8080/api/metodos-pago/usuario/${idUsuario}`);
+        const respuesta = await fetch(`http://44.202.55.123:8080/api/metodos-pago/usuario/${idUsuario}`);
         if (!respuesta.ok) return;
 
         const tarjetas = await respuesta.json();

@@ -1,0 +1,131 @@
+:root {
+    /* Colores */
+    --color-verdeFuerte: #283618;
+    --color-naranjaFuerte: #BC6C25;
+    --color-textoOscuro: #000000;
+    --color-textoBlanco: #FFFFFF;
+    --color-fondo: #FEFAE0;
+    --color-verdeCLaro: #606C38;
+    --color-naranjaClaro: #DDA15E;
+
+    /* Fuentes */
+    --fuente-titulos: 'Geologica', sans-serif;
+    --fuente-cuerpo: 'Montserrat', sans-serif;
+
+    --peso-bold: 700;
+}
+
+body {
+    background-color: var(--color-fondo);
+    font-family: var(--fuente-cuerpo);
+    font-size: 1.875rem; 
+}
+
+/* Encabezados*/
+h1 {
+    font-family: var(--fuente-titulos);
+    font-weight: var(--peso-bold);
+    color: var(--color-verdeFuerte);
+    font-size: 5rem;
+}
+
+h2 {
+    font-family: var(--fuente-titulos);
+    font-weight: var(--peso-bold);
+    color: var(--color-verdeFuerte);
+    font-size: 3.5rem;
+}
+
+h3 {
+    font-family: var(--fuente-titulos);
+    font-weight: var(--peso-bold);
+    color: var(--color-verdeFuerte);
+    font-size: 3rem;
+}
+
+h4 {
+    font-family: var(--fuente-titulos);
+    font-weight: var(--peso-bold);
+    color: var(--color-textoOscuro);
+    font-size: 1.3125rem;
+}
+
+/* Clases para títulos/subtítulos */
+.subtitulo-muyGrande {
+    font-size: 5rem;
+}
+
+.subtitulo-grande {
+    font-size: 3.5rem;
+}
+
+.subtitulo-mediano {
+    font-size: 3rem;
+}
+
+/* Clases para Colores */
+.texto-verde-oscuro { color: var(--color-headersFooter); }
+.texto-verde-claro  { color: var(--color-verdeCLaro); }
+.texto-crema        { color: var(--color-textoBlanco); }
+.texto-naranja      { color: var(--color-naranjaFuerte); }
+
+/* Configuración para tablets */
+@media (max-width: 1199px) {
+    body { font-size: 1.25rem; }
+    h1 { font-size: 3.75rem; }
+    h2 { font-size: 2.75rem; }
+    h3 { font-size: 2.25rem; }
+    h4 { font-size: 1.25rem; }
+    .subtitulo-muyGrande { font-size: 3.75rem; }
+    .subtitulo-grande    { font-size: 2.75rem; }
+    .subtitulo-mediano   { font-size: 2.25rem; }
+}
+
+/* Configuración para celulares */
+@media (max-width: 767px) {
+    body { font-size: 1rem; }
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    h3 { font-size: 1.75rem; }
+    h4 { font-size: 1.125rem; }
+    .subtitulo-muyGrande { font-size: 2.5rem; }
+    .subtitulo-grande    { font-size: 2rem; }
+    .subtitulo-mediano   { font-size: 1.75rem; }
+}
+
+/* Fondo del navbar verde, ya definido en root */ 
+.navbar-1 {
+    background-color: var(--color-verdeFuerte);
+    padding: 0.75rem 0;
+}
+
+/*  Para el tamaño del logo */
+.logo-navbar {
+    height: 75px;
+    width: auto; 
+}
+
+/* Color de Mi cuenta y Carrito */ 
+.navbar-1 .nav-link {
+    color: var(--color-fondo);
+    font-family: var(var(--fuente-cuerpo));
+}
+
+/* Color al hacer click en Mi cuenta y Carrito */ 
+.navbar-1 .nav-link:hover {
+    color: var(--color-naranjaClaro);
+}
+
+/* Para acomodar el icono y la descripcion*/ 
+.icon-link{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    font-size:0.5 rem;
+    line-height:1.2;
+}
+
+/* Para tamaño de iconos*/ 
+.icon-link i {
+    font-size:2rem;
+}

@@ -35,19 +35,31 @@ public class SecurityConfig {
             JWTAutenticationFilter jwtFilter
     ) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable()) // Desactivamos CSRF al ser una API Stateless
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(sesion ->
-                        sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Sin sesiones HTTP
+                        sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/error").permitAll() // Rutas públicas
-                        .anyRequest().authenticated())                       // Cualquier otra requiere JWT
+                        // Rutas y estáticos totalmente públicos
+                        .requestMatchers(
+                                "/",
+                                "/*.html",
+                                "/build/**",
+                                "/img/**",
+                                "/recursos-graficos/**",
+                                "/database/**",
+                                "/auth/login",
+                                "/error"
+                        ).permitAll()
+                        // Solo aseguramos los endpoints backend de la API
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll())
                 .exceptionHandling(exceptions -> exceptions
                         .authenticationEntryPoint((request, response, exception) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                             response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Se requiere un JWT válido\"}");
                         }))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Filtro personalizado JWT
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

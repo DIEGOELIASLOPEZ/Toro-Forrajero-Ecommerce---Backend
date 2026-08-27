@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toro Forrajero</title>
+
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!--Bootstrap para los iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!--Fuentes-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700&family=Montserrat:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!--CSS Globales-->
+    <link rel="stylesheet" href="build/css/app.css">
+    <link rel="shortcut icon" href="recursos-graficos/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+    <!--Header, barras de nav, herro---------------------------------------------------------------->
+    <header class="sticky-top">
+        <!-- NAV BAR 1: Logo y Accesos rápidos -->
+		<nav class="navbar navbar-1">
+			<div class="container-fluid px-4">
+
+				<!-- INYECCIÓN: Redirección al index en el logo -->
+				<a class="navbar-brand" href="index.html">
+					<img src="recursos-graficos/navbar/forrajero-sinfondo.png" alt="Logo sin fondo de Toro Forrajero"
+						class="logo-navbar d-inline-block align-text-top me-2">
+				</a>
+
+				<!-- INYECCIÓN: Homologación de tamaño y alineación para íconos -->
+				<ul class="cuenta navbar-nav flex-row ms-auto gap-4 align-items-center">
+					<li class="nav-item">
+						<a class="nav-link icon-link d-flex flex-column align-items-center text-center" href="inicioSesion.html">
+							<div class="user-icon-wrapper d-flex align-items-center justify-content-center" style="height: 35px;">
+								<i class="bi bi-person fs-3"></i>
+							</div>
+							<span class="nombre-cuenta">Mi cuenta</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+        <!-- NAV BAR 2: Menú de navegación principal -->
+        <nav class="navbar2">
+            <ul>
+                <li><a href="index.html">INICIO</a></li>
+                <li><a href="acercaNosotros.html">NOSOTROS</a></li>
+                <li><a href="contactanos.html">CONTACTO</a></li>
+                <li><a href="productos.html" class="active">PRODUCTOS</a></li>
+
+            </ul>
+        </nav>
+        <nav class="navbar3">
+            <ul>
+                <li>
+                    <a href="adminHome.html">VER PRODUCTOS</a>
+                </li>
+                <li>
+                    <a href="adminCrear.html">NUEVO PRODUCTO</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container my-5">
+
+        <!-- -------------------------------------------------------------------
+            1. NUEVO PRODUCTO
+        -------------------------------------------------------------------- -->
+        <section class="container my-5 fade-up">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 id="product-title" class="display-3 fw-bold text-left">
+                        NUEVO PRODUCTO
+                    </h1>
+                </div>
+                <!---Imagen de toro -->
+
+                <div class="col-md-4 text-end">
+                    <img src="recursos-graficos/nuevo-producto/forrajero-verd.png" alt="Logo de Nuevo Producto"
+                        class="img-fluid" style="max-width:200px;">
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- -------------------------------------------------------------------
+            2. INFORMACIÓN BÁSICA
+        -------------------------------------------------------------------- -->
+        <form id="formulario-adminCrear" novalidate>
+            <section class="info-basica container fade-up">
+                <div class="contact-card p-4 p-md-5 border border-3 border-warning-subtle rounded-4 shadow-sm">
+
+                    <div class="row g-3 mb-3">
+                        <h2 class="mb-4 ">Información básica</h2>
+                        <div class="col-md-6">
+
+                            <label for="nombre-producto" class="form-label-custom fw-bold text-left w-100">
+                                Nombre del Producto
+                            </label>
+
+                            <!--Entrada del campo de Nombre de producto-->
+                            <input type="text" id="nombre-producto" name="nombre-producto" autocomplete="off"
+                                class="form-control form-control-custom"
+                                placeholder="Ej. Alimento para gallinas ponedoras">
+                            <div id="error-nombre" class="naranja-text small mt-1 text-left">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+
+                        <!--Especie-->
+                        <div class="col-md-6">
+
+                            <label for="especie" class="form-label-custom fw-bold text-left w-100">
+                                Especie
+                            </label>
+                            <!--Menú desplegable-->
+                            <select id="especie" name="especie"
+                                class="form-select form-control form-control-custom text-left w-100">
+                                <option value="" selected disabled> Selecciona una Categoría</option>
+                                <option value="bovinos"> Bovinos</option>
+                                <option value="porcinos"> Porcinos</option>
+                                <option value="aves"> Aves</option>
+                                <option value="ovinos"> Ovinos</option>
+                            </select>
+                            <div id="error-especie" class="naranja-text small mt-1 text-center">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mb-3">
+
+                        <!-- Marca-->
+                        <div class="col-md-6">
+                            <label for="marca" class="form-label-custom fw-bold text-left w-100">
+                                Marca
+                            </label>
+                            <!--Menú desplegable para marca-->
+                            <select id="marca" name="marca" class="form-select form-control-custom text-left w-100">
+                                <option value="" selected> Selecciona una Marca</option>
+                                <option value="ADM"> ADM </option>
+                                <option value="El-nogal"> EL Nogal</option>
+                                <option value="Alimentos-Arandas">Alimentos Arandas</option>
+                            </select>
+                            <div id="error-marca" class="narnaja-text small mt-1 text-center">
+                                <p></p>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- -------------------------------------------------------------------
+                3. PRECIO E INVENTARIO
+            -------------------------------------------------------------------- -->
+            <section class="precio container fade-up">
+                <div class="contact-card p-4 p-md-5 mt-5 border border-3 border-warning-subtle rounded-4 shadow-sm">
+                    <div class="row g-3 mb-3">
+                        <h2 class="mb-4">Precio e inventario</h2>
+                        <!-- Costo -->
+
+                        <div class="col-md-6">
+
+                            <label for="costo" class="form-label-custom fw-bold text-left w-100">
+                                Costo(MXN)
+                            </label>
+
+                            <input type="text" inputmode="decimal" step="0.01" min="0" id="costo" name="costo"
+                                autocomplete="off" class="form-control form-control-custom" placeholder="$ 0.00">
+
+                            <div id="error-costo" class="narnaja-text small mt-1 text-center">
+                                <p></p>
+                            </div>
+
+                        </div>
+
+                        <!--Venta-->
+                        <div class="col-md-6">
+                            <label for="precioVenta" class="form-label-custom fw-bold text-left w-100">Precio de
+                                venta(MXN)</label>
+                            <input type="text" inputmode="decimal" step="0.01" min="0" id="precioVenta"
+                                name="precioVenta" autocomplete="off" class="form-control form-control-custom w-100"
+                                placeholder="$ 0.00">
+                            <div id="error-venta" class="narnaja-text small mt-1 text-center">
+                                <p></p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <!-- Existencia -->
+                        <div class="col-md-6">
+                            <label for="existencia" class="form-label-custom fw-bold text-left w-100">Existencia</label>
+                            <input type="text" inputmode="decimal" step="1" min="0" id="existencia" name="existencia"
+                                autocomplete="off" class="form-control form-control-custom w-100" placeholder="0">
+                            <div id="error-existencia" class="narnaja-text small mt-1 text-center">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- -------------------------------------------------------------------
+                4. DESCRIPCIÓN
+            -------------------------------------------------------------------- -->
+            <section class="descripcion container fade-up">
+                <!-- Marco general con bordes muy redondeados -->
+                <div class="contact-card p-4 p-md-5 mt-5 border border-3 border-warning-subtle rounded-4 shadow-sm">
+                    <h2 class="mb-4">Descripción</h2>
+
+                    <div class="row g-4">
+                        <!-- Columna Izquierda: Imagen Principal -->
+                        <div class="col-md-5">
+                            <label for="imagen-principal" class="form-label-custom fw-bold text-start w-100">
+                                Imagen Principal
+                            </label>
+
+                            <!-- Cápsula interactiva -->
+                            <div
+                                class="capsula-archivo form-control-custom d-flex align-items-center justify-content-between px-3 py-2 bg-white rounded-pill border">
+
+                                <!-- Al hacer clic en este área o el label, se abrirá el explorador de archivos -->
+                                <label for="imagen-principal"
+                                    class="mb-0 text-truncate me-2 small text-secondary flex-grow-1"
+                                    style="cursor: pointer;">
+                                    <span id="nombre-archivo">Seleccionar archivo...</span>
+                                </label>
+
+                                <div class="d-flex gap-2 align-items-center">
+                                    <!-- Botón Vista Previa (Modal) -->
+                                    <button type="button" class="btn p-0 border-0 text-dark" id="btn-preview"
+                                        title="Vista Previa">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                    <!-- Botón Eliminar Selección -->
+                                    <button type="button" class="btn p-0 border-0 text-dark" id="btn-eliminar"
+                                        title="Eliminar Imagen">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Input oculto pero vinculado vía (for="imagen-principal") -->
+                            <input type="file" id="imagen-principal" class="d-none" accept=".jpg, .jpeg, .png, .webp">
+
+                            <!-- Mensajes de error de validación -->
+                            <div id="error-imagen" class="naranja-text small mt-1 text-center"></div>
+                        </div>
+
+                        <!-- Columna Derecha: Área de Descripción -->
+                        <div class="col-md-7">
+                            <label for="descripcion-producto" class="form-label-custom fw-bold text-left w-100">
+                                Descripción
+                            </label>
+                            <textarea id="descripcion-producto" name="descripcion-producto"
+                                class="form-control form-control-custom textarea-redondeado p-3 shadow-sm" rows="4"
+                                placeholder="Agrega una descripción del producto"></textarea>
+                            <p id="contador" class="mt-2 text-center small">0 de 300 caracteres | 0 palabras</p>
+                            <div id="error-mensaje" class="naranja-text small mt-1 text-center"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MODAL EN EL HTML  -->
+            <div class="modal fade" id="modalImagen" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content rounded-4">
+                        <div class="modal-header border-0 pb-0">
+                            <h5 class="modal-title fw-bold">Vista previa de imagen</h5>
+                            <button type="button" class="btn-close" id="btn-cerrar-modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center p-4">
+                            <img id="img-preview-target"
+                                src="recursos-graficos/productos/aves/aves-adm-pollo-especial.png" alt="Vista previa"
+                                class="img-fluid rounded-3 shadow-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- -------------------------------------------------------------------
+    5. VISIBILIDAD
+-------------------------------------------------------------------- -->
+            <section class="container fade-up">
+                <section class="contact-card p-md-5 mt-5 border border-3 border-warning-subtle rounded-4 shadow-sm">
+                    <h2 class="mb-5">Visibilidad</h2>
+                    <div class="row g-4 justify-content-center gap-5">
+
+                        <!-- VISIBILIDAD DEL PRODUCTO -->
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <p class="form-label-custom fw-bold text-left w-100">Visibilidad del producto</p>
+                            <div class="d-flex align-items-center gap-2 mb-2 boton-visibilidad">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="check-visibilidad">
+                                    <div class="toggle-switch-background">
+                                        <div class="toggle-switch-handle"></div>
+                                    </div>
+                                </label>
+                                <span class="estado-texto">Inactivo</span>
+                            </div>
+                            <p class="visibilidad-subtexto">Los productos no serán visibles para los clientes</p>
+                        </div>
+
+                        <!-- DESTACADO -->
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <p class="form-label-custom fw-bold text-left w-100">Destacado</p>
+                            <div class="d-flex align-items-center gap-2 mb-2 boton-visibilidad">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="check-destacado">
+                                    <div class="toggle-switch-background">
+                                        <div class="toggle-switch-handle"></div>
+                                    </div>
+                                </label>
+                                <span class="estado-texto" id="texto-destacado">NO</span>
+                            </div>
+                            <p class="visibilidad-subtexto">Mostrar en la sección de productos destacados</p>
+                        </div>
+
+                    </div>
+                </section>
+            </section>
+
+            <div class="d-flex justify-content-end gap-3 mt-4 fade-up">
+                <a href="adminHome.html" type="button" class="btn btn-custom-cancel">Cancelar</a>
+                <button type="submit" class="btn btn-custom-save">Guardar Cambios</button>
+            </div>
+        </form>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-forrajero">
+        <div class="footer-container">
+
+            <!-- Logo y redes sociales -->
+            <div class="footer-brand">
+                <img src="recursos-graficos/footer/forrajero-verde1.png" alt="Logo Forrajero" class="footer-logo">
+
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+
+                    <a href="#" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                    <a href="#" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+
+                    <a href="#" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="footer-column">
+                <h3>Navegación</h3>
+
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="acercaNosotros.html">Acerca de Nosotros</a></li>
+                    <li><a href="contactanos.html">Contacto</a></li>
+                    <li><a href="registro.html">Login / Registro</a></li>
+                </ul>
+            </div>
+
+            <!-- Productos -->
+            <div class="footer-column">
+                <h3>Productos</h3>
+
+                <ul>
+                    <li><a href="productos.html?categoria=bovinos">Alimento Bovino</a></li>
+                    <li><a href="productos.html?categoria=ovinos">Alimento Ovino</a></li>
+                    <li><a href="productos.html?categoria=aves">Aves de corral</a></li>
+                    <li><a href="productos.html?categoria=porcinos">Porcino</a></li>
+                </ul>
+            </div>
+
+            <!-- Atención al cliente -->
+            <div class="footer-column footer-contact">
+                <h3>Atención al cliente</h3>
+
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:+523119553880">(311) 955-3880</a>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <a href="mailto:soporte_toro_forrajero@outlook.com">
+                            soporte_toro_forrajero@outlook.com
+                        </a>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        Cerro Lejos, A dos horas de la Ciudad
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-clock"></i>
+                        08:00 a.m. - 08:00 p.m.
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Línea inferior -->
+        <div class="footer-bottom">
+            <p>© 2026 Toro Forrajero. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script src="build/js/itemsController.js"></script>
+    <!--Bootstrap script-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+
+    <!--Script de js-->
+    <script src="build/js/adminEditar.js"></script>
+
+    <!-- 1. Corregido el <script?> y asignado type="module" -->
+    <script type="module" src="build/js/adminHome.js"></script>
+
+    <!-- 2. Quita la línea de adminEditar.js de aquí para evitar que duplique variables -->
+
+    <script src="build/js/carrito.js"></script>
+    <script type="module" src="build/js/adminAuth.js"></script>
+
+</body>
+	<script src="build/js/cuenta.js"></script>
+</html>

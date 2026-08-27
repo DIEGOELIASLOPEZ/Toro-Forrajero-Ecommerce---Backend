@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toro Forrajero - Productos</title>
+
+    <!--Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!--Bootstrap para los iconos -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!--Font Awesome (para los iconos del footer)-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!--Fuentes-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700&family=Montserrat:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!--CSS Globales-->
+    <link rel="stylesheet" href="build/css/app.css">
+    <link rel="stylesheet" href="build/css/productos.css">
+    <link rel="shortcut icon" href="recursos-graficos/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+    <!-- ===========================================================================
+        SECCIÓN: ENCABEZADO Y NAVEGACIÓN (HEADER)
+    ============================================================================ -->
+    <header class="sticky-top">
+        <!-- NAV BAR 1: Logo y Accesos rápidos -->
+		<nav class="navbar navbar-1">
+			<div class="container-fluid px-4">
+
+				<!-- INYECCIÓN: Redirección al index en el logo -->
+				<a class="navbar-brand" href="index.html">
+					<img src="recursos-graficos/navbar/forrajero-sinfondo.png" alt="Logo sin fondo de Toro Forrajero"
+						class="logo-navbar d-inline-block align-text-top me-2">
+				</a>
+
+				<!-- INYECCIÓN: Homologación de tamaño y alineación para íconos -->
+				<ul class="cuenta navbar-nav flex-row ms-auto gap-4 align-items-center">
+					<li class="nav-item">
+						<a class="nav-link icon-link d-flex flex-column align-items-center text-center" href="inicioSesion.html">
+							<div class="user-icon-wrapper d-flex align-items-center justify-content-center" style="height: 35px;">
+								<i class="bi bi-person fs-3"></i>
+							</div>
+							<span class="nombre-cuenta">Mi cuenta</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+		</nav>
+
+        <!-- NAV BAR 2: Menú de navegación principal -->
+        <nav class="navbar2">
+            <ul>
+                <li><a href="index.html">INICIO</a></li>
+                <li><a href="acercaNosotros.html">NOSOTROS</a></li>
+                <li><a href="contactanos.html">CONTACTO</a></li>
+                <li><a href="productos.html" class="active">PRODUCTOS</a></li>
+            </ul>
+        </nav>
+        <nav class="navbar3">
+            <ul>
+                <li>
+                    <a class="navbar3-section" href="adminHome.html">VER PRODUCTOS</a>
+                </li>
+                <li>
+                    <a href="adminCrear.html">NUEVO PRODUCTO</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ===========================================================================
+        SECCIÓN PRINCIPAL: VISTA DE PRODUCTOS (MAIN)
+    ============================================================================ -->
+    <main class="container my-5">
+
+        <section class="productos">
+            <h1>Administrar Productos</h1>
+
+            <!-- FILTRO DE ESPECIES -->
+            <section class="filtro-especies mb-4">
+                <div class="titulo-especie">
+                    <h3>Especie</h3>
+                </div>
+
+                <div class="contenedor-especies">
+                    <!-- Bovinos -->
+                    <button type="button" class="especie" data-especie="bovinos">
+                        <div class="imagen-especie">
+                            <img src="recursos-graficos/productos/bovino.jpeg" alt="Bovinos">
+                        </div>
+                        <span class="nombre-especie">Bovinos</span>
+                    </button>
+
+                    <!-- Porcinos -->
+                    <button type="button" class="especie" data-especie="porcinos">
+                        <div class="imagen-especie">
+                            <img src="recursos-graficos/productos/porcinos.jpeg" alt="Porcinos">
+                        </div>
+                        <span class="nombre-especie">Porcinos</span>
+                    </button>
+
+                    <!-- Aves -->
+                    <button type="button" class="especie" data-especie="aves">
+                        <div class="imagen-especie">
+                            <img src="recursos-graficos/productos/aves.jpeg" alt="Aves">
+                        </div>
+                        <span class="nombre-especie">Aves</span>
+                    </button>
+
+                    <!-- Ovinos -->
+                    <button type="button" class="especie" data-especie="ovinos">
+                        <div class="imagen-especie">
+                            <img src="recursos-graficos/productos/ovino.png" alt="Ovinos">
+                        </div>
+                        <span class="nombre-especie">Ovinos</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- DROPDOWNS: MARCA Y VISIBILIDAD (CORREGIDO CON ESPACIADO SUPERIOR Y TEXTO SELECCIONADO) -->
+
+            <div class="d-flex justify-content-center gap-4 mt-5 mb-4 filtros-adminHome">
+
+                <!-- Filtro Marca -->
+                <div class="btn-group marca-group">
+                    <button type="button" class="btn btn-marca" disabled>Marca</button>
+                    <button type="button" class="btn btn-dropdown dropdown-toggle dropdown-toggle-split"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="textoMarcaSeleccionada">Todas</span>
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        <li><a class="dropdown-item filtro-marca" id="filtro-marca-todas" href="#"
+                                data-marca="">Todas</a></li>
+                        <li><a class="dropdown-item filtro-marca" id="filtro-marca-adm" href="#"
+                                data-marca="ADM">ADM</a></li>
+                        <li><a class="dropdown-item filtro-marca" id="filtro-marca-nogal" href="#"
+                                data-marca="El Nogal">El Nogal</a></li>
+                        <li><a class="dropdown-item filtro-marca" id="filtro-marca-arandas" href="#"
+                                data-marca="Alimentos Arandas">Alimentos Arandas</a></li>
+                    </ul>
+                </div>
+
+                <!-- Filtro Visibilidad / Estado -->
+                <div class="btn-group marca-group">
+                    <button type="button" class="btn btn-marca" disabled>Visibilidad</button>
+                    <button type="button" class="btn btn-dropdown dropdown-toggle dropdown-toggle-split"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <span id="textoVisibilidadSeleccionada" class="">Todos</span>
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        <li><a class="dropdown-item filtro-visibilidad" id="filtro-vis-todos" href="#"
+                                data-estado="">Todos</a></li>
+                        <li><a class="dropdown-item filtro-visibilidad" id="filtro-vis-activo" href="#"
+                                data-estado="activo">Activo</a></li>
+                        <li><a class="dropdown-item filtro-visibilidad" id="filtro-vis-inactivo" href="#"
+                                data-estado="inactivo">Inactivo</a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- TABLA O CONTENEDOR DE PRODUCTOS ADMIN -->
+        <section class="catalogo-productos activo">
+            <div class="productos-grid" id="catalogo-productos">
+                <!-- Se renderiza desde JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===========================================================================
+        SECCIÓN: PIE DE PÁGINA (FOOTER)
+    ============================================================================ -->
+    <!-- Footer -->
+    <footer class="footer-forrajero">
+        <div class="footer-container">
+
+            <!-- Logo y redes sociales -->
+            <div class="footer-brand">
+                <img src="recursos-graficos/footer/forrajero-verde1.png" alt="Logo Forrajero" class="footer-logo">
+
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+
+                    <a href="#" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                    <a href="#" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+
+                    <a href="#" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="footer-column">
+                <h3>Navegación</h3>
+
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="acercaNosotros.html">Acerca de Nosotros</a></li>
+                    <li><a href="contactanos.html">Contacto</a></li>
+                    <li><a href="registro.html">Login / Registro</a></li>
+                </ul>
+            </div>
+
+            <!-- Productos -->
+            <div class="footer-column">
+                <h3>Productos</h3>
+
+                <ul>
+                    <li><a href="productos.html?categoria=bovinos">Alimento Bovino</a></li>
+                    <li><a href="productos.html?categoria=ovinos">Alimento Ovino</a></li>
+                    <li><a href="productos.html?categoria=aves">Aves de corral</a></li>
+                    <li><a href="productos.html?categoria=porcinos">Porcino</a></li>
+                </ul>
+            </div>
+
+            <!-- Atención al cliente -->
+            <div class="footer-column footer-contact">
+                <h3>Atención al cliente</h3>
+
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:+523119553880">(311) 955-3880</a>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <a href="mailto:soporte_toro_forrajero@outlook.com">
+                            soporte_toro_forrajero@outlook.com
+                        </a>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        Cerro Lejos, A dos horas de la Ciudad
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-clock"></i>
+                        08:00 a.m. - 08:00 p.m.
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Línea inferior -->
+        <div class="footer-bottom">
+            <p>© 2026 Toro Forrajero. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <script src="build/js/itemsController.js"></script>
+
+
+</body>
+
+
+</html>

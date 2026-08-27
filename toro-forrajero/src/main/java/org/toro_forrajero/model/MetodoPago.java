@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.toro_forrajero.model.converter.CardEncryptionConverter;
 import org.toro_forrajero.model.converter.YearMonthConverter;
 
 import java.time.YearMonth;
@@ -35,6 +36,7 @@ public class MetodoPago {
     @Column(name = "id_metodo_pago")
     private Long idMetodoPago;
 
+    @Convert(converter = CardEncryptionConverter.class)
     @Column(name = "num_tarjeta", nullable = false, length = 100)
     private String numTarjeta;
 

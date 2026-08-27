@@ -1,3 +1,5 @@
+console.log("===== PAGO.JS CARGADO CORRECTAMENTE =====");
+
 // ==========================================
 // VERIFICACIÓN DE SESIÓN EN PAGO / CHECKOUT
 // ==========================================
@@ -22,7 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const carritoData = await respuestaCarrito.json();
         console.log("Datos del carrito recibidos:", carritoData);
 
-        // La información es un array y el ID del carrito es la propiedad "id"
         const carritoObj = Array.isArray(carritoData) ? carritoData[0] : carritoData;
         const idCarrito = carritoObj ? carritoObj.id : null;
 
@@ -62,7 +63,6 @@ function mostrarResumenPedidoBackend(carrito) {
     let htmlContenido = '';
 
     carrito.forEach(item => {
-        // Según detalle carrito Response
         const nombre = item.nombreProducto || 'Producto';
         const precio = Number(item.precioUnitario) || 0;
         const cantidad = item.cantidad || 1;
@@ -81,8 +81,6 @@ function mostrarResumenPedidoBackend(carrito) {
     detallePedido.innerHTML = htmlContenido;
     totalPedido.textContent = `$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
 }
-
-
 
 // ==========================================
 // TOGGLE MÉTODO DE ENTREGA Y ESTADO
@@ -195,7 +193,6 @@ function mostrarErrorCheckout(selector, mensajeError) {
 // ==========================================
 // FORMULARIO CHECKOUT (Validación de los datos de envío)
 // ==========================================
-
 const formularioCheckout = document.getElementById("formulario-checkout");
 
 if (formularioCheckout) {
@@ -276,18 +273,44 @@ if (formularioCheckout) {
              email: inputCorreo.value.trim()
         };
 
-        const exitoDireccion = await guardarDireccionEnBackend(usuarioActivo.id, datosDireccion);
-
-        if (exitoDireccion) {
-           alert("Dirección guardada correctamente.");
-        }
-
-
+        await guardarDireccionEnBackend(usuarioActivo.id, datosDireccion);
     });
 }
 
 // ==========================================
-//  VALIDACIONES TARJETA DE CRÉDITO / PAGO
+// ENVIAR DIRECCIÓN AL BACKEND
+// ==========================================
+/*
+* Toma los datos del formulario y los envía por medio de POST
+*/
+async function guardarDireccionEnBackend(idUsuario, datosDireccion) {
+    try {
+        const respuesta = await fetch(`http://localhost:8080/api/direcciones/${idUsuario}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(datosDireccion)
+        });
+
+        if (!respuesta.ok) {
+            throw new Error('Error al registrar la dirección en el servidor.');
+        }
+
+        const resultado = await respuesta.json();
+        console.log("Dirección guardada con éxito:", resultado);
+        alert("Dirección guardada correctamente.");
+        return true;
+
+    } catch (error) {
+        console.error("Error de conexión:", error);
+        alert("No se pudo guardar la dirección. Verifica los datos o tu conexión.");
+        return false;
+    }
+}
+
+// ==========================================
+// VALIDACIONES TARJETA DE CRÉDITO / PAGO
 // ==========================================
 /*
 * Cuando el usuario da en pagar, se obtiene su ID
@@ -298,7 +321,6 @@ if (formularioCheckout) {
 const formularioPago = document.getElementById("formularioPago");
 
 if (formularioPago) {
-    // 1. Aquí agregamos 'async' para poder usar await adentro
     formularioPago.addEventListener("submit", async function (e) {
         e.preventDefault();
 
@@ -347,7 +369,6 @@ if (formularioPago) {
             valido = false;
         }
 
-        // Si todo es válido, procesamos el guardado y el checkout
         if (valido) {
             const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
                                || JSON.parse(sessionStorage.getItem('usuarioActivo'));
@@ -360,7 +381,6 @@ if (formularioPago) {
             /*
             Crea un objeto datosMetodoPago
             */
-
             const datosMetodoPago = {
                 numTarjeta: tarjeta,
                 fechaExpiracion: `${mes}/${anio}`,
@@ -381,12 +401,12 @@ if (formularioPago) {
                 const tarjetaGuardada = await respuestaTarjeta.json();
                 const idMetodoPagoGenerado = tarjetaGuardada.idMetodoPago;
 
-                // Se jecuta el checkout para generar el pedido y vaciar el carrito
+                // Se ejecuta el checkout para generar el pedido y vaciar el carrito
                 await ejecutarCheckout(usuarioActivo.id, idMetodoPagoGenerado);
 
             } catch (error) {
                 console.error("Error en el proceso de pago:", error);
-                alert("Hubo un error al procesar tu tarjeta.");
+                alert("Hubo al procesar tu tarjeta.");
             }
         }
     });
@@ -400,7 +420,6 @@ if (formularioPago) {
 * Genera el registro histórico
 * Guarda una copia del precio unitario
 */
-
 async function ejecutarCheckout(usuarioId, idMetodoPago) {
     const respuestaCheckout = await fetch(`http://localhost:8080/api/pedidos/checkout/${usuarioId}?idMetodoPago=${idMetodoPago}`, {
         method: 'POST',
@@ -415,38 +434,5 @@ async function ejecutarCheckout(usuarioId, idMetodoPago) {
     console.log("¡Pedido y detalles creados con éxito!", pedidoCreado);
 
     alert("¡Pago realizado y pedido generado con éxito!");
-    //window.location.href = 'index.html'; // O redirigir a una página de éxito
-}
-
-// ==========================================
-// ENVIAR DIRECCIÓN AL BACKEND
-// ==========================================
-/*
-* Toma los datos del formulario y los envía por medio de POst
-*/
-
-
-async function guardarDireccionEnBackend(idUsuario, datosDireccion) {
-    try {
-        const respuesta = await fetch(`http://localhost:8080/api/direcciones/${idUsuario}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(datosDireccion)
-        });
-
-        if (!respuesta.ok) {
-            throw new Error('Error al registrar la dirección en el servidor.');
-        }
-
-        const resultado = await respuesta.json();
-        console.log("Dirección guardada con éxito:", resultado);
-        return true;
-
-    } catch (error) {
-        console.error("Error de conexión:", error);
-        alert("No se pudo guardar la dirección. Verifica los datos o tu conexión.");
-        return false;
-    }
+    window.location.href = 'index.html';
 }

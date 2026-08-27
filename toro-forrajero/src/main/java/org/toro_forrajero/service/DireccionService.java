@@ -28,7 +28,13 @@ public class DireccionService implements IDireccionService {
                 direccion.getNumExterior(),
                 direccion.getCodigoPostal())) {
 
-            throw new RuntimeException("Esta dirección ya existe");
+            List<Direccion> direcciones = direccionRepository.findByUsuario_IdUsuario(idUsuario);
+            return direcciones.stream()
+                    .filter(d -> d.getCalle().equalsIgnoreCase(direccion.getCalle())
+                            && d.getNumExterior().equalsIgnoreCase(direccion.getNumExterior())
+                            && d.getCodigoPostal().equalsIgnoreCase(direccion.getCodigoPostal()))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Esta dirección ya existe"));
         }
 
         Usuario usuario = usuarioRepository.findById(idUsuario)

@@ -111,12 +111,9 @@ function cardIntegrante() {
         gitHub: "https://github.com/tobdany",
         nombreCompleto: "Daniela Tobón Pérez",
         nombre: "Daniela",
-        acercaDe: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo
-                    consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima
-                    voluptatum,
-                    atque non?`,
+        acercaDe: `Desarrolladora Full Stack con formación sólida en Java y experiencia construyendo tanto la experiencia visible al usuario como la infraestructura detrás de ella. Su objetivo es entregar productos web confiables, rápidos y bien diseñados, apoyándose en Java, JavaScript y herramientas actuales del sector, con especial cuidado en la calidad del código y una colaboración fluida dentro de equipos ágiles.`,
         rol: "Product Owner",
-        rolDescripcion: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima voluptatum, atque non?",
+
     }
     const datosOscar = {
         id: "oscar",
@@ -128,8 +125,7 @@ function cardIntegrante() {
         acercaDe: `Desarrollo fullstack con formación en ingeniería en sistemas y experiencia en robotic process automation.
                     Orientado a construir soluciones funcionales y escalables ,destacó mi capacidad de aprendizaje y colaborar eficazmente en equipos multidisciplinarios.`,
         rol: "SCRUM Master",
-        rolDescripcion: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima voluptatum, atque non?",
-    }
+        }
     const datosEsther = {
         id: "esther",
         imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/esther2.png",
@@ -150,8 +146,8 @@ function cardIntegrante() {
         nombre: "Elias",
         acercaDe: "Ingeniero en Computación y Desarrollador Full Stack / Backend especializado en la automatización de procesos y optimización de datos. Cuenta con experiencia en desarrollo de software, control de versiones y metodologías ágiles, destacando su participación en proyectos de automatización de datos clínicos en el IIMAS-UNAM. Domina tecnologías como Java, JavaScript, PHP, Python y MySQL.",
         rol: "Tester",
-        rolDescripcion: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima voluptatum, atque non?",
-    }
+
+      }
     const datosDavid = {
         id: "david",
         imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/david.png",
@@ -159,13 +155,9 @@ function cardIntegrante() {
         gitHub: "https://github.com/D-a-v-i-d-Vargas",
         nombreCompleto: "David Vargas Miranda",
         nombre: "David",
-        acercaDe: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo
-                    consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima
-                    voluptatum,
-                    atque non?`,
+        acercaDe: `Full Stack con sólidos conocimientos en Java y bagaje práctico tanto en el desarrollo de interfaces de usuario como en la lógica del lado del servidor. Busca entregar productos web confiables y de alto rendimiento, valiéndose de Java, JavaScript y las herramientas más actuales del sector, con un enfoque constante en el código limpio y el trabajo en equipo bajo metodologías ágiles.`,
         rol: "Frontend Developer",
-        rolDescripcion: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima voluptatum, atque non?",
-    }
+        }
     const datosKaren = {
         id: "karen",
         imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/Karen.jpeg",
@@ -185,7 +177,7 @@ function cardIntegrante() {
         gitHub: "https://github.com/VanessaEstrada04",
         nombreCompleto: "Ana Vanessa Estrada Arellano",
         nombre: "Vanessa",
-        acercaDe: `Full Stack con especialización en Java y experiencia en el desarrollo de aplicaciones Frontend y Backend. Enfocada en crear soluciones web escalables, eficientes y de alta calidad mediante el uso de Java, JavaScript y tecnologías modernas, aplicando buenas prácticas de desarrollo y trabajo colaborativo con metodologías ágiles.`,
+        acercaDe: ` Ingeniera mecánica  enfocada en full stack con especialización en Java y experiencia en el desarrollo de aplicaciones Frontend y Backend. Enfocada en crear soluciones web escalables, eficientes y de alta calidad mediante el uso de Java, JavaScript y tecnologías modernas, aplicando buenas prácticas de desarrollo y trabajo colaborativo con metodologías ágiles.`,
         rol: "Frontend Developer",
         rolDescripcion: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima voluptatum, atque non?",
     }
@@ -196,10 +188,9 @@ function cardIntegrante() {
         gitHub: "https://github.com/DianaH-314",
         nombreCompleto: "Diana Laura Hurtado Baños",
         nombre: "Diana",
-        acercaDe: `Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima voluptatum, atque non?`,
+        acercaDe: `Programadora Full Stack con dominio de Java y trayectoria en el diseño de interfaces y lógica de servidor. Su trabajo se centra en generar productos web sólidos, ágiles y de calidad, apoyándose en Java, JavaScript y el ecosistema de herramientas actuales, siempre con foco en buenas prácticas de código y una dinámica de equipo colaborativa bajo esquemas ágiles.`,
         rol: "Backend Developer",
-        rolDescripcion: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Adipisci earum asperiores quod esse nemo consequuntur autem. Cum quia debitis quam ratione totam asperiores, aliquid vel animi minima voluptatum, atque non?",
-    }
+        }
     const datosNatalia = {
         id: "natalia",
         imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/Nat.jpeg",
@@ -322,7 +313,7 @@ function generarCard(datos) {
                 <span>Rol:</span>
                 <span class="naranja-fuerte">${datos.rol}</span>
             </h4>
-            <p class="mt-3 justificado">${datos.rolDescripcion}</p>
+
         </div>
     </div>
 `;

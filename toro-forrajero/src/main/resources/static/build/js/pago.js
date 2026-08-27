@@ -1,3 +1,6 @@
+console.log("===== PAGO.JS CARGADO CORRECTAMENTE =====");
+
+
 // ==========================================
 // 0. VERIFICACIÓN DE SESIÓN EN PAGO / CHECKOUT
 // ==========================================
@@ -215,6 +218,68 @@ if (formularioCheckout) {
         }
 
         console.log("Dirección validada correctamente.");
+        //
+        // Obtener usuario activo
+        const usuarioActivo =
+            JSON.parse(localStorage.getItem("usuarioActivo")) ||
+            JSON.parse(sessionStorage.getItem("usuarioActivo"));
+
+        console.log("USUARIO PARA DIRECCION:", usuarioActivo);
+
+        if (!usuarioActivo || !usuarioActivo.id) {
+            alert("No se encontró el usuario activo.");
+            return;
+        }
+
+        // Crear objeto que espera Direccion.java
+        const direccion = {
+            estado: inputEstado.options[inputEstado.selectedIndex].text,
+            calle: inputDireccion.value.trim(),
+            numExterior: inputNumExt.value.trim(),
+            numInterior: inputNumInt.value.trim(),
+            codigoPostal: inputCP.value.trim(),
+            alcaldia: inputCiudad2.value.trim(),
+            tel: inputTelefono.value.trim(),
+            email: inputCorreo.value.trim()
+        };
+
+        console.log("DIRECCION A ENVIAR:", direccion);
+
+        fetch(`/api/direcciones/${usuarioActivo.id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(direccion)
+        })
+        .then(async response => {
+
+            console.log("STATUS DIRECCION:", response.status);
+
+            const texto = await response.text();
+
+            console.log("RESPUESTA DIRECCION:", texto);
+
+            if (!response.ok) {
+                throw new Error(texto);
+            }
+
+            return texto ? JSON.parse(texto) : {};
+        })
+        .then(data => {
+
+            console.log("DIRECCION GUARDADA:", data);
+
+            alert("Dirección guardada correctamente");
+
+        })
+        .catch(error => {
+
+            console.error("ERROR AL GUARDAR DIRECCION:", error);
+
+            alert("Error al guardar la dirección. Revisa la consola.");
+        });
+
     });
 }
 
@@ -222,10 +287,12 @@ if (formularioCheckout) {
 // 4. VALIDACIONES TARJETA DE CRÉDITO / PAGO
 // ==========================================
 const formularioPago = document.getElementById("formularioPago");
+console.log("FORMULARIO ENCONTRADO:", formularioPago);
 
 if (formularioPago) {
     formularioPago.addEventListener("submit", function (e) {
         e.preventDefault();
+        console.log("===== CLICK EN FINALIZAR COMPRA =====");
 
         const elErrorNombre = document.getElementById("errorNombre");
         const elErrorTarjeta = document.getElementById("errorTarjeta");
@@ -271,10 +338,78 @@ if (formularioPago) {
             if (elErrorCvv) elErrorCvv.textContent = "El CVV debe tener 3 dígitos.";
             valido = false;
         }
-
+//
         if (valido) {
-            alert("Pago realizado correctamente");
-            // Aquí se enviará la petición `fetch` POST al Controller de Spring Boot
+
+            const usuarioActivo =
+                JSON.parse(localStorage.getItem("usuarioActivo")) ||
+                JSON.parse(sessionStorage.getItem("usuarioActivo"));
+
+            console.log("USUARIO ACTIVO:", usuarioActivo);
+
+            if (!usuarioActivo) {
+                console.error("No existe usuarioActivo");
+                alert("No hay usuario activo");
+                return;
+            }
+
+            if (!usuarioActivo.id) {
+                console.error("El usuario no tiene ID:", usuarioActivo);
+                alert("El usuario activo no tiene ID");
+                return;
+            }
+
+            const metodoPago = {
+                numTarjeta: tarjeta,
+                fechaExpiracion: `${mes}/${anio}`
+            };
+
+            console.log("ID USUARIO:", usuarioActivo.id);
+            console.log("OBJETO A ENVIAR:", metodoPago);
+
+            try {
+
+                fetch(`/api/metodos-pago/usuario/${usuarioActivo.id}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(metodoPago)
+                })
+                .then(async response => {
+
+                    console.log("STATUS HTTP:", response.status);
+
+                    const texto = await response.text();
+
+                    console.log("RESPUESTA DEL BACKEND:", texto);
+
+                    if (!response.ok) {
+                        throw new Error(texto);
+                    }
+
+                    return texto ? JSON.parse(texto) : {};
+                })
+                .then(data => {
+
+                    console.log("GUARDADO CORRECTAMENTE:", data);
+
+                    alert("Método de pago guardado correctamente");
+
+                })
+                .catch(error => {
+
+                    console.error("ERROR FETCH:", error);
+
+                    alert("Error al guardar. Revisa la consola.");
+
+                });
+
+            } catch (error) {
+
+                console.error("ERROR GENERAL:", error);
+
+            }
         }
     });
 }

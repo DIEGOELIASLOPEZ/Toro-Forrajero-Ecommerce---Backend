@@ -35,19 +35,12 @@ public class SecurityConfig {
             JWTAutenticationFilter jwtFilter
     ) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable()) // Desactivamos CSRF al ser una API Stateless
+                .csrf(csrf -> csrf.disable())
                 .sessionManagement(sesion ->
-                        sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Sin sesiones HTTP
+                        sesion.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/login", "/error").permitAll() // Rutas públicas
-                        .anyRequest().authenticated())                       // Cualquier otra requiere JWT
-                .exceptionHandling(exceptions -> exceptions
-                        .authenticationEntryPoint((request, response, exception) -> {
-                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                            response.getWriter().write("{\"error\":\"Unauthorized\",\"message\":\"Se requiere un JWT válido\"}");
-                        }))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Filtro personalizado JWT
+                        .anyRequest().permitAll()) // Permitimos el acceso a TODAS las rutas sin autenticación
+                // .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Comentamos el filtro JWT
                 .build();
     }
 

@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/carrito")
-@CrossOrigin(origins = "*") // Permite peticiones desde el frontend
 public class CarritoController {
 
     @Autowired

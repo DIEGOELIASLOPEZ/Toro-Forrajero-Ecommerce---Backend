@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Toro Forrajero</title>
+
+	<!--Bootstrap-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+	<!--Bootstrap para los iconos -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<!--Iconos del footer -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<!--Fuentes-->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;700&family=Montserrat:wght@400;700&display=swap"
+		rel="stylesheet">
+
+    <link rel="stylesheet" href="/build/css/app.css">
+    <link rel="stylesheet" href="build/css/pages/home.css">
+	<link rel="stylesheet" href="build/css/home.css">
+
+	<script type="module" src="build/js/adminAuth.js"></script>
+	<script type="module" src="build/js/carrito.js"></script>
+	<link rel="shortcut icon" href="recursos-graficos/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+	<!--Header, barras de nav, herro---------------------------------------------------------------->
+	<header>
+		<!-- ===========================================================================
+            SECCIÓN: NAV BAR 1 
+        ============================================================================ -->
+		<nav class="navbar navbar-1">
+			<div class="container-fluid px-4">
+
+				<!-- INYECCIÓN: Redirección al index en el logo -->
+				<a class="navbar-brand" href="index.html">
+					<img src="recursos-graficos/navbar/forrajero-sinfondo.png" alt="Logo sin fondo de Toro Forrajero"
+                         class="logo-navbar d-inline-block align-text-top me-2">
+				</a>
+
+				<!-- INYECCIÓN: Homologación de tamaño y alineación para íconos -->
+				<ul class="cuenta navbar-nav flex-row ms-auto gap-4 align-items-center">
+					<li class="nav-item">
+						<a class="nav-link icon-link d-flex flex-column align-items-center text-center" href="inicioSesion.html">
+							<div class="user-icon-wrapper d-flex align-items-center justify-content-center" style="height: 35px;">
+								<i class="bi bi-person fs-3"></i>
+							</div>
+							<span class="nombre-cuenta">Mi cuenta</span>
+						</a>
+					</li>
+
+					<li class="nav-item carrito">
+						<a class="nav-link icon-link d-flex flex-column align-items-center text-center" href="carrito.html">
+							<div class="cart-icon-wrapper d-flex align-items-center justify-content-center" style="height: 35px;">
+								<i class="bi bi-cart3 fs-3"></i>
+								<!-- <span class="contador-carrito">0</span> -->
+							</div>
+							<span>Carrito</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+
+		</nav>
+
+		<!-- ===========================================================================
+            SECCIÓN: NAV BAR 2 
+        ============================================================================ -->
+
+		<nav class="navbar2">
+			<ul>
+				<li><a href="index.html" class="active">INICIO</a></li>
+				<li><a href="acercaNosotros.html">NOSOTROS</a></li>
+				<li><a href="contactanos.html">CONTACTO</a></li>
+				<li><a href="productos.html" id="linkProductos">PRODUCTOS</a></li>
+				<div class="indicator"></div>
+			</ul>
+		</nav>
+
+	</header>
+
+	<!-- ===========================================================================
+            SECCIÓN: HERO - CALIDAD
+        ============================================================================ -->
+	<section id="home-calidad">
+		<div class="home-hero-content">
+
+			<div class="home-hero-text">
+
+				<h1 id="hero-title">
+					Calidad que <br>
+					se ve, resultados <br>
+					que se notan.
+				</h1>
+
+				<p>
+					Forrajes y granos seleccionados para
+					el bienestar y rendimiento de tus animales.
+				</p>
+
+            <a href="productos.html" class="btn-hero">
+                Comprar ahora →
+            </a>
+
+			</div>
+
+			<div class="home-hero-image">
+				<img src="recursos-graficos/navbar/trigo.png" alt="Productos">
+			</div>
+
+		</div>
+	</section>
+
+	<!-- ===========================================================================
+            SECCIÓN: DIVISOR VERDE ...
+        ============================================================================ -->
+
+
+	<section class="beneficios">
+
+		<div class="beneficio">
+			<div class="icono-circulo">
+				<i class="bi bi-tree"></i>
+			</div>
+
+			<p>
+				Productos<br>
+				naturales
+			</p>
+		</div>
+
+		<div class="beneficio">
+			<div class="icono-circulo">
+				<i class="bi bi-patch-check"></i>
+			</div>
+
+			<p>
+				Calidad<br>
+				garantizada
+			</p>
+		</div>
+
+		<div class="beneficio">
+			<div class="icono-sin-circulo">
+				<i class="bi bi-headset"></i>
+			</div>
+
+			<p>
+				Atención<br>
+				personalizada
+			</p>
+		</div>
+
+		<div class="beneficio">
+			<div class="icono-camion">
+				<i class="bi bi-truck"></i>
+			</div>
+
+			<p>
+				Envíos a todo<br>
+				México
+			</p>
+		</div>
+
+	</section>
+
+	<section id="divisor-verde">
+
+	</section>
+
+	<!-- ===========================================================================
+            SECCIÓN: PRODUCTOS DESTACADOS
+        ============================================================================ -->
+	<section id="productos-destacados">
+		<div class="titulo-producto">
+			<h2>Productos destacados</h2>
+		</div>
+	
+		<!-- -------------------------------------------------------------------
+				TARJETAS DE PRODUCTOS (GRID)
+		-------------------------------------------------------------------- -->
+		<section class="catalogo-productos activo px-5 mb-5">
+			<div class="productos-grid" id="catalogo-productos">
+				<!-- Aquí se inyectarán dinámicamente los productos desde JS -->
+			</div>
+		</section>
+	</sention>
+
+	<!-- ===========================================================================
+            SECCIÓN: MEJOR ALIMENTACIÓN
+        ============================================================================ -->
+	<div class="container-fluid px-0">
+		<section id="mejor-alimentacion" class="position-relative overflow-hidden text-white">
+			<div class="row align-items-center h-100 position-relative z-1">
+
+				<!-- Columna Izquierda: Ícono + Texto + Botón -->
+				<div class="col-12 col-md-7 col-lg-6 d-flex align-items-center gap-3">
+					<!-- Ícono de Hoja/Brote -->
+					<div class="flex-shrink-0">
+						<svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+							class="mejor-alimentacion__icon">
+							<path d="M12 22V12" />
+							<path d="M12 12C12 7 7 4 2 5c0 5 3 10 10 10" />
+							<path d="M12 12C12 7 17 4 22 5c0 5-3 10-10 10" />
+						</svg>
+					</div>
+
+					<!-- Texto y Botón -->
+					<div>
+						<h2 class="fw-bold mb-3 mejor-alimentacion__title">
+							La mejor alimentación<br>para tu ganado.
+						</h2>
+						<a href="productos.html" class="btn text-white fw-semibold px-4 py-2 mejor-alimentacion__btn">
+							Ver catálogo
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Imagen de las vacas esquina inferior derecha -->
+			<img src="recursos-graficos/home/vacas-comiendo.png" alt="vacas-comiendo"
+                 class="position-absolute bottom-0 end-0 pe-none img-fluid mejor-alimentacion__img">
+		</section>
+	</div>
+
+	<!-- ===========================================================================
+            SECCIÓN: RESEÑAS
+        ============================================================================ -->
+	<section id="resenas">
+		<!--Cards de reseñas. Idea - poner un widget con reseñas directas de google con herramientas como Elfsight (necesitamos una página en google) o EmbedSocial-->
+		<div class="container-xl">
+			<div>
+				<h2 class="titulo-reseñas">Reseñas</h2>
+			</div>
+			<div class="row row-cols-1 row-cols-md-3 g-4">
+				<div class="col">
+					<div class="card reseña">
+						<div class="card-body">
+							<h4 class="card-title texto-verde-oscuro">"Un servicio magnífico"</h4>
+							<h5>★★★★★</h5>
+							<div class="review-author">
+								<img class="foto-circulo" src="recursos-graficos/home/AdultoMayor-perfil.jpg"
+									alt="Campesino. Gökhan Tahincioğlu">
+								<div>
+									<h6 class="mb-0">Mateo Gómez</h6>
+									<small>Cliente frecuente</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card reseña">
+						<div class="card-body">
+							<h4 class="card-title texto-verde-oscuro">"Una atención fantástica"</h4>
+							<h5>★★★★★</h5>
+							<div class="review-author">
+								<img class="foto-circulo" src="recursos-graficos/home/Chica-vaquera.jpg"
+									alt="Vaquera. José Lugo ">
+								<div>
+									<h6 class="mb-0">Elizabeth Martínez</h6>
+									<small>Cliente frecuente</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card reseña">
+						<div class="card-body">
+							<h4 class="card-title texto-verde-oscuro">"Un producto estupendo"</h4>
+							<h5>★★★★★</h5>
+							<div class="review-author">
+								<img class="foto-circulo" src="recursos-graficos/home/Señor-hacendado.jpg"
+									alt="Hacendado. Israyosoy S.">
+								<div>
+									<h6 class="mb-0">Carlos Ruiz</h6>
+									<small>Nuevo cliente</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+	</section>
+
+	<!-- ===========================================================================
+        SECCIÓN: FOOTER (Enlaces de navegación, productos y atención al cliente)
+    ============================================================================ -->
+	<!-- Footer -->
+    <footer class="footer-forrajero" data-aos="fade-up">
+        <div class="footer-container">
+
+			<!-- Logo y redes sociales -->
+			<div class="footer-brand">
+				<img src="recursos-graficos/footer/forrajero-verde1.png" alt="Logo Forrajero" class="footer-logo">
+
+                <div class="footer-social">
+                    <a href="#" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+
+                    <a href="#" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+
+                    <a href="#" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+
+                    <a href="#" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="footer-column">
+                <h3>Navegación</h3>
+
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="acercaNosotros.html">Acerca de Nosotros</a></li>
+                    <li><a href="contactanos.html">Contacto</a></li>
+                    <li><a href="registro.html">Login / Registro</a></li>
+                </ul>
+            </div>
+
+            <!-- Productos -->
+            <div class="footer-column">
+                <h3>Productos</h3>
+
+                <ul>
+                    <li><a href="productos.html?categoria=bovinos">Alimento Bovino</a></li>
+                    <li><a href="productos.html?categoria=ovinos">Alimento Ovino</a></li>
+                    <li><a href="productos.html?categoria=aves">Aves de corral</a></li>
+                    <li><a href="productos.html?categoria=porcinos">Porcino</a></li>
+                </ul>
+            </div>
+
+            <!-- Atención al cliente -->
+            <div class="footer-column footer-contact">
+                <h3>Atención al cliente</h3>
+
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:+523119553880">(311) 955-3880</a>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-envelope"></i>
+                        <a href="mailto:soporte_toro_forrajero@outlook.com">
+                            soporte_toro_forrajero@outlook.com
+                        </a>
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-location-dot"></i>
+                        Cerro Lejos, A dos horas de la Ciudad
+                    </li>
+
+                    <li>
+                        <i class="fa-solid fa-clock"></i>
+                        08:00 a.m. - 08:00 p.m.
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Línea inferior -->
+        <div class="footer-bottom">
+            <p>© 2026 Toro Forrajero. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+	<!--Bootstrap script-->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+		crossorigin="anonymous"></script>
+
+	<!--Script de js-->
+	<script src="../../../../../../../ProyIntegrador/Toro-Forrajero-Ecommerce/build/js/itemsController.js"></script>
+	<script src="build/js/home.js"></script>
+	<script src="build/js/cuenta.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+{
+  "name": "toro-forrajero-ecommerce",
+  "version": "1.0.0",
+  "description": "Ecosistema digital diseñado para democratizar el acceso a insumos de nutrición y soluciones logísticas especializadas en el sector pecuario.",
+  "keywords": [],
+  "homepage": "https://github.com/D-a-v-i-d-Vargas/Toro-Forrajero-Ecommerce#readme",
+  "bugs": {
+    "url": "https://github.com/D-a-v-i-d-Vargas/Toro-Forrajero-Ecommerce/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/D-a-v-i-d-Vargas/Toro-Forrajero-Ecommerce.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "gulp:dev": "gulp",
+    "json-server": "json-server --watch db.json --port 3000",
+    "dev": "concurrently \"npm run gulp:dev\" \"npm run json-server\""
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4",
+    "cssnano": "^8.0.2",
+    "gulp": "^5.0.1",
+    "gulp-postcss": "^10.0.0",
+    "postcss": "^8.5.23",
+    "postcss-import": "^16.1.1"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
+}

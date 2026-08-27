@@ -40,18 +40,8 @@ function validarCorreo() {
     return true;
 }
 
-const btnIniciarSesion = document.querySelector("#btnIniciarSesion");
 
-btnIniciarSesion.addEventListener("click", function () {
 
-    const correoValido = validarCorreo();
-    const passwordValido = validarPassword();
-
-    if (!correoValido || !passwordValido) {
-        return;
-    }
-
-});
 
 
 // ==========================================
@@ -156,6 +146,10 @@ async function autenticarUsuario(correo, contrasena) {
 // ==========================================
 // MANEJADOR DE EVENTO PARA INICIAR SESIÓN
 // ==========================================
+
+const btnIniciarSesion = document.querySelector("#btnIniciarSesion");
+
+
 btnIniciarSesion.addEventListener("click", async function (e) {
     e.preventDefault(); // Evita recargar si el botón está dentro de un <form>
 
@@ -188,5 +182,8 @@ btnIniciarSesion.addEventListener("click", async function (e) {
 
     // Redireccionar a productos
     console.log(JSON.stringify(usuarioAutenticado));
-    window.location = usuarioAutenticado.rol === "admin" ? "adminHome.html";
+
+    // Redireccionar según el rol
+    window.location = usuarioAutenticado.rol === "admin" ? "adminHome.html" : "productos.html";
+
 });

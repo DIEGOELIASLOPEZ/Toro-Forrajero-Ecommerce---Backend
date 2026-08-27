@@ -263,70 +263,109 @@ function mostrarError(selector, mensajeError) {
 
 
 
+/* -----------------------------------------------------------------------------
+   PETICIÓN API / SPRING BOOT
+----------------------------------------------------------------------------- */
+const API_URL = 'http://localhost:8080/api/usuarios';
 
+async function enviarDatos() {
+    console.log("enviarDatos() ejecutado");
+    try {
+        const nuevoUsuario = {
+            nombre: usuarioValidado.mNombre,
+            apellido: usuarioValidado.mApellido,
+            telefono: usuarioValidado.mTelefono,
+            areaInteres: usuarioValidado.mAreaInteres,
+            correo: usuarioValidado.mCorreo,
+            estado: usuarioValidado.mEstado,
+            contrasena: usuarioValidado.mContraseña
+        };
+
+        console.log("Usuario que se enviará a Spring Boot:", nuevoUsuario);
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(nuevoUsuario)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        const resultado = await response.json();
+        console.log("Usuario registrado exitosamente:", resultado);
+        return resultado;
+
+    } catch (error) {
+        console.error("Fallo al registrar el usuario:", error);
+        throw error;
+    }
+}
 
 /* -----------------------------------------------------------------------------
    PETICIÓN API / JSON-SERVER
 ----------------------------------------------------------------------------- */
-const API_URL = 'http://localhost:3000/usuarios';
-
-async function enviarDatos() {
-	console.log("enviarDatos() ejecutado");
-	try {
-		const resActual = await fetch(API_URL);
-		const usuariosActuales = await resActual.json();
-
-		// Calculamos el ID incremental correctamente
-		const ultimoId = usuariosActuales.reduce((max, p) => Number(p.id) > max ? Number(p.id) : max, 0);
-		const nuevoId = ultimoId + 1;
-
-		const nuevoUsuario = {
-			id: String(nuevoId), // Se asigna como string o number según el JSON
-			nombre: usuarioValidado.mNombre,
-			apellido: usuarioValidado.mApellido,
-			telefono: Number(usuarioValidado.mTelefono),
-			areaInteres: usuarioValidado.mAreaInteres,
-			correo: usuarioValidado.mCorreo,
-			contraseña: usuarioValidado.mContraseña,
-			estado: usuarioValidado.mEstado,
-		};
-
-		//Guardamos nuevoUsuario en la db.json
-		const response = await fetch(API_URL, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify(nuevoUsuario)
-		});
-
-
-
-		if (!response.ok) {
-			throw new Error(`Error status: ${response.status}`);
-		}
-
-		const resultado = await response.json();
-		console.log("Usuario guardado exitosamente en JSON-Server:", resultado);
-
-
-		//Guardar nuevoUsuario en LocalStorage
-
-		//obtener el usuario que ya esta en localStorage
-		const usuariosLocalStorage = JSON.parse(localStorage.getItem('usuarios')) || [];
-		//Agregar el nuevo usuario al array
-		usuariosLocalStorage.push(nuevoUsuario);
-		//Guardar el arreglo
-		localStorage.setItem('usuarios', JSON.stringify(usuariosLocalStorage));
-
-		console.log("Usuario guardado exitosamente en LocalStorage:", nuevoUsuario);
-
-		//Funcionamiento del Modal
-		//Activamos la bandera antes de que json-server recargue la página
-        sessionStorage.setItem('registroExitoso', 'true');
-
-
-
-	} catch (error) {
-		console.error('Fallo al guardar el usuario', error);
-	}
-
-}
+//const API_URL = 'http://localhost:3000/usuarios';
+//
+//async function enviarDatos() {
+//	console.log("enviarDatos() ejecutado");
+//	try {
+//		const resActual = await fetch(API_URL);
+//		const usuariosActuales = await resActual.json();
+//
+//		// Calculamos el ID incremental correctamente
+//		const ultimoId = usuariosActuales.reduce((max, p) => Number(p.id) > max ? Number(p.id) : max, 0);
+//		const nuevoId = ultimoId + 1;
+//
+//		const nuevoUsuario = {
+//			id: String(nuevoId), // Se asigna como string o number según el JSON
+//			nombre: usuarioValidado.mNombre,
+//			apellido: usuarioValidado.mApellido,
+//			telefono: Number(usuarioValidado.mTelefono),
+//			areaInteres: usuarioValidado.mAreaInteres,
+//			correo: usuarioValidado.mCorreo,
+//			contraseña: usuarioValidado.mContraseña,
+//			estado: usuarioValidado.mEstado,
+//		};
+//
+//		//Guardamos nuevoUsuario en la db.json
+//		const response = await fetch(API_URL, {
+//			method: 'POST',
+//			headers: { 'Content-Type': 'application/json' },
+//			body: JSON.stringify(nuevoUsuario)
+//		});
+//
+//
+//
+//		if (!response.ok) {
+//			throw new Error(`Error status: ${response.status}`);
+//		}
+//
+//		const resultado = await response.json();
+//		console.log("Usuario guardado exitosamente en JSON-Server:", resultado);
+//
+//
+//		//Guardar nuevoUsuario en LocalStorage
+//
+//		//obtener el usuario que ya esta en localStorage
+//		const usuariosLocalStorage = JSON.parse(localStorage.getItem('usuarios')) || [];
+//		//Agregar el nuevo usuario al array
+//		usuariosLocalStorage.push(nuevoUsuario);
+//		//Guardar el arreglo
+//		localStorage.setItem('usuarios', JSON.stringify(usuariosLocalStorage));
+//
+//		console.log("Usuario guardado exitosamente en LocalStorage:", nuevoUsuario);
+//
+//		//Funcionamiento del Modal
+//		//Activamos la bandera antes de que json-server recargue la página
+  //      sessionStorage.setItem('registroExitoso', 'true');
+//
+//
+//
+//	} catch (error) {
+//		console.error('Fallo al guardar el usuario', error);
+//	}
+//
+//}

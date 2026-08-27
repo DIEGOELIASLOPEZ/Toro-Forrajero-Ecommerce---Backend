@@ -401,45 +401,46 @@ document.addEventListener('DOMContentLoaded', () => {
 //                      PETICIÓN POST / JSON-SERVER
 //=============================================================================
 
-const API_URL = 'http://localhost:3000/productos';
+const API_URL = 'http://localhost:8080/api/productos';
 
 async function enviarDatos() {
     mostrarModalLoader();
     try {
-        const resActual = await fetch(API_URL);
-        const productosActuales = await resActual.json();
-
-        // Cálculo de ID incremental numérico / string
-        const ultimoId = productosActuales.reduce((max, p) => Number(p.id) > max ? Number(p.id) : max, 0);
-        const nuevoId = ultimoId + 1;
+        // Objeto que coincide exactamente con ProductosRequestDTO
+        const dto = {
+            nombre: mensajeValidado.mNombreProducto, // Debe coincidir con el campo de ProductosRequestDTO
+            descripcion: mensajeValidado.mDescripcion || "",
+            destacado: mensajeValidado.mDestacado === "activo",
+            especie: mensajeValidado.mEspecie,
+            costo: parseFloat(mensajeValidado.mCosto) || 0,
+            precioVenta: parseFloat(mensajeValidado.mPrecio) || 0,
+            marca: mensajeValidado.mMarca,
+            imagen: mensajeValidado.mImagen || "",
+            stock: parseInt(mensajeValidado.mExistencia, 10) || 0,
+            visibilidad: mensajeValidado.mEstado === "activo"
+        };
 
         const response = await fetch(API_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                id: String(nuevoId),
-                nombreProducto: mensajeValidado.mNombreProducto,
-                descripcion: mensajeValidado.mDescripcion || "",
-                destacado: mensajeValidado.mDestacado,
-                especie: mensajeValidado.mEspecie,
-                costo: Number(mensajeValidado.mCosto) || 0,
-                precio: Number(mensajeValidado.mPrecio) || 0,
-                marca: mensajeValidado.mMarca,
-                imagen: mensajeValidado.mImagen || "",
-                existencia: Number(mensajeValidado.mExistencia) || 0,
-                estado: mensajeValidado.mEstado
-            })
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dto)
         });
 
         if (!response.ok) {
-            throw new Error(`Error status: ${response.status}`);
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
+        const productoCreado = await response.json();
+
         cerrarModalGenerico('.modal-overlay');
-        window.location.href = 'adminHome.html';
+
+        // Redirige añadiendo la marca de tiempo para forzar que el navegador refresque los datos
+        window.location.href = `adminHome.html?t=${new Date().getTime()}`;
 
     } catch (error) {
-        console.error('Fallo al conectar con la API:', error);
+        console.error('Error al guardar:', error);
         alert("Hubo un error al guardar el producto.");
         cerrarModalGenerico('.modal-overlay');
     }

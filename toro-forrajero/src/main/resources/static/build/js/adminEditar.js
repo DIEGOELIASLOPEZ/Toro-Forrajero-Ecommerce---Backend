@@ -1,17 +1,18 @@
-// build/js/adminEditar.js
-const itemsController = new ItemsController(0);
+const API_URL = 'http://localhost:8080/api/productos';
 
 // ==========================================
 // 1. INICIALIZACIÓN Y EVENTOS DE INTERFAZ
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // A. Carga inicial del producto si existe ID en localStorage
     const idProducto = localStorage.getItem('idProductoEditar');
+    console.log("ID recuperado de localStorage:", idProducto);
+
     if (idProducto) {
         cargarProducto(idProducto);
+    } else {
+        console.warn("No hay ningún ID de producto guardado en el localStorage.");
     }
 
-    // B. Referencias al DOM
     const inputImagen = document.getElementById('imagen-principal');
     const btnPreview = document.getElementById('btn-preview');
     const btnCerrarModal = document.getElementById('btn-cerrar-modal');
@@ -20,13 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnEliminar = document.getElementById('btn-eliminar');
     const errorImagenDiv = document.getElementById('error-imagen');
 
-    // Switches
     const checkVisibilidad = document.getElementById('check-visibilidad');
     const estadoTexto = document.querySelector('.estado-texto');
     const checkDestacado = document.getElementById('check-destacado');
-    const textoDestacado = document.getElementById('texto-destacado');
+    const textoDestacado = document.querySelector('#texto-destacado');
 
-    // Modal Bootstrap
     const modalElement = document.getElementById('modalImagen');
     if (modalElement) {
         const myModal = new bootstrap.Modal(modalElement, {
@@ -38,13 +37,12 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCerrarModal?.addEventListener('click', () => myModal.hide());
     }
 
-    // Listener de cambio de imagen con validación y Base64
     inputImagen?.addEventListener('change', async (e) => {
         const error = validarImagen(inputImagen);
 
         if (error) {
             if (errorImagenDiv) errorImagenDiv.innerHTML = error;
-            inputImagen.value = ''; // Limpiamos selección inválida
+            inputImagen.value = '';
             return;
         }
 
@@ -61,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Limpieza al presionar el bote de basura
     btnEliminar?.addEventListener('click', () => {
         if (inputImagen) inputImagen.value = '';
         if (nombreArchivo) nombreArchivo.textContent = 'Sin archivo seleccionado';
@@ -69,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (errorImagenDiv) errorImagenDiv.innerHTML = '';
     });
 
-    // Eventos de Switches
     checkVisibilidad?.addEventListener('change', (e) => {
         if (estadoTexto) {
             estadoTexto.textContent = e.target.checked ? 'Activo' : 'Inactivo';
@@ -82,7 +78,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Manejo de envío del formulario
     const btnGuardar = document.querySelector('.btn-custom-save');
     const formulario = document.querySelector('#formulario-adminEditar');
 
@@ -98,38 +93,25 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ==========================================
-// 2. PETICIÓN GET / CARGAR PRODUCTO
+// 2. PETICIÓN GET / CARGAR PRODUCTO (SPRING BOOT)
 // ==========================================
-export async function cargarProducto(id) {
-    if (!id) return;
-
-    const URL = `http://localhost:3000/productos/${id}`;
+async function cargarProducto(id) {
+    const URL = `${API_URL}/${id}`;
+    console.log("Haciendo petición GET a:", URL);
 
     try {
         const res = await fetch(URL);
-        if (!res.ok) throw new Error("Error en la respuesta del servidor");
+        if (!res.ok) {
+            throw new Error(`Error en el servidor: ${res.status} ${res.statusText}`);
+        }
 
         const producto = await res.json();
-
-        itemsController.items = [];
-        itemsController.addItem(
-            producto.id,
-            producto.nombreProducto,
-            producto.descripcion,
-            producto.destacado,
-            producto.especie,
-            producto.costo,
-            producto.precio,
-            producto.marca,
-            producto.imagen,
-            producto.estado,
-            producto.existencia
-        );
+        console.log("Datos recibidos de la API para editar:", producto);
 
         editarHTML(producto);
 
     } catch (error) {
-        console.error("Error al cargar producto:", error);
+        console.error("Fallo al cargar el producto:", error);
     }
 }
 
@@ -153,21 +135,44 @@ function editarHTML(producto) {
     const destacado = document.querySelector('#check-destacado');
     const textoDestacado = document.querySelector('#texto-destacado');
 
-    if (h1) h1.textContent = `${producto.nombreProducto}`;
-    if (inputNombre) inputNombre.value = producto.nombreProducto;
-    if (inputEspecie) inputEspecie.value = producto.especie;
-    if (inputMarca) inputMarca.value = producto.marca;
+    const nombreProd = producto.nombre || producto.nombreProducto || '';
+    const precioProd = producto.precioVenta !== undefined ? producto.precioVenta : producto.precio;
+    const existenciaProd = producto.stock !== undefined ? producto.stock : producto.existencia;
+    const estadoProd = producto.visibilidad !== undefined ? producto.visibilidad : producto.estado;
 
-    if (costo) costo.value = producto.costo;
-    if (precio) precio.value = producto.precio;
-    if (existencia) existencia.value = producto.existencia;
+    if (h1) h1.textContent = nombreProd;
+    if (inputNombre) inputNombre.value = nombreProd;
+
+    // Selección segura del select de Especie
+    if (inputEspecie && producto.especie) {
+        const especieBuscada = String(producto.especie).trim().toLowerCase();
+        let encontrada = false;
+
+        for (let option of inputEspecie.options) {
+            if (option.value.toLowerCase() === especieBuscada || option.text.toLowerCase() === especieBuscada) {
+                inputEspecie.value = option.value;
+                encontrada = true;
+                break;
+            }
+        }
+        if (!encontrada) {
+            inputEspecie.value = producto.especie;
+        }
+    }
+
+    if (inputMarca) inputMarca.value = producto.marca || '';
+
+    if (costo) costo.value = producto.costo || 0;
+    if (precio) precio.value = precioProd || 0;
+    if (existencia)enciaVal = existenciaProd || 0;
+    if (existencia) existencia.value = existenciaProd || 0;
 
     if (imagen) imagen.textContent = obtenerNombreImagenRegex(producto.imagen);
-    if (imagenVistaPrevia) imagenVistaPrevia.src = producto.imagen;
+    if (imagenVistaPrevia) imagenVistaPrevia.src = producto.imagen || '';
     if (descripcion) descripcion.value = producto.descripcion || '';
 
     if (visibilidad) {
-        const estaActivo = producto.estado === 'activo' || producto.estado === true;
+        const estaActivo = estadoProd === 'activo' || estadoProd === true;
         visibilidad.checked = estaActivo;
         if (estadoTexto) estadoTexto.textContent = estaActivo ? 'Activo' : 'Inactivo';
     }
@@ -186,7 +191,7 @@ function obtenerNombreImagenRegex(path) {
 }
 
 // ==========================================
-// 3. PETICIÓN PUT / ACTUALIZAR PRODUCTO
+// 3. PETICIÓN PUT / ACTUALIZAR PRODUCTO (SPRING BOOT)
 // ==========================================
 async function guardarCambios() {
     mostrarModal();
@@ -201,20 +206,20 @@ async function guardarCambios() {
         rutaImagen = await obtenerBase64(inputImagen.files[0]);
     }
 
-    const productoActualizado = {
-        nombreProducto: document.querySelector('#nombre-producto')?.value.trim() || '',
+    const productoDTO = {
+        nombre: document.querySelector('#nombre-producto')?.value.trim() || '',
         especie: document.querySelector('#especie')?.value || '',
         marca: document.querySelector('#marca')?.value || '',
         costo: parseFloat(document.querySelector('#costo')?.value) || 0,
-        precio: parseFloat(document.querySelector('#precioVenta')?.value) || 0,
-        existencia: parseInt(document.querySelector('#existencia')?.value) || 0,
+        precioVenta: parseFloat(document.querySelector('#precioVenta')?.value) || 0,
+        stock: parseInt(document.querySelector('#existencia')?.value, 10) || 0,
         descripcion: document.querySelector('#descripcion-producto')?.value.trim() || '',
         imagen: rutaImagen,
-        estado: document.querySelector('#check-visibilidad')?.checked ? 'activo' : 'inactivo',
-        destacado: document.querySelector('#check-destacado')?.checked ? 'activo' : 'inactivo'
+        visibilidad: document.querySelector('#check-visibilidad')?.checked ? true : false,
+        destacado: document.querySelector('#check-destacado')?.checked ? true : false
     };
 
-    const URL = `http://localhost:3000/productos/${id}`;
+    const URL = `${API_URL}/${id}`;
 
     try {
         const res = await fetch(URL, {
@@ -222,10 +227,14 @@ async function guardarCambios() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(productoActualizado)
+            body: JSON.stringify(productoDTO)
         });
 
         if (!res.ok) throw new Error(`Error en el servidor: ${res.status}`);
+
+        const productoActualizado = await res.json();
+        console.log("Producto actualizado con éxito:", productoActualizado);
+
         cerrarModal();
         window.location.href = 'adminHome.html';
 
@@ -251,7 +260,7 @@ function validarImagen(inputImagen) {
 
     const archivo = archivos[0];
     const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-    const maxTamanoBytes = 50 * 1024 * 1024; // 50MB
+    const maxTamanoBytes = 50 * 1024 * 1024;
 
     if (!tiposPermitidos.includes(archivo.type.toLowerCase())) {
         return `${alertMensaje} <span class="naranja-text">Formato no válido. Solo JPG, PNG y WEBP.</span>`;

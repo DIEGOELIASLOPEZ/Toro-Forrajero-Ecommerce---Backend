@@ -14,6 +14,7 @@ public class UsuarioDTO {
         private String correo;
         private String estado;
         private String contrasena;
+        private String rol;
     }
 
     // RESPONSE: Salida de datos hacia el cliente/frontend
@@ -26,5 +27,6 @@ public class UsuarioDTO {
         private String areaInteres;
         private String correo;
         private String estado;
+        private String rol;
     }
 }

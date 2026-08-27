@@ -12,6 +12,7 @@ public class ProductosRequestDTO {
     private boolean visibilidad;
     private boolean destacado;
     private String descripcion;
+    private String imagen;
 
     //Constructor vacío
     public ProductosRequestDTO(){
@@ -89,5 +90,13 @@ public class ProductosRequestDTO {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }

@@ -1,0 +1,15 @@
+/* Este archivo es para el agrupamiento de los demas archivos */
+/* ! NO AGREGAR ESTILOS
+/* Si deseas agregar estilos al index.html es en el archivo home.css */
+
+@import './home.css';
+@import './carrito.css';
+@import './contactanos.css';
+@import './cuenta.css';
+@import './inicioSesion.css';
+@import './nosotros.css';
+@import './productos.css';
+@import './registro.css';
+@import './adminHome.css';
+@import './admin.css';
+@import './pago.css';

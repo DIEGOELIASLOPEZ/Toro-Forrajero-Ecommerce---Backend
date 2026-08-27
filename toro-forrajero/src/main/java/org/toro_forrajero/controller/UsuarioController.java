@@ -32,6 +32,16 @@ public class UsuarioController {
     public ResponseEntity<UsuarioDTO.UsuarioResponse> crearUsuario(@Valid @RequestBody UsuarioDTO.UsuarioRequest usuarioRequest){
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.crearUsuario(usuarioRequest));
     }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UsuarioDTO.UsuarioRequest loginRequest) {
+        UsuarioDTO.UsuarioResponse usuario = usuarioService.autenticar(loginRequest.getCorreo(), loginRequest.getContrasena());
+
+        if (usuario != null) {
+            return ResponseEntity.ok(usuario);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+        }
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDTO.UsuarioResponse> actualizarUsuario

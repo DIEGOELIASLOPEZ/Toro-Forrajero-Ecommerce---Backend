@@ -18,4 +18,6 @@ public interface IUsuarioService {
     UsuarioDTO.UsuarioResponse mostrarPorCorreo(String correo);
 
     boolean existePorCorreo(String correo);
+
+    UsuarioDTO.UsuarioResponse autenticar(String correo, String contrasena);
 }

@@ -266,7 +266,7 @@ function mostrarError(selector, mensajeError) {
 /* -----------------------------------------------------------------------------
    PETICIÓN API / SPRING BOOT
 ----------------------------------------------------------------------------- */
-const API_URL = 'http://localhost:8080/api/usuarios';
+const API_URL = 'http://44.202.55.123:8080/api/usuarios';
 
 async function enviarDatos() {
     console.log("enviarDatos() ejecutado");
@@ -307,7 +307,7 @@ async function enviarDatos() {
 /* -----------------------------------------------------------------------------
    PETICIÓN API / JSON-SERVER
 ----------------------------------------------------------------------------- */
-//const API_URL = 'http://localhost:3000/usuarios';
+//const API_URL = 'http://44.202.55.123:8080/usuarios';
 //
 //async function enviarDatos() {
 //	console.log("enviarDatos() ejecutado");

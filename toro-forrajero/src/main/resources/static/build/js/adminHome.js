@@ -1,7 +1,7 @@
 
 
 const itemsController = new ItemsController(0);
-const API_URL = 'http://localhost:8080/api/productos';
+const API_URL = 'http://44.202.55.123:8080/api/productos';
 
 // Mapeo de especies para los botones del filtro
 const mapaEspecies = {

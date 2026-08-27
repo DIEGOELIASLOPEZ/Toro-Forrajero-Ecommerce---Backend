@@ -25,7 +25,7 @@ class ItemsController {
 }
 
 const itemsController = new ItemsController(0);
-const API_URL = 'http://localhost:3000/productos';
+const API_URL = 'http://44.202.55.123:8080/api/productos';
 
 let marcaSeleccionada = null;
 let especieSeleccionada = null;

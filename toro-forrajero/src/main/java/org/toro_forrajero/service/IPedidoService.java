@@ -19,6 +19,8 @@ public interface IPedidoService {
 
     PedidoDTO.PedidoResponse crearPedido(PedidoDTO.PedidoRequestCliente pedidoRequestCliente);
 
+    PedidoDTO.PedidoResponse procesarCheckout(Long usuarioId, Long idMetodoPago);
+
     PedidoDTO.PedidoResponse modificarPedido(Long id, PedidoDTO.PedidoRequestAdmin pedidoRequestAdmin);
 
     PedidoDTO.PedidoResponse modificarStatusPedido(Long id, String status);

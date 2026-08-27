@@ -1,16 +1,15 @@
 package org.toro_forrajero.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.toro_forrajero.dto.PedidoDTO;
-import org.toro_forrajero.model.MetodoPago;
-import org.toro_forrajero.model.Pedido;
-import org.toro_forrajero.model.Usuario;
-import org.toro_forrajero.repository.MetodoPagoRepository;
-import org.toro_forrajero.repository.PedidoRepository;
-import org.toro_forrajero.repository.UsuarioRepository;
+import org.toro_forrajero.model.*;
+import org.toro_forrajero.repository.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Scanner;
 
 @Service
 public class PedidoService implements IPedidoService {
@@ -18,13 +17,19 @@ public class PedidoService implements IPedidoService {
     private final PedidoRepository pedidoRepository;
     private final UsuarioRepository usuarioRepository;
     private final MetodoPagoRepository metodoPagoRepository;
+    private final CarritoRepository carritoRepository;
+    private final DetalleCarritoRepository detalleCarritoRepository;
+    private final DetallePedidoRepository detallePedidoRepository;
 
     public PedidoService(PedidoRepository pedidoRepository,
                          UsuarioRepository usuarioRepository,
-                         MetodoPagoRepository metodoPagoRepository) {
+                         MetodoPagoRepository metodoPagoRepository,CarritoRepository carritoRepository, DetalleCarritoRepository detalleCarritoRepository, DetallePedidoRepository detallePedidoRepository) {
         this.pedidoRepository = pedidoRepository;
         this.usuarioRepository = usuarioRepository;
         this.metodoPagoRepository = metodoPagoRepository;
+        this.carritoRepository = carritoRepository;
+        this.detalleCarritoRepository = detalleCarritoRepository;
+        this.detallePedidoRepository = detallePedidoRepository;
     }
 
     @Override
@@ -149,6 +154,78 @@ public class PedidoService implements IPedidoService {
 
         Pedido pedidoModificado = pedidoRepository.save(pedido);
         return entidadAResponse(pedidoModificado);
+    }
+
+    @Override
+    @Transactional
+    public PedidoDTO.PedidoResponse procesarCheckout(Long usuarioId, Long idMetodoPago) {
+        //  Buscar el carrito del usuario
+        List<Carrito> carritos = carritoRepository.findAll();
+        Carrito carritoUsuario = carritos.stream()
+                .filter(c -> c.getUsuario() != null && c.getUsuario().getIdUsuario().equals(usuarioId))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("No se encontró un carrito activo para el usuario: " + usuarioId));
+
+        Long idCarrito = carritoUsuario.getIdCarrito();
+
+        // Obtiene los detalles del producto del carrito segun el IdCarrito
+        List<DetalleCarrito> itemsCarrito = detalleCarritoRepository.findByCarrito_IdCarrito(idCarrito);
+        if (itemsCarrito.isEmpty()) {
+            throw new RuntimeException("El carrito está vacío, no se puede procesar el pedido.");
+        }
+
+        // Calcula el monto total sumando los subtotales de los productos
+        BigDecimal montoTotal = BigDecimal.ZERO;
+        for (DetalleCarrito item : itemsCarrito) {
+            BigDecimal precio = item.getProducto().getPrecioVenta() != null
+                    ? item.getProducto().getPrecioVenta()
+                    : BigDecimal.ZERO;
+            BigDecimal subtotalItem = precio.multiply(BigDecimal.valueOf(item.getCantidad()));
+            montoTotal = montoTotal.add(subtotalItem);
+        }
+
+        // Crea la entidad Pedido y asigna los datos requeridos
+        Pedido nuevoPedido = new Pedido();
+        nuevoPedido.setUsuario(carritoUsuario.getUsuario());
+        nuevoPedido.setMontoTotal(montoTotal);
+        nuevoPedido.setStatus("PENDIENTE");
+        nuevoPedido.setFechaPedido(LocalDateTime.now());
+        MetodoPago metodoPago = metodoPagoRepository.findById(idMetodoPago)
+                .orElseThrow(() -> new RuntimeException("Método de pago con ID " + idMetodoPago + " no encontrado"));
+        nuevoPedido.setMetodoPago(metodoPago);
+
+        Pedido pedidoGuardado = pedidoRepository.save(nuevoPedido);
+
+        // Pasar los productos de DetalleCarrito a DetallePedido
+        for (DetalleCarrito itemCarrito : itemsCarrito) {
+            DetallePedido detallePedido = new DetallePedido();
+            detallePedido.setPedido(pedidoGuardado);
+            detallePedido.setProductos(itemCarrito.getProducto());
+            detallePedido.setCantidad(itemCarrito.getCantidad());
+
+            BigDecimal precio = itemCarrito.getProducto().getPrecioVenta() != null
+                    ? itemCarrito.getProducto().getPrecioVenta()
+                    : BigDecimal.ZERO;
+
+            detallePedido.setPrecioUnitario(precio.doubleValue());
+            detallePedido.setSubtotal(precio.multiply(BigDecimal.valueOf(itemCarrito.getCantidad())).doubleValue());
+
+            detallePedidoRepository.save(detallePedido);
+        }
+
+        //  Vaciar el carrito una vez migrado al pedido
+        detalleCarritoRepository.deleteByCarrito_IdCarrito(idCarrito);
+
+        // Mapear la entidad guardada al DTO de respuesta (`PedidoResponse`)
+        PedidoDTO.PedidoResponse response = new PedidoDTO.PedidoResponse();
+        response.setIdPedido(pedidoGuardado.getIdPedido());
+        response.setFechaPedido(pedidoGuardado.getFechaPedido());
+        response.setMontoTotal(pedidoGuardado.getMontoTotal());
+        response.setStatus(pedidoGuardado.getStatus());
+        response.setIdUsuario(usuarioId);
+        response.setIdMetodoPago(idMetodoPago);
+
+        return response;
     }
 
     // Método auxiliar para transformar una Entidad en DTO Response

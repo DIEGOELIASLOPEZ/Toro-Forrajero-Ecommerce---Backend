@@ -10,16 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/productos")
+@RequestMapping("/api/productos")
+@CrossOrigin(origins = "*")
 public class ProductosController {
 
     private final IProductosService productosService;
 
-    //Constructor
-    public ProductosController(ProductosService productosService){
+    public ProductosController(IProductosService productosService){
         this.productosService = productosService;
     }
-
     @GetMapping
     public List<Productos> listarTodos(){
         return productosService.listarTodos();

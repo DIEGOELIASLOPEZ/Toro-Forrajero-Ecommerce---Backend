@@ -1,5 +1,5 @@
 const itemsController = new ItemsController(0);
-const API_URL = 'http://localhost:3000/productos';
+const API_URL = 'http://localhost:8080/api/productos';
 
 let marcaSeleccionada = null;
 let especieSeleccionada = null;
@@ -27,22 +27,21 @@ async function cargarProductos() {
 
         itemsController.items = [];
 
-        const productosActivos = productos.filter(producto =>
-            String(producto.estado).toLowerCase() === 'activo'
-        );
+        const productosVisibles = productos.filter(producto => producto.visibilidad === true);
 
-        productosActivos.forEach(producto => {
+        productosVisibles.forEach(producto => {
             itemsController.addItem(
-                producto.id,
-                producto.nombreProducto,
+                producto.idProducto,
+                producto.nombre,
                 producto.descripcion,
                 producto.destacado,
                 producto.especie,
-                producto.peso,
-                producto.precio,
+                producto.costo,
+                producto.precioVenta,
                 producto.marca,
                 producto.imagen,
-                producto.estado
+                producto.visibilidad ? 'activo' : 'inactivo',
+                producto.stock
             );
         });
 

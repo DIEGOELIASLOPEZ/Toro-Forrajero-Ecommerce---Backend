@@ -44,8 +44,8 @@ function splitText(element, delayStep = 0.04) {
 const itemsController = new ItemsController(0);
 
 // Endpoints Spring Boot
-const API_PRODUCTOS_URL = 'http://localhost:8080/api/productos';
-const API_DETALLE_CARRITO_URL = 'http://localhost:8080/api/detalle-carrito';
+const API_PRODUCTOS_URL = 'http://44.202.55.123:8080/api/productos';
+const API_DETALLE_CARRITO_URL = 'http://44.202.55.123:8080/api/detalle-carrito';
 
 document.addEventListener("DOMContentLoaded", () => {
     const heroTitle = document.getElementById("hero-title");

@@ -1,4 +1,4 @@
-const API_PRODUCTOS_URL = 'http://localhost:8080/api/productos';
+const API_PRODUCTOS_URL = 'http://44.202.55.123:8080/api/productos';
 
 let productosGlobales = [];
 let marcaSeleccionada = null;

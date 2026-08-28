@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 const itemsController = new ItemsController(0);
 
-const API_URL = 'http://localhost:3000/productos'
+const API_URL = 'http://44.202.55.123:8080/productos'
 
 async function cargarProductos() {
 

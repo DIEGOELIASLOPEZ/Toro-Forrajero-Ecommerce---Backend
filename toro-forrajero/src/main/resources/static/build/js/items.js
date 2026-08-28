@@ -25,8 +25,8 @@ class ItemsController {
 const itemsController = new ItemsController(0);
 
 // Base URLs para tus controllers de Java Spring Boot
-const API_PRODUCTOS_URL = 'http://localhost:8080/api/productos';
-const API_DETALLE_CARRITO_URL = 'http://localhost:8080/api/detalle-carrito';
+const API_PRODUCTOS_URL = 'http://44.202.55.123:8080/api/productos';
+const API_DETALLE_CARRITO_URL = 'http://44.202.55.123:8080/api/detalle-carrito';
 
 let marcaSeleccionada = null;
 let especieSeleccionada = null;

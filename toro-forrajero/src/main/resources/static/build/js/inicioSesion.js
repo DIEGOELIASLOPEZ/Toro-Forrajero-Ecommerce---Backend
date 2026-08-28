@@ -69,7 +69,7 @@ function validarPassword() { //creamos nuestra funcion para validar la contrase√
 // OBTENER USUARIOS
 // ==========================================
 
-const API_URL = "http://localhost:8080/api/usuarios";
+const API_URL = "http://44.202.55.123:8080/api/usuarios";
 
 async function obtenerUsuarios() {
     const usuariosLocalStorage =
@@ -117,7 +117,7 @@ async function obtenerUsuarios() {
 
 async function autenticarUsuario(correo, contrasena) {
     try {
-        const respuesta = await fetch("http://localhost:8080/api/usuarios/login", {
+        const respuesta = await fetch("http://44.202.55.123:8080/api/usuarios/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -266,8 +266,8 @@ function mostrarError(selector, mensajeError) {
 /* -----------------------------------------------------------------------------
    PETICIÓN API / SPRING BOOT
 ----------------------------------------------------------------------------- */
-const API_URL = 'http://localhost:8080/api/usuarios';
-const API_CARRITO_URL = 'http://localhost:8080/api/carrito';
+const API_URL = 'http://44.202.55.123:8080/api/usuarios';
+const API_CARRITO_URL = 'http://44.202.55.123:8080/api/carrito';
 
 async function enviarDatos() {
     try {
@@ -281,7 +281,7 @@ async function enviarDatos() {
             contrasena: usuarioValidado.mContraseña
         };
 
-        const response = await fetch('http://localhost:8080/api/usuarios', {
+        const response = await fetch('http://44.202.55.123:8080/api/usuarios', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(nuevoUsuario)
@@ -335,7 +335,7 @@ async function crearCarritoParaUsuario(idUsuario) {
 /* -----------------------------------------------------------------------------
    PETICIÓN API / JSON-SERVER
 ----------------------------------------------------------------------------- */
-//const API_URL = 'http://localhost:3000/usuarios';
+//const API_URL = 'http://44.202.55.123:8080/usuarios';
 //
 //async function enviarDatos() {
 //	console.log("enviarDatos() ejecutado");

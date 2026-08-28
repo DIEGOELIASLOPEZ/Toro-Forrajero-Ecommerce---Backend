@@ -9,7 +9,7 @@
  *   DELETE /api/detalle-carrito/{idCarrito}/producto/{idProducto}             (quita el producto por completo)
  *   DELETE /api/detalle-carrito/{idCarrito}/vaciar                           (vacía todo el carrito)
  */
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'http://44.202.55.123:8080/api';
 
 const ENDPOINTS_CARRITO = {
     obtenerDetalles: (idCarrito) =>

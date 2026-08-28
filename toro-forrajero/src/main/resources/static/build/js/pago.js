@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Obtener el carrito del usuario
-        const respuestaCarrito = await fetch(`http://localhost:8080/api/carrito/usuario/${usuarioActivo.idUsuario}`);
+        const respuestaCarrito = await fetch(`http://44.202.55.123:8080/api/carrito/usuario/${usuarioActivo.idUsuario}`);
         if (!respuestaCarrito.ok) throw new Error("No se pudo obtener el carrito del usuario");
 
         const carritoData = await respuestaCarrito.json();
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         // Consultar los detalles del carrito
-        const respuestaDetalles = await fetch(`http://localhost:8080/api/detalle-carrito/${idCarrito}/detalles`);
+        const respuestaDetalles = await fetch(`http://44.202.55.123:8080/api/detalle-carrito/${idCarrito}/detalles`);
         if (!respuestaDetalles.ok) throw new Error("No se pudieron obtener los detalles del carrito");
 
         const itemsDetalle = await respuestaDetalles.json();
@@ -291,7 +291,7 @@ let direccionConfirmada = false;
 
 async function guardarDireccionEnBackend(idUsuario, datosDireccion) {
     try {
-        const respuesta = await fetch(`http://localhost:8080/api/direcciones/${idUsuario}`, {
+        const respuesta = await fetch(`http://44.202.55.123:8080/api/direcciones/${idUsuario}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosDireccion)
@@ -413,7 +413,7 @@ if (formularioPago) {
             };
 
             try {
-                const respuestaTarjeta = await fetch(`http://localhost:8080/api/metodos-pago/usuario/${usuarioActivo.idUsuario}`, {
+                const respuestaTarjeta = await fetch(`http://44.202.55.123:8080/api/metodos-pago/usuario/${usuarioActivo.idUsuario}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datosMetodoPago)
@@ -442,7 +442,7 @@ if (formularioPago) {
 * Guarda una copia del precio unitario
 */
 async function ejecutarCheckout(usuarioId, idMetodoPago) {
-    const respuestaCheckout = await fetch(`http://localhost:8080/api/pedidos/checkout/${usuarioId}?idMetodoPago=${idMetodoPago}`, {
+    const respuestaCheckout = await fetch(`http://44.202.55.123:8080/api/pedidos/checkout/${usuarioId}?idMetodoPago=${idMetodoPago}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
     });
@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 // Cargar y mostrar direcciones guardadas
 async function cargarDireccionesGuardadas(idUsuario) {
     try {
-        const respuesta = await fetch(`http://localhost:8080/api/direcciones/${idUsuario}`);
+        const respuesta = await fetch(`http://44.202.55.123:8080/api/direcciones/${idUsuario}`);
         if (!respuesta.ok) return;
 
         const direcciones = await respuesta.json();
@@ -544,7 +544,7 @@ document.head.appendChild(estiloDinamico);
 
 async function cargarTarjetasGuardadas(idUsuario) {
     try {
-        const respuesta = await fetch(`http://localhost:8080/api/metodos-pago/usuario/${idUsuario}`);
+        const respuesta = await fetch(`http://44.202.55.123:8080/api/metodos-pago/usuario/${idUsuario}`);
         if (!respuesta.ok) return;
 
         const tarjetas = await respuesta.json();

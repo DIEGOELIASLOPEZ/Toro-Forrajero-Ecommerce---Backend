@@ -86,4 +86,33 @@ public class ProductosService implements IProductosService {
     public List<Productos> buscarPorMarcaYEspecie(String marca, String especie) {
         return productosRepository.findByMarcaIgnoreCaseAndEspecieIgnoreCase(marca, especie);
     }
+
+//    @Override
+//    public List<Productos> obtenerDestacados2() {
+//        List<Productos> todos = productosRepository.findAll();
+//
+//        System.out.println("====== INICIO DIAGNÓSTICO DESTACADOS ======");
+//        for (Productos p : todos) {
+//            Object valDestacado = p.isDestacado(); // O p.getDestacado() según tu entidad
+//            Object valVisibilidad = p.isVisibilidad(); // O p.getVisibilidad()
+//
+//            System.out.println("Producto ID: " + p.getIdProducto() + " | Nombre: " + p.getNombre());
+//
+//            System.out.println("  -> Valor Destacado: " + valDestacado
+//                    + " | Tipo Java: " + (valDestacado != null ? valDestacado.getClass().getName() : "null"));
+//
+//            System.out.println("  -> Valor Visibilidad: " + valVisibilidad
+//                    + " | Tipo Java: " + (valVisibilidad != null ? valVisibilidad.getClass().getName() : "null"));
+//            System.out.println("---------------------------------------------");
+//        }
+//        System.out.println("====== FIN DIAGNÓSTICO DESTACADOS ======");
+//
+//        // Retornamos todos los productos de momento para no bloquear la prueba
+//        return todos;
+//    }
+
+    @Override
+    public List<Productos> obtenerDestacados() {
+        return productosRepository.obtenerDestacados();
+    }
 }

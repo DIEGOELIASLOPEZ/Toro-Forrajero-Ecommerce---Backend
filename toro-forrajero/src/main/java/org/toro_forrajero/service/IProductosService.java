@@ -23,4 +23,6 @@ public interface IProductosService {
 
     List<Productos> buscarPorMarcaYEspecie(String marca, String especie);
 
+    List<Productos> obtenerDestacados();
+
 }

@@ -45,6 +45,56 @@ const botonesMarca = [
     { id: 'arandas', marca: 'Alimentos Arandas' }
 ];
 
+// --- FUNCION MODAL ESTILO ADMINHOME PARA MENSAJES ---
+function mostrarModalMensaje(mensaje, imagenUrl = null, recargarAlCerrar = false) {
+    const modal = document.createElement('DIV');
+    modal.classList.add('modal-overlay');
+
+    const contenidoModal = document.createElement('DIV');
+    contenidoModal.classList.add('contenido-modal');
+
+    let contenidoHTML = `
+        <h3 class="text-center mb-3">${mensaje}</h3>
+    `;
+
+    if (imagenUrl) {
+        contenidoHTML += `
+            <img class="admin-img-menu" src="${imagenUrl}" alt="imagen del producto" style="max-width:100px; display:block; margin: 10px auto; border-radius: 8px;">
+        `;
+    }
+
+    contenidoHTML += `
+        <div class="d-flex admin-btns justify-content-center mt-4">
+            <button type="button" class="btn-confirmar" style="width: 100%;">Aceptar</button>
+        </div>
+    `;
+
+    contenidoModal.innerHTML = contenidoHTML;
+    modal.appendChild(contenidoModal);
+
+    const cerrarModal = () => {
+        modal.classList.remove('is-visible');
+        document.body.classList.remove('overflow-hidden');
+        setTimeout(() => {
+            modal.remove();
+            if (recargarAlCerrar) {
+                window.location.reload();
+            }
+        }, 300);
+    };
+
+    modal.addEventListener('click', function (evento) {
+        if (evento.target === modal) cerrarModal();
+    });
+
+    contenidoModal.querySelector('.btn-confirmar').addEventListener('click', cerrarModal);
+
+    document.body.classList.add('overflow-hidden');
+    document.body.appendChild(modal);
+
+    setTimeout(() => { modal.classList.add('is-visible'); }, 10);
+}
+
 // --- 1. CARGA INICIAL Y API (SE ADAPTA SEGÚN LA VISTA) ---
 async function cargarProductos() {
     try {
@@ -135,7 +185,9 @@ function renderizarHTML(items, idContenedor = 'catalogo-productos') {
                     <button
                         type="button"
                         class="boton-carrito"
-                        data-id="${producto.id || producto.idProducto}">
+                        data-id="${producto.id || producto.idProducto}"
+                        data-nombre="${producto.nombre}"
+                        data-imagen="${producto.imagen || 'img/default.jpg'}">
                         Agregar al carrito
                     </button>
                 </div>
@@ -192,12 +244,17 @@ document.addEventListener('click', async function (e) {
     if (e.target.classList.contains('boton-carrito')) {
 
         const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
-                           || JSON.parse(sessionStorage.getItem('usuarioActivo'));
+            || JSON.parse(sessionStorage.getItem('usuarioActivo'));
+
+        const nombreProducto = e.target.getAttribute('data-nombre') || 'Producto';
+        const imagenProducto = e.target.getAttribute('data-imagen') || 'img/default.jpg';
 
         if (!usuarioActivo) {
             sessionStorage.setItem('redirectAfterLogin', window.location.pathname);
-            alert('Debes iniciar sesión para agregar productos al carrito.');
-            window.location.href = 'inicioSesion.html';
+            mostrarModalMensaje('Debes iniciar sesión para agregar productos al carrito.', null, false);
+            setTimeout(() => {
+                window.location.href = 'inicioSesion.html';
+            }, 1200);
             return;
         }
 
@@ -206,7 +263,7 @@ document.addEventListener('click', async function (e) {
 
         if (!idProducto || idProducto === 'undefined') {
             console.error("No se pudo obtener el ID del producto.");
-            alert("Error al identificar el producto.");
+            mostrarModalMensaje("Error al identificar el producto.");
             return;
         }
 
@@ -225,13 +282,17 @@ document.addEventListener('click', async function (e) {
             let contador = parseInt(localStorage.getItem('contadorCarrito')) || 0;
             contador++;
             localStorage.setItem('contadorCarrito', contador);
-            actualizarBadgeNavegacion(contador);
 
-            alert(`¡Producto agregado exitosamente al carrito!`);
+            // Muestra el modal con la imagen y recarga al hacer clic en Aceptar
+            mostrarModalMensaje(
+                `¡<span class="fw-bold">${nombreProducto}</span> se agregó exitosamente al carrito!`,
+                imagenProducto,
+                true
+            );
 
         } catch (error) {
             console.error("No se pudo agregar al carrito:", error);
-            alert("Ocurrió un error al intentar agregar el producto.");
+            mostrarModalMensaje("Ocurrió un error al intentar agregar el producto.");
         }
     }
 });

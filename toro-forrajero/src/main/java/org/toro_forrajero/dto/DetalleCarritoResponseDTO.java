@@ -17,4 +17,5 @@ public class DetalleCarritoResponseDTO {
     private BigDecimal precioUnitario; // O el tipo de dato que uses en tu entidad Productos
     private Integer cantidad;
     private BigDecimal subtotal; // Cantidad * Precio
+    private String imagen;
 }

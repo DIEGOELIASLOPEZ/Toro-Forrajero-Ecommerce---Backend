@@ -45,9 +45,20 @@ const ENDPOINTS_CARRITO = {
  * json-server. No hay que tocar nada más de la lógica del carrito: todas
  * las funciones de aquí ya usan usuarioActivo.id tal cual se los pasen.
  */
+
+
 function obtenerUsuarioActivo() {
     return JSON.parse(localStorage.getItem('usuarioActivo'))
         || JSON.parse(sessionStorage.getItem('usuarioActivo'));
+}
+
+function obtenerIdCarritoActivo() {
+    const usuario = obtenerUsuarioActivo();
+    if (!usuario) return null;
+
+    // Busca idCarrito, si no existe usa idUsuario, y como última opción id
+    const id = usuario.idCarrito || usuario.idUsuario || usuario.id;
+    return (id && id !== "undefined") ? id : null;
 }
 
 /**
@@ -62,12 +73,12 @@ async function actualizarBadgeNavegacion(forzarContador = null) {
     let contador = forzarContador;
 
     if (contador === null) {
-        const usuarioActivo = obtenerUsuarioActivo();
-        if (!usuarioActivo) {
+        const idCarrito = obtenerIdCarritoActivo(); // <-- CAMBIO AQUÍ
+        if (!idCarrito) {
             contador = 0;
         } else {
             try {
-                const respuesta = await fetch(ENDPOINTS_CARRITO.obtenerDetalles(usuarioActivo.id));
+                const respuesta = await fetch(ENDPOINTS_CARRITO.obtenerDetalles(idCarrito));
                 if (!respuesta.ok) throw new Error(`Error ${respuesta.status}`);
                 const detalles = await respuesta.json();
                 contador = detalles.reduce((total, d) => total + (d.cantidad || 0), 0);
@@ -133,7 +144,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const idCarrito = usuarioActivo.id;
+    const idCarrito = obtenerIdCarritoActivo(); // <-- Reemplaza 'const idCarrito = usuarioActivo.id;'
+    if (!idCarrito) {
+        mostrarCarritoVacio();
+        return;
+    }
+
     let carritoProductos = []; // [{ idProducto, nombreProducto, descripcion, precio, imagen, cantidad }]
 
     cargarCarrito();

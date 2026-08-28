@@ -5,12 +5,10 @@
  * idCarrito == idUsuario (confirmado). El backend expone:
  *   GET    /api/detalle-carrito/{idCarrito}/detalles
  *   POST   /api/detalle-carrito/{idCarrito}/producto/{idProducto}?cantidad=N  (suma N a la cantidad)
+ *   PUT    /api/detalle-carrito/{idCarrito}/producto/{idProducto}?cantidad=N  (actualiza la cantidad)
  *   DELETE /api/detalle-carrito/{idCarrito}/producto/{idProducto}             (quita el producto por completo)
  *   DELETE /api/detalle-carrito/{idCarrito}/vaciar                           (vacía todo el carrito)
- *
- * NOTA: /**
-          * Actualiza la cantidad del producto usando el endpoint PUT del backend.
-          */
+ */
 const API_BASE_URL = 'http://localhost:8080/api';
 
 const ENDPOINTS_CARRITO = {
@@ -32,21 +30,7 @@ const ENDPOINTS_CARRITO = {
 
 /**
  * Devuelve el usuario logueado actual.
- *
- * NOTA IMPORTANTE PARA CUANDO MIGRES EL LOGIN AL BACKEND REAL:
- * Hoy 'usuarioActivo' viene del login simulado con json-server (db.json),
- * donde el id es un STRING (ej. "1"). El backend real (UsuarioController /
- * api/usuarios) espera un Long numérico como idUsuario, y este mismo id se
- * usa como idCarrito en todas las llamadas a /api/detalle-carrito/{idCarrito}/...
- *
- * Cuando cambies el login para que autentique contra el backend real, el
- * ÚNICO ajuste que necesita este archivo es que usuarioActivo.id sea ese
- * id numérico real (Long) devuelto por /api/usuarios, en vez del id del
- * json-server. No hay que tocar nada más de la lógica del carrito: todas
- * las funciones de aquí ya usan usuarioActivo.id tal cual se los pasen.
  */
-
-
 function obtenerUsuarioActivo() {
     return JSON.parse(localStorage.getItem('usuarioActivo'))
         || JSON.parse(sessionStorage.getItem('usuarioActivo'));
@@ -73,7 +57,7 @@ async function actualizarBadgeNavegacion(forzarContador = null) {
     let contador = forzarContador;
 
     if (contador === null) {
-        const idCarrito = obtenerIdCarritoActivo(); // <-- CAMBIO AQUÍ
+        const idCarrito = obtenerIdCarritoActivo();
         if (!idCarrito) {
             contador = 0;
         } else {
@@ -91,7 +75,7 @@ async function actualizarBadgeNavegacion(forzarContador = null) {
 
     let badge = divcarrito.querySelector('.contador-carrito');
     if (!badge) {
-        badge = document.createElement('P');
+        badge = document.createElement('span');
         badge.classList.add('contador-carrito');
         divcarrito.append(badge);
     }
@@ -129,8 +113,10 @@ document.addEventListener('click', (e) => {
  * ============================================================================
  */
 document.addEventListener('DOMContentLoaded', () => {
-    // Se actualiza el badge en cualquier página que tenga el ícono del carrito
-    actualizarBadgeNavegacion();
+    // Se da un pequeño respiro de 150ms para asegurar sincronización inicial y evitar desfases
+    setTimeout(() => {
+        actualizarBadgeNavegacion();
+    }, 150);
 
     const contenedor = document.getElementById('contenedor-productos-carrito');
     const btnPago = document.getElementById('btn-proceder-pago');
@@ -144,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const idCarrito = obtenerIdCarritoActivo(); // <-- Reemplaza 'const idCarrito = usuarioActivo.id;'
+    const idCarrito = obtenerIdCarritoActivo();
     if (!idCarrito) {
         mostrarCarritoVacio();
         return;
@@ -179,11 +165,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * Adapta la respuesta del backend (DetalleCarritoResponseDTO) a la forma
-     * que usa el resto del script.
-     * AJUSTA esto si los nombres de campos reales de tu DTO son distintos.
-     */
     function mapearDetallesDesdeAPI(detalles) {
         return detalles.map(detalle => ({
             idProducto: detalle.idProducto ?? detalle.producto?.id ?? detalle.productoId,
@@ -310,10 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * El endpoint POST suma la cantidad indicada a la que ya existe.
-     * Para "+1" mandamos cantidad=1.
-     */
     async function sumarUnoEnAPI(idProducto) {
         try {
             const respuesta = await fetch(ENDPOINTS_CARRITO.agregarProducto(idCarrito, idProducto, 1), {
@@ -328,32 +305,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /**
-     * No existe endpoint de "restar", así que eliminamos el producto y lo
-     * volvemos a agregar con la cantidad ya reducida.
-     */
     async function restarUnoEnAPI(idProducto, cantidadNueva) {
         try {
-
             const respuesta = await fetch(
-                ENDPOINTS_CARRITO.actualizarCantidad(
-                    idCarrito,
-                    idProducto,
-                    cantidadNueva
-                ),
-                {
-                    method: 'PUT'
-                }
+                ENDPOINTS_CARRITO.actualizarCantidad(idCarrito, idProducto, cantidadNueva),
+                { method: 'PUT' }
             );
 
             if (!respuesta.ok) {
-                throw new Error(
-                    `Error al actualizar cantidad: ${respuesta.status}`
-                );
+                throw new Error(`Error al actualizar cantidad: ${respuesta.status}`);
             }
 
             return true;
-
         } catch (error) {
             console.error('Error al restar cantidad en el servidor:', error);
             alert('No se pudo actualizar la cantidad. Intenta de nuevo.');
@@ -430,6 +393,15 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
         `;
         if (btnPago) btnPago.style.display = 'none';
+    }
+});
+
+// ====================================================
+// ACTUALIZAR BADGE ANTE NAVEGACIÓN POR HISTORIAL (BACK/FORWARD)
+// ====================================================
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+        actualizarBadgeNavegacion();
     }
 });
 

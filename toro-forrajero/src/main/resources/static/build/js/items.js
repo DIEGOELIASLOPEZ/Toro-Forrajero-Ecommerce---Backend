@@ -22,8 +22,6 @@ class ItemsController {
     }
 }
 
-
-
 const itemsController = new ItemsController(0);
 
 // Base URLs para tus controllers de Java Spring Boot
@@ -46,6 +44,56 @@ const botonesMarca = [
     { id: 'nogal', marca: 'El Nogal' },
     { id: 'arandas', marca: 'Alimentos Arandas' }
 ];
+
+// --- FUNCION MODAL ESTILO ADMINHOME PARA MENSAJES ---
+function mostrarModalMensaje(mensaje, imagenUrl = null, recargarAlCerrar = false) {
+    const modal = document.createElement('DIV');
+    modal.classList.add('modal-overlay');
+
+    const contenidoModal = document.createElement('DIV');
+    contenidoModal.classList.add('contenido-modal');
+
+    let contenidoHTML = `
+        <h3 class="text-center mb-3">${mensaje}</h3>
+    `;
+
+    if (imagenUrl) {
+        contenidoHTML += `
+            <img class="admin-img-menu" src="${imagenUrl}" alt="imagen del producto" style="max-width:100px; display:block; margin: 10px auto; border-radius: 8px;">
+        `;
+    }
+
+    contenidoHTML += `
+        <div class="d-flex admin-btns justify-content-center mt-4">
+            <button type="button" class="btn-confirmar" style="width: 100%;">Aceptar</button>
+        </div>
+    `;
+
+    contenidoModal.innerHTML = contenidoHTML;
+    modal.appendChild(contenidoModal);
+
+    const cerrarModal = () => {
+        modal.classList.remove('is-visible');
+        document.body.classList.remove('overflow-hidden');
+        setTimeout(() => {
+            modal.remove();
+            if (recargarAlCerrar) {
+                window.location.reload();
+            }
+        }, 300);
+    };
+
+    modal.addEventListener('click', function (evento) {
+        if (evento.target === modal) cerrarModal();
+    });
+
+    contenidoModal.querySelector('.btn-confirmar').addEventListener('click', cerrarModal);
+
+    document.body.classList.add('overflow-hidden');
+    document.body.appendChild(modal);
+
+    setTimeout(() => { modal.classList.add('is-visible'); }, 10);
+}
 
 // --- 1. CARGA INICIAL Y API ---
 async function cargarProductos() {
@@ -84,7 +132,6 @@ async function cargarProductos() {
 // --- 2. RENDERIZADO Y FILTROS ---
 function aplicarFiltros() {
     const productosFiltrados = itemsController.items.filter(producto => {
-        // FILTRO DE DESTACADOS: solo pasa si es destacado
         const esDestacado = producto.destacado === true || producto.destacado === 1;
 
         const cumpleMarca = marcaSeleccionada
@@ -110,7 +157,6 @@ function renderizarHTML(items) {
         return;
     }
 
-    // CORRECCIÓN 1: Se usa producto.id (propiedad de la instancia de ItemsController) o producto.idProducto como fallback
     catalogo.innerHTML = items.map(producto => `
         <article class="tarjeta-producto">
             <img src="${producto.imagen || 'img/default.jpg'}" alt="${producto.nombre}">
@@ -124,7 +170,9 @@ function renderizarHTML(items) {
                     <button
                         type="button"
                         class="boton-carrito"
-                        data-id="${producto.id || producto.idProducto}">
+                        data-id="${producto.id || producto.idProducto}"
+                        data-nombre="${producto.nombre}"
+                        data-imagen="${producto.imagen || 'img/default.jpg'}">
                         Agregar al carrito
                     </button>
                 </div>
@@ -179,30 +227,31 @@ function inicializarEventosFiltros() {
 // --- 4. MOTOR DEL CARRITO (PERSISTENCIA VÍA BACKEND SPRING BOOT) ---
 document.addEventListener('click', async function (e) {
     if (e.target.classList.contains('boton-carrito')) {
-
-        // 1. Validar primero que exista el usuario activo en sesión
         const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
-                           || JSON.parse(sessionStorage.getItem('usuarioActivo'));
+            || JSON.parse(sessionStorage.getItem('usuarioActivo'));
+
+        const nombreProducto = e.target.getAttribute('data-nombre') || 'Producto';
+        const imagenProducto = e.target.getAttribute('data-imagen') || 'img/default.jpg';
 
         if (!usuarioActivo) {
             sessionStorage.setItem('redirectAfterLogin', 'productos.html');
-            alert('Debes iniciar sesión para agregar productos al carrito.');
-            window.location.href = 'inicioSesion.html';
+            mostrarModalMensaje('Debes iniciar sesión para agregar productos al carrito.', null, false);
+            setTimeout(() => {
+                window.location.href = 'inicioSesion.html';
+            }, 1200);
             return;
         }
 
-        // CORRECCIÓN 2: El idCarrito principal corresponde al ID del usuario asignado en sesión
         const idCarrito = usuarioActivo.idCarrito || usuarioActivo.idUsuario || usuarioActivo.id;
         const idProducto = e.target.getAttribute('data-id');
 
         if (!idProducto || idProducto === 'undefined') {
             console.error("No se pudo obtener el ID del producto.");
-            alert("Error al identificar el producto.");
+            mostrarModalMensaje("Error al identificar el producto.");
             return;
         }
 
         try {
-            // 3. Petición POST a DetalleCarritoController
             const res = await fetch(`${API_DETALLE_CARRITO_URL}/${idCarrito}/producto/${idProducto}?cantidad=1`, {
                 method: 'POST',
                 headers: {
@@ -212,19 +261,20 @@ document.addEventListener('click', async function (e) {
 
             if (!res.ok) throw new Error("Error al añadir el producto.");
 
-            const detalle = await res.json();
-
-            // Incrementar contador en el badge de navegación
             let contador = parseInt(localStorage.getItem('contadorCarrito')) || 0;
             contador++;
             localStorage.setItem('contadorCarrito', contador);
-            actualizarBadgeNavegacion(contador);
 
-            alert(`¡Producto agregado exitosamente al carrito!`);
+            // Mostrar modal estilo adminHome y recargar al aceptar para actualizar contador
+            mostrarModalMensaje(
+                `¡<span class="fw-bold">${nombreProducto}</span> se agregó exitosamente al carrito!`,
+                imagenProducto,
+                true
+            );
 
         } catch (error) {
             console.error("No se pudo agregar al carrito:", error);
-            alert("Ocurrió un error al intentar agregar el producto.");
+            mostrarModalMensaje("Ocurrió un error al intentar agregar el producto.");
         }
     }
 });

@@ -267,9 +267,9 @@ function mostrarError(selector, mensajeError) {
    PETICIÓN API / SPRING BOOT
 ----------------------------------------------------------------------------- */
 const API_URL = 'http://localhost:8080/api/usuarios';
+const API_CARRITO_URL = 'http://localhost:8080/api/carrito';
 
 async function enviarDatos() {
-    console.log("enviarDatos() ejecutado");
     try {
         const nuevoUsuario = {
             nombre: usuarioValidado.mNombre,
@@ -281,28 +281,56 @@ async function enviarDatos() {
             contrasena: usuarioValidado.mContraseña
         };
 
-        console.log("Usuario que se enviará a Spring Boot:", nuevoUsuario);
-
-        const response = await fetch(API_URL, {
+        const response = await fetch('http://localhost:8080/api/usuarios', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(nuevoUsuario)
         });
 
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        const resultado = await response.json();
-        console.log("Usuario registrado exitosamente:", resultado);
-        return resultado;
+        if (!response.ok) throw new Error("Error en el registro");
 
+        const usuarioCreado = await response.json();
+
+        // Ahora usuarioCreado trae la propiedad idCarrito asignada desde el backend
+        localStorage.setItem('usuarioActivo', JSON.stringify(usuarioCreado));
+        sessionStorage.setItem('registroExitoso', 'true');
+
+        return usuarioCreado;
     } catch (error) {
-        console.error("Fallo al registrar el usuario:", error);
+        console.error("Fallo al registrar usuario:", error);
         throw error;
     }
 }
+
+/**
+ * Función auxiliar para inicializar el carrito en la base de datos
+ */
+async function crearCarritoParaUsuario(idUsuario) {
+    try {
+        const responseCarrito = await fetch(API_CARRITO_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                usuario: { idUsuario: idUsuario } // Mapea hacia la entidad Carrito en Java
+            })
+        });
+
+        if (!responseCarrito.ok) {
+            throw new Error(`Error al inicializar el carrito: ${responseCarrito.status}`);
+        }
+
+        const carritoCreado = await responseCarrito.json();
+        console.log("Carrito asignado con éxito:", carritoCreado);
+
+        // Retorna la llave primaria del carrito asignado (o el idUsuario si es 1:1)
+        return carritoCreado.idCarrito || carritoCreado.id || idUsuario;
+
+    } catch (error) {
+        console.warn("No se pudo instanciar el carrito en el servidor, usando fallback:", error);
+        return idUsuario; // Retorna idUsuario por defecto si falla el endpoint secundario
+    }
+}
+
 
 /* -----------------------------------------------------------------------------
    PETICIÓN API / JSON-SERVER

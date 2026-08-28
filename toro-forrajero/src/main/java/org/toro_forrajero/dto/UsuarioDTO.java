@@ -21,6 +21,7 @@ public class UsuarioDTO {
     @Data
     public static class UsuarioResponse{
         private Long idUsuario;
+        private Long idCarrito;
         private String nombre;
         private String apellido;
         private String telefono;

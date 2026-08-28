@@ -86,4 +86,13 @@ public class ProductosService implements IProductosService {
     public List<Productos> buscarPorMarcaYEspecie(String marca, String especie) {
         return productosRepository.findByMarcaIgnoreCaseAndEspecieIgnoreCase(marca, especie);
     }
+
+    @Override
+    public List<Productos> obtenerDestacados() {
+        List<Productos> todos = productosRepository.findAll();
+
+        return todos.stream()
+                .filter(p -> Boolean.TRUE.equals(p.getDestacado()) && Boolean.TRUE.equals(p.getVisibilidad()))
+                .toList();
+    }
 }

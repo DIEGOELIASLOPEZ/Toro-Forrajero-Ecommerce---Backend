@@ -20,4 +20,6 @@ public interface ProductosRepository extends JpaRepository<Productos, Long>{
             String marca,
             String especie
     );
+
+    List<Productos> findByDestacadoTrueAndVisibilidadTrue();
 }

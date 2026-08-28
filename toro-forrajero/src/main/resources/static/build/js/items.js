@@ -1,3 +1,29 @@
+class ItemsController {
+    constructor(currentId = 0) {
+        this.items = [];
+    }
+
+    addItem(idProducto, nombre, descripcion, destacado, especie, costo, precioVenta, marca, imagen, visibilidad, stock) {
+        const item = {
+            idProducto: idProducto,
+            nombre: nombre,
+            descripcion: descripcion,
+            destacado: destacado,
+            especie: especie,
+            costo: costo,
+            precioVenta: precioVenta,
+            marca: marca,
+            imagen: imagen,
+            visibilidad: visibilidad,
+            stock: stock
+        };
+
+        this.items.push(item);
+    }
+}
+
+
+
 const itemsController = new ItemsController(0);
 
 // Base URLs para tus controllers de Java Spring Boot
@@ -30,20 +56,19 @@ async function cargarProductos() {
 
         itemsController.items = [];
 
-        // En Java se maneja la propiedad booleana 'visibilidad'
         const productosActivos = productos.filter(producto => producto.visibilidad === true);
 
         productosActivos.forEach(producto => {
             itemsController.addItem(
-                producto.idProducto,                  // Mapped from Java Model
-                producto.nombre,                      // Mapped from Java Model
+                producto.idProducto,
+                producto.nombre,
                 producto.descripcion,
                 producto.destacado,
                 producto.especie,
                 producto.peso || '',
-                producto.precioVenta,                 // Mapped from Java Model
+                producto.precioVenta,
                 producto.marca,
-                producto.imagen || 'img/default.jpg', // Fallback si no viene campo imagen en BD
+                producto.imagen || 'img/default.jpg',
                 producto.visibilidad
             );
         });
@@ -82,7 +107,7 @@ function renderizarHTML(items) {
         return;
     }
 
-    // Se asigna data-id con el idProducto obtenido de Spring Boot
+    // CORRECCIÓN 1: Se usa producto.id (propiedad de la instancia de ItemsController) o producto.idProducto como fallback
     catalogo.innerHTML = items.map(producto => `
         <article class="tarjeta-producto">
             <img src="${producto.imagen || 'img/default.jpg'}" alt="${producto.nombre}">
@@ -96,7 +121,7 @@ function renderizarHTML(items) {
                     <button
                         type="button"
                         class="boton-carrito"
-                        data-id="${producto.idProducto}">
+                        data-id="${producto.id || producto.idProducto}">
                         Agregar al carrito
                     </button>
                 </div>
@@ -152,49 +177,51 @@ function inicializarEventosFiltros() {
 document.addEventListener('click', async function (e) {
     if (e.target.classList.contains('boton-carrito')) {
 
-        // 1. Obtener datos del usuario activo en la sesión
+        // 1. Validar primero que exista el usuario activo en sesión
         const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
                            || JSON.parse(sessionStorage.getItem('usuarioActivo'));
 
-        // Se extrae el ID del carrito del usuario activo
-        const idCarrito = usuarioActivo?.idCarrito || usuarioActivo?.id_usuario || usuarioActivo?.id;
-
-        if (!usuarioActivo || !idCarrito) {
+        if (!usuarioActivo) {
             sessionStorage.setItem('redirectAfterLogin', 'productos.html');
             alert('Debes iniciar sesión para agregar productos al carrito.');
             window.location.href = 'inicioSesion.html';
             return;
         }
 
-        const btn = e.target;
-        const idProducto = btn.getAttribute('data-id');
+        // CORRECCIÓN 2: El idCarrito principal corresponde al ID del usuario asignado en sesión
+        const idCarrito = usuarioActivo.idCarrito || usuarioActivo.idUsuario || usuarioActivo.id;
+        const idProducto = e.target.getAttribute('data-id');
+
+        if (!idProducto || idProducto === 'undefined') {
+            console.error("No se pudo obtener el ID del producto.");
+            alert("Error al identificar el producto.");
+            return;
+        }
 
         try {
-            // 2. Consumir endpoint: @PostMapping("/{idCarrito}/producto/{idProducto}")
-            const response = await fetch(`${API_DETALLE_CARRITO_URL}/${idCarrito}/producto/${idProducto}?cantidad=1`, {
+            // 3. Petición POST a DetalleCarritoController
+            const res = await fetch(`${API_DETALLE_CARRITO_URL}/${idCarrito}/producto/${idProducto}?cantidad=1`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 }
             });
 
-            if (!response.ok) {
-                throw new Error("Error al procesar la inserción en el carrito");
-            }
+            if (!res.ok) throw new Error("Error al añadir el producto.");
 
-            const detalleRespuesta = await response.json(); // Retorna DetalleCarritoResponseDTO
+            const detalle = await res.json();
 
-            // 3. Actualizar contador visual de la interfaz
+            // Incrementar contador en el badge de navegación
             let contador = parseInt(localStorage.getItem('contadorCarrito')) || 0;
             contador++;
             localStorage.setItem('contadorCarrito', contador);
             actualizarBadgeNavegacion(contador);
 
-            alert(`¡Se agregó "${detalleRespuesta.nombreProducto}" al carrito!`);
+            alert(`¡Producto agregado exitosamente al carrito!`);
 
         } catch (error) {
-            console.error("Error al comunicarse con la API de carrito:", error);
-            alert("No se pudo agregar el producto al carrito. Inténtalo de nuevo.");
+            console.error("No se pudo agregar al carrito:", error);
+            alert("Ocurrió un error al intentar agregar el producto.");
         }
     }
 });

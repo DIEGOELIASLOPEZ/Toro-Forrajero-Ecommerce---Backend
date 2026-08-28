@@ -63,5 +63,11 @@ public class ProductosController {
 
         return productosService.listarTodos();
     }
+
+
+    @GetMapping("/destacados")
+    public List<Productos> obtenerDestacados() {
+        return productosService.obtenerDestacados();
+    }
 }
 

@@ -1,0 +1,29 @@
+/*******************************************************************************
+ * Generales y Estilos de Base
+ ******************************************************************************/
+
+/* Importamos los archivos de la MISMA carpeta 'base' usando ./ */
+@import './variables.css';
+@import './typography.css';
+
+/* NO borres este bloque para mantener el Footer pegado abajo */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-fondo, #fffbe8);
+    font-family: var(--fuente-cuerpo);
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+}
+
+/* -----------------------------------------------------------------------------
+    SECCION: DEBUGGEO
+----------------------------------------------------------------------------- */
+
+/*
+* {
+    outline: 2px solid red !important;
+}
+*/

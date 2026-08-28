@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/productos")
-@CrossOrigin(origins = "*")
+@RequestMapping("api/productos")
+
 public class ProductosController {
 
     private final IProductosService productosService;
 
-    public ProductosController(IProductosService productosService){
+    //Constructor
+    public ProductosController(ProductosService productosService){
         this.productosService = productosService;
     }
+
     @GetMapping
     public List<Productos> listarTodos(){
         return productosService.listarTodos();
@@ -60,6 +62,12 @@ public class ProductosController {
         System.out.println(">>> LLEGARON PARAMETROS -> Marca: " + marca + ", Especie: " + especie);
 
         return productosService.listarTodos();
+    }
+
+
+    @GetMapping("/destacados")
+    public List<Productos> obtenerDestacados() {
+        return productosService.obtenerDestacados();
     }
 }
 

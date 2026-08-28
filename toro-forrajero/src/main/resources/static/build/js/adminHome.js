@@ -1,7 +1,7 @@
-import { cargarProducto } from './adminEditar.js';
+
 
 const itemsController = new ItemsController(0);
-const API_URL = 'http://localhost:3000/productos';
+const API_URL = 'http://localhost:8080/api/productos';
 
 // Mapeo de especies para los botones del filtro
 const mapaEspecies = {
@@ -21,24 +21,9 @@ let visibilidadSeleccionada = null;
 // ====================================================
 document.addEventListener('DOMContentLoaded', function () {
     cargarProductos();
-    gestionarNavegacionAdmin();
     inicializarEventosFiltros();
     inicializarTextoFiltros();
 });
-
-// Helper para verificar rol en la renderización de la UI
-function esAdmin() {
-    const usuarioSesion = JSON.parse(localStorage.getItem('usuarioActivo')) 
-                       || JSON.parse(sessionStorage.getItem('usuarioActivo'));
-    return usuarioSesion && usuarioSesion.rol === 'admin';
-}
-
-function gestionarNavegacionAdmin() {
-    const enlaceNuevoProducto = document.querySelector('a[href="adminCrear.html"]');
-    if (enlaceNuevoProducto && !esAdmin()) {
-        enlaceNuevoProducto.parentElement.style.display = 'none';
-    }
-}
 
 // ====================================================
 // CARGA Y FILTRADO DE PRODUCTOS
@@ -53,17 +38,17 @@ async function cargarProductos() {
 
         productos.forEach(producto => {
             itemsController.addItem(
-                producto.id,
-                producto.nombreProducto,
+                producto.idProducto,
+                producto.nombre,
                 producto.descripcion,
                 producto.destacado,
                 producto.especie,
                 producto.costo,
-                producto.precio,
+                producto.precioVenta,
                 producto.marca,
                 producto.imagen,
-                producto.estado,
-                producto.existencia
+                producto.visibilidad,
+                producto.stock
             );
         });
 
@@ -77,18 +62,18 @@ async function cargarProductos() {
 function aplicarFiltros() {
     const productosFiltrados = itemsController.items.filter(producto => {
         // Filtro Especie
-        const cumpleEspecie = especieSeleccionada 
-            ? String(producto.especie).toLowerCase() === String(especieSeleccionada).toLowerCase() 
+        const cumpleEspecie = especieSeleccionada
+            ? String(producto.especie).toLowerCase() === String(especieSeleccionada).toLowerCase()
             : true;
 
         // Filtro Marca
-        const cumpleMarca = marcaSeleccionada 
-            ? String(producto.marca).toLowerCase() === String(marcaSeleccionada).toLowerCase() 
+        const cumpleMarca = marcaSeleccionada
+            ? String(producto.marca).toLowerCase() === String(marcaSeleccionada).toLowerCase()
             : true;
 
         // Filtro Visibilidad (Estado: Activo/Inactivo)
-        const cumpleVisibilidad = visibilidadSeleccionada 
-            ? String(producto.estado).toLowerCase() === String(visibilidadSeleccionada).toLowerCase() 
+        const cumpleVisibilidad = visibilidadSeleccionada
+            ? String(producto.estado).toLowerCase() === String(visibilidadSeleccionada).toLowerCase()
             : true;
 
         return cumpleEspecie && cumpleMarca && cumpleVisibilidad;
@@ -96,17 +81,13 @@ function aplicarFiltros() {
 
     renderizarHTML(productosFiltrados);
     estiloVisibilidad();
-
-    if (esAdmin()) {
-        eliminarProductoMenu();
-    }
+    eliminarProductoMenu();
 }
 
 // ====================================================
 // LÓGICA DE FILTROS (ESPECIE, MARCA, VISIBILIDAD)
 // ====================================================
 function inicializarEventosFiltros() {
-    // 1. Filtro de Especies
     const botonesEspecie = document.querySelectorAll(".filtro-especies .especie");
     botonesEspecie.forEach(boton => {
         boton.addEventListener("click", () => {
@@ -125,7 +106,6 @@ function inicializarEventosFiltros() {
         });
     });
 
-    // 2. Filtro de Marcas
     const opcionesMarca = document.querySelectorAll(".filtro-marca");
     opcionesMarca.forEach(item => {
         item.addEventListener("click", (e) => {
@@ -144,7 +124,6 @@ function inicializarEventosFiltros() {
         });
     });
 
-    // 3. Filtro de Visibilidad
     const opcionesVisibilidad = document.querySelectorAll(".filtro-visibilidad");
     opcionesVisibilidad.forEach(item => {
         item.addEventListener("click", (e) => {
@@ -210,15 +189,13 @@ function renderizarHTML(items) {
         return;
     }
 
-    const esUserAdmin = esAdmin();
-
     catalogo.innerHTML = items.map(producto => `
         <article class="tarjeta-producto">
             <img src="${producto.imagen}" alt="${producto.nombreProducto}">
 
             <div class="contenido-producto">
                 <h2 class="text-center">${producto.nombreProducto}</h2>
-                <p class="admin-home-descripcion">${producto.descripcion}</p>
+                <p class="admin-home-descripcion" style="min-height: 4.5rem; max-height: 4.5rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow-wrap: break-word; word-break: break-word; margin-bottom: 1rem;">${producto.descripcion}</p>
                 
                 <hr>
                 <div class="grid-productos">
@@ -255,32 +232,28 @@ function renderizarHTML(items) {
                     </p>
                 </div>
 
-                ${esUserAdmin ? `
-                    <div class="d-flex admin-btns">
-                        <a href="adminEditar.html" type="button" class="boton-carrito editar" data-id="${producto.id}"
-                            data-producto="${producto.nombreProducto}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
-                            </svg>
-                            Editar
-                        </a>
-                        <button type="button" class="boton-eliminar" data-id="${producto.id}"
-                            data-producto="${producto.nombreProducto}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-                            </svg>
-                            Eliminar
-                        </button>
-                    </div>
-                ` : ''}
+                <div class="d-flex admin-btns">
+                    <a href="adminEditar.html" type="button" class="boton-carrito editar" data-id="${producto.id}"
+                        data-producto="${producto.nombreProducto}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+                        </svg>
+                        Editar
+                    </a>
+                    <button type="button" class="boton-eliminar" data-id="${producto.id}"
+                        data-producto="${producto.nombreProducto}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                        </svg>
+                        Eliminar
+                    </button>
+                </div>
             </div>
         </article>
     `).join('');
 
-    if (esUserAdmin) {
-        obtenerInfomacion();
-    }
+    obtenerInfomacion();
 }
 
 // ====================================================
@@ -378,9 +351,9 @@ export function obtenerInfomacion() {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
 
+            // Solo guardamos el ID en el localStorage y redirigimos
             const id = btn.dataset.id;
             localStorage.setItem('idProductoEditar', id);
-            cargarProducto(id);
             window.location.href = "adminEditar.html";
         });
     });

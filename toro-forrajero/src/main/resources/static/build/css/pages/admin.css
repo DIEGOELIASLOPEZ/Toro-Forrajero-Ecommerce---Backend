@@ -1,0 +1,383 @@
+.form-label-custom {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 16px;
+  color: #212529;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+/* Para el form control
+*/
+.form-control-custom {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 16px;
+  /* Gris característico de Bootstrap para controles de formulario */
+  color: #495057 !important;
+  background-color: #ffffff !important;
+
+  /* Borde estándar de Bootstrap (gris claro) */
+  border: 1px solid #dee2e6 !important;
+  border-radius: 50rem !important;
+  /* Forma redondeada/capsular estilo pill */
+
+  padding: 6px 12px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+/* Color gris de Bootstrap (text-muted / secondary) para placeholders */
+.form-control-custom::placeholder {
+  color: #6c757d !important;
+  opacity: 1;
+}
+
+/* Estilo para los selects desplegables */
+select.form-control-custom {
+  padding-right: 36px;
+  /* Espacio para la flecha del select */
+  color: #495057 !important;
+}
+
+/* Estado Focus con el resplandor característico de Bootstrap */
+.form-control-custom:focus {
+  color: #212529 !important;
+  background-color: #fff !important;
+  border-color: #86b7fe !important;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+}
+
+/* Aplicar el mismo estilo de la cápsula al área de texto */
+textarea.form-control-custom {
+  border-radius: 1rem !important;
+  /* Esquinas suavemente redondeadas */
+  resize: none;
+}
+
+/* Forzar que la cápsula de imagen herede la fuente y color */
+.capsula-archivo {
+  font-family: 'Montserrat', sans-serif !important;
+  color: #495057 !important;
+}
+
+
+.visibilidad-subtexto {
+  color: #585858;
+  font-size: 1rem;
+}
+
+/*Codigo para el switch de la sección de visibilidad de producto
+*/
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.toggle-switch input[type="checkbox"] {
+  display: none;
+}
+
+.toggle-switch-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ddd;
+  border-radius: 20px;
+  box-shadow: inset 0 0 0 2px #ccc;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.toggle-switch-handle {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 30px;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.toggle-switch::before {
+  content: "";
+  position: absolute;
+  top: -25px;
+  right: -35px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #aaa;
+  text-shadow: 1px 1px #fff;
+  transition: color 0.3s ease-in-out;
+}
+
+.toggle-switch input[type="checkbox"]:checked+.toggle-switch-handle {
+  transform: translateX(45px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), 0 0 0 3px #606C38;
+}
+
+.toggle-switch input[type="checkbox"]:checked+.toggle-switch-background {
+  background-color: #606C38;
+  ;
+  box-shadow: inset 0 0 0 2px #606C38;
+}
+
+.toggle-switch input[type="checkbox"]:checked+.toggle-switch:before {
+  content: "On";
+  color: #606C38;
+  right: -15px;
+}
+
+.toggle-switch input[type="checkbox"]:checked+.toggle-switch-background .toggle-switch-handle {
+  transform: translateX(40px);
+}
+
+.btn-custom-cancel {
+  background-color: #DDA15E;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.btn-custom-save {
+  background-color: #556B38;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.btn-custom-cancel:hover {
+  background-color: #BC6C25;
+  color: white;
+}
+
+.btn-custom-save:hover {
+  background-color: #283618;
+  color: white;
+}
+
+
+
+
+#error-nombre,
+#error-especie,
+#error-venta,
+#error-existencia {
+  color: var(--color-naranjaFuerte);
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.alerta-titulo {
+  font-weight: 900;
+}
+
+
+.datos-admin-home,
+.datos-admin-home {
+  font-size: 1.2rem;
+}
+
+.datos-admin-home p,
+.datos-extra p {
+  color: black;
+  line-height: 15px;
+}
+
+.grid-productos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.datos-columna p {
+  margin-bottom: 0.5rem;
+  color: black;
+}
+
+.admin-home-descripcion {
+  text-align: justify;
+  margin: 5px;
+}
+
+.estado-activo {
+  background-color: rgba(0, 128, 0, 0.514);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: 900;
+}
+
+.estado-inactivo {
+  background-color: rgba(255, 0, 0, 0.514);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: 900;
+}
+
+.dato-fila {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* Espacio uniforme entre icono, texto y badge */
+  margin-bottom: 6px;
+  /* Ajusta el espacio vertical entre filas */
+}
+
+.etiqueta-texto {
+  min-width: 90px;
+  /* Ajusta este valor si tu fuente es más grande o pequeña */
+  display: inline-block;
+}
+
+.visibilidad-estilo {
+  min-width: 75px;
+  text-align: center;
+}
+
+.align-items-stretch {
+  padding-bottom: 4rem;
+}
+
+#imagen-principal {
+  padding: 5px;
+
+}
+
+/* Estado Normal */
+.imagen-box {
+  /* Definimos el borde punteado desde el inicio pero transparente */
+  border: 5px dashed transparent !important;
+
+  /* Transición: animamos la propiedad 'border-color' */
+  /* Duración: 0.4s (puedes ajustar el tiempo a tu gusto) */
+  transition: border-color 0.4s ease-in-out;
+}
+
+/* Estado Hover */
+.imagen-box:hover {
+  /* Solo le cambiamos el color al hacer hover */
+  border-color: var(--color-naranjaFuerte) !important;
+}
+
+
+
+.animacion-carga {
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 20rem;
+  transform-origin: center;
+  animation: rotate4 2s linear infinite;
+}
+
+circle {
+  fill: none;
+  stroke: hsl(36, 80%, 52%);
+  stroke-width: 5;
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: dash4 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate4 {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash4 {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 90, 200;
+    stroke-dashoffset: -35px;
+  }
+
+  100% {
+    stroke-dashoffset: -125px;
+  }
+}
+.editar{
+  text-decoration: none;
+}
+.cargar-producto-p {
+  color: var(--color-naranjaFuerte);
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+/* Estilos de la cápsula donde sale el nombre del archivo y los iconos */
+.capsula-archivo {
+  border-color: #e0e0e0 !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.capsula-archivo button:hover {
+  opacity: 0.7;
+}
+
+
+/* Overlay que cubre absolutamente todo el fondo */
+.modal-fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #2b2b2b; /* Color de fondo sólido de tu marca */
+    z-index: 999999; /* Máxima prioridad sobre la vista */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-fullscreen-overlay.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Tarjeta contenedora del mensaje */
+.contenido-modal-denegado {
+    background-color: var(--color-fondo);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+}
+
+.titulo-denegado {
+    color: #2b2b2b;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Bloqueo del scroll del navegador */
+body.overflow-hidden {
+    overflow: hidden !important;
+}

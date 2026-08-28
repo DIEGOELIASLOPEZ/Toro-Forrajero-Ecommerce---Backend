@@ -1,0 +1,141 @@
+/* Encabezados*/
+h1 {
+	font-family: var(--fuente-titulos);
+	font-weight: var(--peso-bold);
+	color: var(--color-verdeFuerte);
+	font-size: 2.5rem;
+}
+
+h2 {
+	font-family: var(--fuente-titulos);
+	font-weight: var(--peso-bold);
+	color: var(--color-verdeFuerte);
+	font-size: 2rem;
+}
+
+h3 {
+	font-family: var(--fuente-titulos);
+	font-weight: var(--peso-bold);
+	color: var(--color-verdeFuerte);
+	font-size: 1.75rem;
+}
+
+h4 {
+	font-family: var(--fuente-titulos);
+	font-weight: var(--peso-bold);
+	color: var(--color-textoOscuro);
+	font-size: 1.125rem;
+}
+
+
+
+
+/* Clases para títulos/subtítulos */
+.subtitulo-muyGrande {
+	font-size: 2.5rem;
+}
+
+.subtitulo-grande {
+	font-size: 2rem;
+}
+
+.subtitulo-mediano {
+	font-size: 1.75rem;
+}
+
+
+.texto-parrafo {
+	font-size: 1.25rem;
+}
+
+/* Clases para Colores */
+.texto-verde-oscuro {
+	color: var(--color-headersFooter);
+}
+
+.texto-verde-claro {
+	color: var(--color-verdeCLaro);
+}
+
+.texto-crema {
+	color: var(--color-textoBlanco);
+}
+
+.texto-naranja {
+	color: var(--color-naranjaFuerte);
+}
+
+/* Configuración para tablets */
+@media (max-width: 1199px) {
+	body {
+		font-size: 1.25rem;
+	}
+
+	h1 {
+		font-size: 3.75rem;
+	}
+
+	h2 {
+		font-size: 2.75rem;
+	}
+
+	h3 {
+		font-size: 2.25rem;
+	}
+
+	h4 {
+		font-size: 1.25rem;
+	}
+
+	.texto-parrafo {
+		font-size: 1.15rem;
+		line-height: 1.5;
+	}
+
+	.subtitulo-muyGrande {
+		font-size: 3.75rem;
+	}
+
+	.subtitulo-grande {
+		font-size: 2.75rem;
+	}
+
+	.subtitulo-mediano {
+		font-size: 2.25rem;
+	}
+}
+
+/* Configuración para celulares */
+@media (max-width: 767px) {
+	body {
+		font-size: 1rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+	}
+
+	h2 {
+		font-size: 2rem;
+	}
+
+	h3 {
+		font-size: 1.75rem;
+	}
+
+	h4 {
+		font-size: 1.125rem;
+	}
+
+	.subtitulo-muyGrande {
+		font-size: 2.5rem;
+	}
+
+	.subtitulo-grande {
+		font-size: 2rem;
+	}
+
+	.subtitulo-mediano {
+		font-size: 1.75rem;
+	}
+}

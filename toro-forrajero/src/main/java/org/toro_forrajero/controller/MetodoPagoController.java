@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/metodos-pago")
+@CrossOrigin(origins = "*") // Permite peticiones desde el frontend
 @RequiredArgsConstructor
 public class MetodoPagoController {
 

@@ -25,8 +25,6 @@
 
 	<!--CSS Globales-->
     <link rel="stylesheet" href="/build/css/app.css">
-    <link rel="stylesheet" href="build/css/productos.css">
-	<link rel="stylesheet" href="build/css/pago.css">
 	<link rel="shortcut icon" href="recursos-graficos/favicon.png" type="image/x-icon">
 
 
@@ -137,7 +135,14 @@
 
 					<!-- Dirección de entrega -->
 					<div class="mb-3" id="bloque-direccion" data-aos="fade-up" data-aos-delay="250">
+
 						<p class="checkout-section-label mb-2">Dirección de entrega:</p>
+
+                        <div class="mb-3">
+                            <select id="select-direcciones-guardadas" class="form-select address-input py-2">
+                                <option value="">-- Selecciona una dirección guardada --</option>
+                            </select>
+                        </div>
 
 						<div class="row g-3 mb-3">
 							<div class="col-md-6">
@@ -191,50 +196,42 @@
 
 						<div class="mb-3">
 							<input type="text" id="direccion" name="direccion" autocomplete="off"
-								class="form-control address-input py-2 text-end" placeholder="Dirección">
+								class="form-control address-input py-2 text-end" placeholder="Calle">
 							<div id="error-direccion" class="narnaja-text small mt-1 text-center">
 								<p></p>
 							</div>
 						</div>
 
-						<div class="row g-3 mb-3">
-							<div class="col-6 col-md-3">
-								<input type="text" id="numero-exterior" name="numero_exterior" autocomplete="off"
-									class="form-control address-input py-2 text-center" placeholder="No. Exterior">
+                        <div class="row g-3 mb-3">
+                            <div class="col-4">
+                                <input type="text" id="numero-exterior" name="numero_exterior" autocomplete="off"
+                                       class="form-control address-input py-2 text-center" placeholder="No. Exterior">
 
-								<div id="error-numero-exterior" class="narnaja-text mt-1 text-center">
-									<p></p>
-								</div>
-							</div>
+                                <div id="error-numero-exterior" class="narnaja-text mt-1 text-center">
+                                    <p></p>
+                                </div>
+                            </div>
 
-							<div class="col-6 col-md-3">
-								<input type="text" id="numero-interior" name="numero_interior" autocomplete="off"
-									class="form-control address-input py-2 text-center" placeholder="No. Interior">
+                            <div class="col-4">
+                                <input type="text" id="numero-interior" name="numero_interior" autocomplete="off"
+                                       class="form-control address-input py-2 text-center" placeholder="No. Interior">
 
-								<div id="error-numero-interior" class="narnaja-text small mt-1 text-center">
-									<p></p>
-								</div>
-							</div>
+                                <div id="error-numero-interior" class="narnaja-text small mt-1 text-center">
+                                    <p></p>
+                                </div>
+                            </div>
 
-							<div class="col-6 col-md-3">
-								<input type="text" id="codigo-postal" name="codigo_postal" maxlength="5"
-									autocomplete="off" class="form-control address-input py-2 text-center"
-									placeholder="Código Postal">
+                            <div class="col-4">
+                                <input type="text" id="codigo-postal" name="codigo_postal" maxlength="5"
+                                       autocomplete="off" class="form-control address-input py-2 text-center"
+                                       placeholder="Código Postal">
 
-								<div id="error-codigo-postal" class="narnaja-text small mt-1 text-center">
-									<p></p>
-								</div>
-							</div>
+                                <div id="error-codigo-postal" class="narnaja-text small mt-1 text-center">
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
 
-							<div class="col-6 col-md-3">
-								<input type="text" id="ciudad-2" name="ciudad_2" autocomplete="off"
-									class="form-control address-input py-2 text-end" placeholder="Ciudad">
-
-								<div id="error-ciudad-2" class="narnaja-text small mt-1 text-center">
-									<p></p>
-								</div>
-							</div>
-						</div>
 
 						<div class="mb-3">
 							<input type="tel" id="telefono" name="telefono" maxlength="10" pattern="[0-9]{10}"
@@ -305,6 +302,12 @@
 					<form id="formularioPago">
 
 						<div class="row g-3">
+
+                            <div class="mb-3">
+                                <select id="select-tarjetas-guardadas" class="form-select">
+                                    <option value="">-- Usar una nueva tarjeta --</option>
+                                </select>
+                            </div>
 
 							<!-- Nombre -->
 							<div class="col-md-6">

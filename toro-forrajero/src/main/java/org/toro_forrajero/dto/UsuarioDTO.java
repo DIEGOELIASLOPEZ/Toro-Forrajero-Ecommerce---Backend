@@ -14,17 +14,20 @@ public class UsuarioDTO {
         private String correo;
         private String estado;
         private String contrasena;
+        private String rol;
     }
 
     // RESPONSE: Salida de datos hacia el cliente/frontend
     @Data
     public static class UsuarioResponse{
         private Long idUsuario;
+        private Long idCarrito;
         private String nombre;
         private String apellido;
         private String telefono;
         private String areaInteres;
         private String correo;
         private String estado;
+        private String rol;
     }
 }

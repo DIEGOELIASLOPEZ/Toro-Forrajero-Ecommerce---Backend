@@ -1,0 +1,612 @@
+/* Contenedor div */
+.marca-group {
+    width: 360px;
+    /* tamaño de la unión de los dos botones */
+}
+
+/* Botón izq */
+.btn-marca {
+    width: 36%;
+    background-color: var(--color-naranjaFuerte);
+    color: var(--color-textoBlanco);
+    /*letra */
+    border: none;
+    border-radius: 6px 0 0 6px;
+    /*para el contorno circular */
+    font-weight: 500;
+    /*grosor de letra */
+    transform: translateY(-40px);
+}
+
+.btn-marca:disabled {
+    background-color: var(--color-naranjaFuerte);
+    color: var(--color-textoBlanco);
+    opacity: 1;
+    cursor: default;
+}
+
+/* Botón derecho */
+.btn-dropdown {
+    width: 70%;
+    background-color: var(--color-naranjaTenue);
+    border: .1px solid #c5c1c1;
+    /* Para el contorno del boton gris der */
+    border-radius: 0 6px 6px 0;
+    transform: translateY(-40px);
+}
+
+.btn-dropdown::after {
+    /* Para recorrer la flecha del menú desplegable */
+    margin-left: 180px;
+}
+
+/* AL acercar el mouse al botón der */
+.btn-dropdown:hover {
+    background-color: var(--color-naranjaClaro);
+}
+
+.btn-dropdown.show {
+    /* Para que se mantenga fijo el color al ir selecionando las marcas */
+    background-color: var(--color-naranjaClaro);
+    border: none;
+}
+
+/* Elimina el borde azul de bootstrap al hacer clic */
+.btn-marca:focus,
+.btn-dropdown:focus {
+    box-shadow: none;
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+    width: 100%;
+    border-radius: 6px;
+}
+
+/* Opciones del menú */
+.dropdown-item:hover {
+    background-color: #DDA15E;
+    /* Se lo puse así porque no reconoce el --color-naranjaClaro */
+}
+
+/* =========================================================
+   ENCABEZADO DE PRODUCTOS
+========================================================= */
+
+.productos-encabezado {
+    margin-bottom: 35px;
+}
+
+.productos-encabezado h1 {
+    color: #283618;
+    font-family: "Geologica", sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.productos-encabezado p {
+    color: #707070;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.05rem;
+}
+
+
+/* =========================================================
+   BOTONES DE CATEGORÍAS
+========================================================= */
+
+.categorias-productos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.boton-categoria {
+    min-width: 135px;
+    padding: 12px 25px;
+
+    background-color: transparent;
+    color: #283618;
+
+    border: 2px solid #283618;
+    border-radius: 8px;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-categoria:hover,
+.boton-categoria.activo {
+    background-color: #283618;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   CATÁLOGOS
+========================================================= */
+
+/* Todos los catálogos están ocultos inicialmente */
+.catalogo-productos {
+    display: none;
+}
+
+/* Solamente se muestra el catálogo que tenga la clase activo */
+.catalogo-productos.activo {
+    display: block;
+    animation: aparecerCatalogo 0.4s ease;
+}
+
+@keyframes aparecerCatalogo {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   GRID DE PRODUCTOS
+========================================================= */
+
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+
+/* =========================================================
+   TARJETAS DE PRODUCTOS
+========================================================= */
+
+.tarjeta-producto {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100%;
+    padding: 25px;
+
+    background-color: #fffdf2;
+    border: 1px solid #d49a53;
+    border-radius: 10px;
+
+    font-family: "Montserrat", sans-serif;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.tarjeta-producto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(40, 54, 24, 0.15);
+}
+
+.tarjeta-producto img {
+    display: block;
+    width: 100%;
+    max-width: 190px;
+    height: 230px;
+
+    margin: 0 auto 20px;
+
+    object-fit: contain;
+}
+
+.contenido-producto {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.contenido-producto h2 {
+    color: #111111;
+    font-family: "Geologica", sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.contenido-producto p {
+    color: #777777;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.precio {
+    display: block;
+    color: #111111;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.visibilidad {
+    display: block;
+    color: #111111;
+    font-size: 1.1rem;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.visibilidad--activo {
+    color: green;
+    font-weight: 700;
+}
+
+.visibilidad--inactivo {
+    color: red;
+    font-weight: 700;
+}
+
+.boton-carrito {
+    align-self: center;
+    padding: 12px 25px;
+
+    background-color: #bc5f08;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 7px;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-carrito:hover {
+    background-color: #934805;
+    transform: scale(1.03);
+}
+
+.boton-eliminar {
+    align-self: center;
+    padding: 12px 25px;
+
+    background-color: var(--color-verdeCLaro);
+    color: #ffffff;
+
+    border: none;
+    border-radius: 7px;
+
+    font-family: "Montserrat", sans-serif;
+    font-size: 1rem;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.boton-eliminar:hover {
+    background-color: var(--color-verdeFuerte);
+
+    transform: scale(1.03);
+}
+
+
+/* =========================================================
+   DISEÑO RESPONSIVO
+========================================================= */
+
+@media screen and (max-width: 992px) {
+    .productos-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .productos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .categorias-productos {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .boton-categoria {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .productos-encabezado h1 {
+        font-size: 2rem;
+    }
+
+    .tarjeta-producto {
+        padding: 20px;
+    }
+}
+
+/*==================================================
+=            SECCIÓN PRODUCTOS - ESPECIE            =
+==================================================*/
+
+
+
+.productos {
+    padding: 2rem 2rem 5rem;
+    background: var(--color-fondo);
+    text-align: center;
+}
+
+.productos h1 {
+    margin-bottom: 1rem;
+    color: var(--color-verdeCLaro) !important;
+}
+
+.descripcion-productos {
+    max-width: 750px;
+    margin: 0 auto 4rem;
+    font-family: var(--fuente-cuerpo);
+    font-size: 1.2rem;
+    color: var(--color-textoOscuro);
+    line-height: 1.7;
+}
+
+/*=============================================
+=                 TITULO                      =
+=============================================*/
+
+
+.titulo-especie h3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 0;
+
+    color: var(--color-naranjaFuerte) !important;
+    font-family: var(--fuente-titulos);
+    font-weight: var(--peso-bold);
+    font-size: 2rem;
+}
+
+.titulo-especie h3::before,
+.titulo-especie h3::after {
+    content: "";
+    display: block;
+    width: 120px;
+    height: 4px;
+
+    background-color: var(--color-naranjaFuerte) !important;
+    border-radius: 50px;
+}
+
+/*=============================================
+=             CONTENEDOR ICONOS               =
+=============================================*/
+
+.contenedor-especies {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 3rem;
+    flex-wrap: wrap;
+}
+
+/*=============================================
+=                  BOTÓN                      =
+=============================================*/
+
+.especie {
+    background: none;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    transition: .35s ease;
+}
+
+.especie:focus {
+    outline: none;
+}
+
+/*=============================================
+=               IMAGEN CIRCULAR               =
+=============================================*/
+
+.imagen-especie {
+
+    width: 170px;
+    height: 170px;
+
+    border-radius: 50%;
+    overflow: hidden;
+
+    border: 10px solid transparent;
+    
+
+    transition: .35s ease;
+}
+
+.imagen-especie img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: .35s ease;
+}
+
+/*=============================================
+=                   TEXTO                     =
+=============================================*/
+
+.nombre-especie {
+
+    margin-top: 1rem;
+
+    font-family: var(--fuente-cuerpo);
+
+    font-size: 1.1rem;
+
+    font-weight: 600;
+
+    color: var(--color-textoOscuro);
+
+    transition: .35s ease;
+}
+
+/*=============================================
+=                  HOVER                      =
+=============================================*/
+
+.especie:hover .imagen-especie {
+
+    transform: translateY(-8px);
+
+    border-color: var(--color-verdeCLaro);
+    box-shadow:
+        0 0 8px rgba(96, 108, 56, .35),
+        0 0 18px rgba(96, 108, 56, .25),
+        0 0 30px rgba(96, 108, 56, .18);
+}
+
+.especie:hover img {
+
+    transform: scale(1.08);
+
+}
+
+.especie:hover .nombre-especie {
+
+    color: var(--color-verdeFuerte);
+
+}
+
+/*=============================================
+=                BOTÓN ACTIVO                 =
+=============================================*/
+
+.especie.activo .imagen-especie {
+    filter: brightness(0.5);
+
+    border-color: var(--color-verdeCLaro);
+
+    box-shadow:
+        0 0 10px rgba(96, 108, 56, .30),
+        0 0 30px rgba(96, 108, 56, .28),
+        0 0 50px rgba(96, 108, 56, .20);
+
+}
+
+.especie.activo img {
+
+    transform: scale(1.08);
+
+}
+
+.especie.activo .nombre-especie {
+
+    color: var(--color-verdeFuerte);
+
+    font-weight: 700;
+
+}
+
+/*=============================================
+=          ENTRADA CON REBOTE                 =
+=============================================*/
+
+.especie {
+    opacity: 0;
+    animation: reboteEntrada .8s ease-out forwards;
+}
+
+/* Retraso entre cada botón */
+.especie:nth-child(1) {
+    animation-delay: .1s;
+}
+
+.especie:nth-child(2) {
+    animation-delay: .25s;
+}
+
+.especie:nth-child(3) {
+    animation-delay: .4s;
+}
+
+.especie:nth-child(4) {
+    animation-delay: .55s;
+}
+
+@keyframes reboteEntrada {
+
+    0% {
+        opacity: 0;
+        transform: translateY(-120px);
+    }
+
+    60% {
+        opacity: 1;
+        transform: translateY(20px);
+    }
+
+    80% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+/*=============================================
+=                 RESPONSIVE                  =
+=============================================*/
+
+@media(max-width:768px) {
+
+    .contenedor-especies {
+
+        gap: 2rem;
+
+    }
+
+    .imagen-especie {
+
+        width: 130px;
+        height: 130px;
+
+    }
+
+    .titulo-especie h3 {
+
+        font-size: 1.5rem;
+
+    }
+
+    .titulo-especie h3::before,
+    .titulo-especie h3::after {
+
+        width: 60px;
+
+    }
+
+}

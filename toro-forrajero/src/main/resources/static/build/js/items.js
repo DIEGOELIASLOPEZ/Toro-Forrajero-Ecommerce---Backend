@@ -1,5 +1,34 @@
+class ItemsController {
+    constructor(currentId = 0) {
+        this.items = [];
+    }
+
+    addItem(idProducto, nombre, descripcion, destacado, especie, costo, precioVenta, marca, imagen, visibilidad, stock) {
+        const item = {
+            idProducto: idProducto,
+            nombre: nombre,
+            descripcion: descripcion,
+            destacado: destacado,
+            especie: especie,
+            costo: costo,
+            precioVenta: precioVenta,
+            marca: marca,
+            imagen: imagen,
+            visibilidad: visibilidad,
+            stock: stock
+        };
+
+        this.items.push(item);
+    }
+}
+
+
+
 const itemsController = new ItemsController(0);
-const API_URL = 'http://localhost:8080/api/productos';
+
+// Base URLs para tus controllers de Java Spring Boot
+const API_PRODUCTOS_URL = 'http://localhost:8080/api/productos';
+const API_DETALLE_CARRITO_URL = 'http://localhost:8080/api/detalle-carrito';
 
 let marcaSeleccionada = null;
 let especieSeleccionada = null;
@@ -21,27 +50,26 @@ const botonesMarca = [
 // --- 1. CARGA INICIAL Y API ---
 async function cargarProductos() {
     try {
-        const res = await fetch(API_URL);
+        const res = await fetch(API_PRODUCTOS_URL);
         if (!res.ok) throw new Error("Error al obtener Productos");
         const productos = await res.json();
 
         itemsController.items = [];
 
-        const productosVisibles = productos.filter(producto => producto.visibilidad === true);
+        const productosActivos = productos.filter(producto => producto.visibilidad === true);
 
-        productosVisibles.forEach(producto => {
+        productosActivos.forEach(producto => {
             itemsController.addItem(
                 producto.idProducto,
                 producto.nombre,
                 producto.descripcion,
                 producto.destacado,
                 producto.especie,
-                producto.costo,
+                producto.peso || '',
                 producto.precioVenta,
                 producto.marca,
-                producto.imagen,
-                producto.visibilidad ? 'activo' : 'inactivo',
-                producto.stock
+                producto.imagen || 'img/default.jpg',
+                producto.visibilidad
             );
         });
 
@@ -56,15 +84,18 @@ async function cargarProductos() {
 // --- 2. RENDERIZADO Y FILTROS ---
 function aplicarFiltros() {
     const productosFiltrados = itemsController.items.filter(producto => {
-        const cumpleMarca = marcaSeleccionada 
-            ? String(producto.marca).toLowerCase() === String(marcaSeleccionada).toLowerCase() 
-            : true;
-            
-        const cumpleEspecie = especieSeleccionada 
-            ? String(producto.especie).toLowerCase() === String(especieSeleccionada).toLowerCase() 
+        // FILTRO DE DESTACADOS: solo pasa si es destacado
+        const esDestacado = producto.destacado === true || producto.destacado === 1;
+
+        const cumpleMarca = marcaSeleccionada
+            ? String(producto.marca).toLowerCase() === String(marcaSeleccionada).toLowerCase()
             : true;
 
-        return cumpleMarca && cumpleEspecie;
+        const cumpleEspecie = especieSeleccionada
+            ? String(producto.especie).toLowerCase() === String(especieSeleccionada).toLowerCase()
+            : true;
+
+        return esDestacado && cumpleMarca && cumpleEspecie;
     });
 
     renderizarHTML(productosFiltrados);
@@ -79,20 +110,21 @@ function renderizarHTML(items) {
         return;
     }
 
+    // CORRECCIÓN 1: Se usa producto.id (propiedad de la instancia de ItemsController) o producto.idProducto como fallback
     catalogo.innerHTML = items.map(producto => `
         <article class="tarjeta-producto">
-            <img src="${producto.imagen}" alt="${producto.nombreProducto}">
+            <img src="${producto.imagen || 'img/default.jpg'}" alt="${producto.nombre}">
             <div class="contenido-producto">
-                <h2>${producto.nombreProducto}</h2>
+                <h2>${producto.nombre}</h2>
                 <p>${producto.descripcion}</p>
                 <p>Marca: ${producto.marca}</p>
-                <span class="precio">$${producto.precio} MXN</span>
+                <span class="precio">$${producto.precioVenta || producto.precio} MXN</span>
 
                 <div class="d-flex admin-btns">
-                    <button 
-                        type="button" 
-                        class="boton-carrito" 
-                        data-producto="${producto.nombreProducto}">
+                    <button
+                        type="button"
+                        class="boton-carrito"
+                        data-id="${producto.id || producto.idProducto}">
                         Agregar al carrito
                     </button>
                 </div>
@@ -144,47 +176,55 @@ function inicializarEventosFiltros() {
     });
 }
 
-// --- 4. MOTOR DEL CARRITO (CON VERIFICACIÓN AL HACER CLIC) ---
-document.addEventListener('click', function (e) {
+// --- 4. MOTOR DEL CARRITO (PERSISTENCIA VÍA BACKEND SPRING BOOT) ---
+document.addEventListener('click', async function (e) {
     if (e.target.classList.contains('boton-carrito')) {
 
-        // 1. Verificar si hay un usuario activo (Cliente)
-        const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo')) 
+        // 1. Validar primero que exista el usuario activo en sesión
+        const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
                            || JSON.parse(sessionStorage.getItem('usuarioActivo'));
 
         if (!usuarioActivo) {
-            // Guardar a dónde quería ir el usuario
             sessionStorage.setItem('redirectAfterLogin', 'productos.html');
-            
             alert('Debes iniciar sesión para agregar productos al carrito.');
             window.location.href = 'inicioSesion.html';
-            return; // Detener la adición al carrito
+            return;
         }
 
-        // 2. Si la sesión existe, agregar el producto normalmente
-        const btn = e.target;
-        const nombreExacto = btn.getAttribute('data-producto');
+        // CORRECCIÓN 2: El idCarrito principal corresponde al ID del usuario asignado en sesión
+        const idCarrito = usuarioActivo.idCarrito || usuarioActivo.idUsuario || usuarioActivo.id;
+        const idProducto = e.target.getAttribute('data-id');
 
-        const productoSeleccionado = itemsController.items.find(
-            producto => String(producto.nombreProducto).trim() === String(nombreExacto).trim()
-        );
+        if (!idProducto || idProducto === 'undefined') {
+            console.error("No se pudo obtener el ID del producto.");
+            alert("Error al identificar el producto.");
+            return;
+        }
 
-        if (productoSeleccionado) {
-            let carritoProductos = [];
-            try {
-                carritoProductos = JSON.parse(localStorage.getItem('carrito')) || [];
-            } catch (error) {
-                carritoProductos = [];
-            }
+        try {
+            // 3. Petición POST a DetalleCarritoController
+            const res = await fetch(`${API_DETALLE_CARRITO_URL}/${idCarrito}/producto/${idProducto}?cantidad=1`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
 
-            carritoProductos.push(productoSeleccionado);
-            localStorage.setItem('carrito', JSON.stringify(carritoProductos));
+            if (!res.ok) throw new Error("Error al añadir el producto.");
 
+            const detalle = await res.json();
+
+            // Incrementar contador en el badge de navegación
             let contador = parseInt(localStorage.getItem('contadorCarrito')) || 0;
             contador++;
             localStorage.setItem('contadorCarrito', contador);
-
             actualizarBadgeNavegacion(contador);
+
+            alert(`¡Producto agregado exitosamente al carrito!`);
+
+        } catch (error) {
+            console.error("No se pudo agregar al carrito:", error);
+            alert("Ocurrió un error al intentar agregar el producto.");
         }
     }
 });
@@ -200,8 +240,8 @@ function actualizarBadgeNavegacion(forzarContador = null) {
         divcarrito.append(carrito);
     }
 
-    let contador = forzarContador !== null 
-        ? forzarContador 
+    let contador = forzarContador !== null
+        ? forzarContador
         : (parseInt(localStorage.getItem('contadorCarrito')) || 0);
 
     if (contador > 0) {

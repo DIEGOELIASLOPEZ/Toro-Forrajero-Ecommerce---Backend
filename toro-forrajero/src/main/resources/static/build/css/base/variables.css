@@ -1,0 +1,17 @@
+:root {
+	/* Colores */
+	--color-verdeFuerte: #283618;
+	--color-naranjaFuerte: #BC6C25;
+	--color-textoOscuro: #000000;
+	--color-textoBlanco: #FFFFFF;
+	--color-fondo: #FEFAE0;
+	--color-verdeCLaro: #606C38;
+	--color-naranjaClaro: #DDA15E;
+	--color-naranjaTenue: #FFF8E7;
+
+	/* Fuentes */
+	--fuente-titulos: 'Geologica', sans-serif;
+	--fuente-cuerpo: 'Montserrat', sans-serif;
+
+	--peso-bold: 700;
+}

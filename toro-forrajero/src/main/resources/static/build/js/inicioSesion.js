@@ -40,18 +40,8 @@ function validarCorreo() {
     return true;
 }
 
-const btnIniciarSesion = document.querySelector("#btnIniciarSesion");
 
-btnIniciarSesion.addEventListener("click", function () {
 
-    const correoValido = validarCorreo();
-    const passwordValido = validarPassword();
-
-    if (!correoValido || !passwordValido) {
-        return;
-    }
-
-});
 
 
 // ==========================================
@@ -79,7 +69,7 @@ function validarPassword() { //creamos nuestra funcion para validar la contrase�
 // OBTENER USUARIOS
 // ==========================================
 
-const API_URL = "http://localhost:3000/usuarios";
+const API_URL = "http://localhost:8080/api/usuarios";
 
 async function obtenerUsuarios() {
     const usuariosLocalStorage =
@@ -121,19 +111,45 @@ async function obtenerUsuarios() {
 // AUTENTICACIÓN
 // ==========================================
 
-async function autenticarUsuario(correo, contraseña) {
-    const usuarios = await obtenerUsuarios();
-    const usuarioEncontrado = usuarios.find(
-        usuario =>
-            usuario.correo === correo &&
-            usuario.contraseña === contraseña
-    );
-    return usuarioEncontrado || null;
-}
+// ==========================================
+// AUTENTICACIÓN (Conectado con Spring Boot y BCrypt)
+// ==========================================
 
+async function autenticarUsuario(correo, contrasena) {
+    try {
+        const respuesta = await fetch("http://localhost:8080/api/usuarios/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            // Mandamos los datos con los nombres exactos que espera tu UsuarioRequest
+            body: JSON.stringify({
+                correo: correo,
+                contrasena: contrasena
+            })
+        });
+
+        // Si el backend responde con error (401 Unauthorized), las credenciales fallaron
+        if (!respuesta.ok) {
+            return null;
+        }
+
+        // Si es exitoso, nos regresa el objeto UsuarioResponse con el rol y los datos limpios
+        const usuarioResponse = await respuesta.json();
+        return usuarioResponse;
+
+    } catch (error) {
+        console.error("Error al conectar con el servidor:", error);
+        return null;
+    }
+}
 // ==========================================
 // MANEJADOR DE EVENTO PARA INICIAR SESIÓN
 // ==========================================
+
+const btnIniciarSesion = document.querySelector("#btnIniciarSesion");
+
+
 btnIniciarSesion.addEventListener("click", async function (e) {
     e.preventDefault(); // Evita recargar si el botón está dentro de un <form>
 
@@ -166,5 +182,8 @@ btnIniciarSesion.addEventListener("click", async function (e) {
 
     // Redireccionar a productos
     console.log(JSON.stringify(usuarioAutenticado));
-    window.location = usuarioAutenticado.rol === "admin" ? "adminCrear.html" : "productos.html";
+
+    // Redireccionar según el rol
+    window.location = usuarioAutenticado.rol === "admin" ? "adminHome.html" : "productos.html";
+
 });

@@ -95,33 +95,50 @@ function mostrarModalMensaje(mensaje, imagenUrl = null, recargarAlCerrar = false
     setTimeout(() => { modal.classList.add('is-visible'); }, 10);
 }
 
-// --- 1. CARGA INICIAL Y API ---
+// --- 1. CARGA INICIAL Y API (SE ADAPTA SEGÚN LA VISTA) ---
 async function cargarProductos() {
     try {
-        const res = await fetch(API_PRODUCTOS_URL);
-        if (!res.ok) throw new Error("Error al obtener Productos");
-        const productos = await res.json();
+        const contenedorDestacados = document.getElementById('catalogo-destacados');
+        const contenedorCatalogo = document.getElementById('catalogo-productos');
 
-        itemsController.items = [];
+        // Si estamos en la página que tiene el contenedor de destacados (index.html)
+        if (contenedorDestacados) {
+            const res = await fetch(`${API_PRODUCTOS_URL}/destacados`);
+            if (!res.ok) throw new Error("Error al obtener Productos Destacados");
+            const destacados = await res.json();
 
-        const productosActivos = productos.filter(producto => producto.visibilidad === true);
+            const productosActivos = destacados.filter(producto => producto.visibilidad === true);
+            renderizarHTML(productosActivos, 'catalogo-destacados');
+        }
 
-        productosActivos.forEach(producto => {
-            itemsController.addItem(
-                producto.idProducto,
-                producto.nombre,
-                producto.descripcion,
-                producto.destacado,
-                producto.especie,
-                producto.peso || '',
-                producto.precioVenta,
-                producto.marca,
-                producto.imagen || 'img/default.jpg',
-                producto.visibilidad
-            );
-        });
+        // Si estamos en la página de catálogo general (productos.html)
+        if (contenedorCatalogo) {
+            const res = await fetch(API_PRODUCTOS_URL);
+            if (!res.ok) throw new Error("Error al obtener Productos");
+            const productos = await res.json();
 
-        aplicarFiltros();
+            itemsController.items = [];
+
+            const productosActivos = productos.filter(producto => producto.visibilidad === true);
+
+            productosActivos.forEach(producto => {
+                itemsController.addItem(
+                    producto.idProducto,
+                    producto.nombre,
+                    producto.descripcion,
+                    producto.destacado,
+                    producto.especie,
+                    producto.peso || '',
+                    producto.precioVenta,
+                    producto.marca,
+                    producto.imagen || 'img/default.jpg',
+                    producto.visibilidad
+                );
+            });
+
+            aplicarFiltros();
+        }
+
         actualizarBadgeNavegacion();
 
     } catch (error) {
@@ -132,8 +149,6 @@ async function cargarProductos() {
 // --- 2. RENDERIZADO Y FILTROS ---
 function aplicarFiltros() {
     const productosFiltrados = itemsController.items.filter(producto => {
-        const esDestacado = producto.destacado === true || producto.destacado === 1;
-
         const cumpleMarca = marcaSeleccionada
             ? String(producto.marca).toLowerCase() === String(marcaSeleccionada).toLowerCase()
             : true;
@@ -142,18 +157,18 @@ function aplicarFiltros() {
             ? String(producto.especie).toLowerCase() === String(especieSeleccionada).toLowerCase()
             : true;
 
-        return esDestacado && cumpleMarca && cumpleEspecie;
+        return cumpleMarca && cumpleEspecie;
     });
 
-    renderizarHTML(productosFiltrados);
+    renderizarHTML(productosFiltrados, 'catalogo-productos');
 }
 
-function renderizarHTML(items) {
-    const catalogo = document.getElementById('catalogo-productos');
+function renderizarHTML(items, idContenedor = 'catalogo-productos') {
+    const catalogo = document.getElementById(idContenedor);
     if (!catalogo) return;
 
     if (items.length === 0) {
-        catalogo.innerHTML = `<p class="no-productos">No se encontraron productos con los filtros seleccionados.</p>`;
+        catalogo.innerHTML = `<p class="no-productos">No se encontraron productos disponibles.</p>`;
         return;
     }
 
@@ -227,6 +242,7 @@ function inicializarEventosFiltros() {
 // --- 4. MOTOR DEL CARRITO (PERSISTENCIA VÍA BACKEND SPRING BOOT) ---
 document.addEventListener('click', async function (e) {
     if (e.target.classList.contains('boton-carrito')) {
+
         const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
             || JSON.parse(sessionStorage.getItem('usuarioActivo'));
 
@@ -234,7 +250,7 @@ document.addEventListener('click', async function (e) {
         const imagenProducto = e.target.getAttribute('data-imagen') || 'img/default.jpg';
 
         if (!usuarioActivo) {
-            sessionStorage.setItem('redirectAfterLogin', 'productos.html');
+            sessionStorage.setItem('redirectAfterLogin', window.location.pathname);
             mostrarModalMensaje('Debes iniciar sesión para agregar productos al carrito.', null, false);
             setTimeout(() => {
                 window.location.href = 'inicioSesion.html';
@@ -261,11 +277,13 @@ document.addEventListener('click', async function (e) {
 
             if (!res.ok) throw new Error("Error al añadir el producto.");
 
+            await res.json();
+
             let contador = parseInt(localStorage.getItem('contadorCarrito')) || 0;
             contador++;
             localStorage.setItem('contadorCarrito', contador);
 
-            // Mostrar modal estilo adminHome y recargar al aceptar para actualizar contador
+            // Muestra el modal con la imagen y recarga al hacer clic en Aceptar
             mostrarModalMensaje(
                 `¡<span class="fw-bold">${nombreProducto}</span> se agregó exitosamente al carrito!`,
                 imagenProducto,

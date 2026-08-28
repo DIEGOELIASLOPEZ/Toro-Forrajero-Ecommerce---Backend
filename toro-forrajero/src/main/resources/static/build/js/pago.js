@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Obtener el carrito del usuario
-        const respuestaCarrito = await fetch(`http://localhost:8080/api/carrito/usuario/${usuarioActivo.id}`);
+        const respuestaCarrito = await fetch(`http://localhost:8080/api/carrito/usuario/${usuarioActivo.idUsuario}`);
         if (!respuestaCarrito.ok) throw new Error("No se pudo obtener el carrito del usuario");
 
         const carritoData = await respuestaCarrito.json();
@@ -257,9 +257,9 @@ if (formularioCheckout) {
         const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
                                    || JSON.parse(sessionStorage.getItem('usuarioActivo'));
 
-        if (!usuarioActivo || !usuarioActivo.id) {
-          alert("No se encontró una sesión de usuario activa.");
-          return;
+        if (!usuarioActivo || !usuarioActivo.idUsuario) {
+            alert("No se encontró una sesión de usuario activa.");
+            return;
         }
 
         const datosDireccion = {
@@ -273,7 +273,7 @@ if (formularioCheckout) {
              email: inputCorreo.value.trim()
         };
 
-        await guardarDireccionEnBackend(usuarioActivo.id, datosDireccion);
+        await guardarDireccionEnBackend(usuarioActivo.idUsuario, datosDireccion);
     });
 }
 
@@ -328,7 +328,7 @@ if (formularioPago) {
         const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
                            || JSON.parse(sessionStorage.getItem('usuarioActivo'));
 
-        if (!usuarioActivo || !usuarioActivo.id) {
+        if (!usuarioActivo || !usuarioActivo.idUsuario) {
             alert("No hay una sesión activa.");
             return;
         }
@@ -340,7 +340,7 @@ if (formularioPago) {
         if (idTarjetaGuardadaSeleccionada) {
             try {
                 // Ejecuta directamente el checkout usando el ID de la tarjeta guardada
-                await ejecutarCheckout(usuarioActivo.id, idTarjetaGuardadaSeleccionada);
+                await ejecutarCheckout(usuarioActivo.idUsuario, idTarjetaGuardadaSeleccionada);
                 return;
             } catch (error) {
                 console.error("Error al procesar el pago con tarjeta guardada:", error);
@@ -395,11 +395,11 @@ if (formularioPago) {
             const datosMetodoPago = {
                 numTarjeta: tarjeta,
                 fechaExpiracion: `${mes}/${anio}`,
-                idUsuario: usuarioActivo.id
+                idUsuario: usuarioActivo.idUsuario
             };
 
             try {
-                const respuestaTarjeta = await fetch(`http://localhost:8080/api/metodos-pago/usuario/${usuarioActivo.id}`, {
+                const respuestaTarjeta = await fetch(`http://localhost:8080/api/metodos-pago/usuario/${usuarioActivo.idUsuario}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datosMetodoPago)
@@ -410,7 +410,7 @@ if (formularioPago) {
                 const tarjetaGuardada = await respuestaTarjeta.json();
                 const idMetodoPagoGenerado = tarjetaGuardada.idMetodoPago;
 
-                await ejecutarCheckout(usuarioActivo.id, idMetodoPagoGenerado);
+                await ejecutarCheckout(usuarioActivo.idUsuario, idMetodoPagoGenerado);
 
             } catch (error) {
                 console.error("Error en el proceso de pago:", error);
@@ -449,9 +449,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
                        || JSON.parse(sessionStorage.getItem('usuarioActivo'));
 
-    if (usuarioActivo && usuarioActivo.id) {
-        await cargarDireccionesGuardadas(usuarioActivo.id);
-        await cargarTarjetasGuardadas(usuarioActivo.id);
+    if (usuarioActivo && usuarioActivo.idUsuario) {
+        await cargarDireccionesGuardadas(usuarioActivo.idUsuario);
+        await cargarTarjetasGuardadas(usuarioActivo.idUsuario);
     }
 });
 

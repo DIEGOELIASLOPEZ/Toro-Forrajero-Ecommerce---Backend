@@ -9,8 +9,8 @@ public class ProductosRequestDTO {
     private Integer stock;
     private BigDecimal costo;
     private BigDecimal precioVenta;
-    private boolean visibilidad;
-    private boolean destacado;
+    private Boolean visibilidad;
+    private Boolean destacado;
     private String descripcion;
     private String imagen;
 
@@ -68,7 +68,7 @@ public class ProductosRequestDTO {
         this.precioVenta = precioVenta;
     }
 
-    public boolean getVisibilidad() {
+    public Boolean getVisibilidad() {
         return visibilidad;
     }
 
@@ -76,7 +76,7 @@ public class ProductosRequestDTO {
         this.visibilidad = visibilidad;
     }
 
-    public boolean getDestacado() {
+    public Boolean getDestacado() {
         return destacado;
     }
 

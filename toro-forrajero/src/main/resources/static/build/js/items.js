@@ -84,6 +84,9 @@ async function cargarProductos() {
 // --- 2. RENDERIZADO Y FILTROS ---
 function aplicarFiltros() {
     const productosFiltrados = itemsController.items.filter(producto => {
+        // FILTRO DE DESTACADOS: solo pasa si es destacado
+        const esDestacado = producto.destacado === true || producto.destacado === 1;
+
         const cumpleMarca = marcaSeleccionada
             ? String(producto.marca).toLowerCase() === String(marcaSeleccionada).toLowerCase()
             : true;
@@ -92,7 +95,7 @@ function aplicarFiltros() {
             ? String(producto.especie).toLowerCase() === String(especieSeleccionada).toLowerCase()
             : true;
 
-        return cumpleMarca && cumpleEspecie;
+        return esDestacado && cumpleMarca && cumpleEspecie;
     });
 
     renderizarHTML(productosFiltrados);

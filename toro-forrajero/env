@@ -1,3 +1,0 @@
-DB_URL=jdbc:mysql://localhost:3306/toro_forrajero_db
-DB_USERNAME=chuy_user
-DB_PASSWORD=torito123

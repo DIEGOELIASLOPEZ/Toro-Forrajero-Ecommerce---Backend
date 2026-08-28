@@ -160,12 +160,26 @@ function editarHTML(producto) {
         }
     }
 
-    if (inputMarca) inputMarca.value = producto.marca || '';
+    // Selección segura del select de Marca
+    if (inputMarca && producto.marca) {
+        const marcaBuscada = String(producto.marca).trim();
+        let encontrada = false;
+
+        for (let option of inputMarca.options) {
+            if (option.value.toLowerCase() === marcaBuscada.toLowerCase() || option.text.toLowerCase() === marcaBuscada.toLowerCase()) {
+                inputMarca.value = option.value;
+                encontrada = true;
+                break;
+            }
+        }
+        if (!encontrada) {
+            inputMarca.value = producto.marca;
+        }
+    }
 
     if (costo) costo.value = producto.costo || 0;
     if (precio) precio.value = precioProd || 0;
-    if (existencia)enciaVal = existenciaProd || 0;
-    if (existencia) existencia.value = existenciaProd || 0;
+    if (existencia) existencia.value = existenciaProd || 0; // Corregido el error tipográfico
 
     if (imagen) imagen.textContent = obtenerNombreImagenRegex(producto.imagen);
     if (imagenVistaPrevia) imagenVistaPrevia.src = producto.imagen || '';
@@ -194,6 +208,13 @@ function obtenerNombreImagenRegex(path) {
 // 3. PETICIÓN PUT / ACTUALIZAR PRODUCTO (SPRING BOOT)
 // ==========================================
 async function guardarCambios() {
+    // Validación previa para asegurar que la marca no viaje vacía
+    const marcaSeleccionada = document.querySelector('#marca')?.value;
+    if (!marcaSeleccionada) {
+        alert("Por favor, selecciona una marca obligatoria.");
+        return;
+    }
+
     mostrarModal();
     const id = localStorage.getItem('idProductoEditar');
 
@@ -209,7 +230,7 @@ async function guardarCambios() {
     const productoDTO = {
         nombre: document.querySelector('#nombre-producto')?.value.trim() || '',
         especie: document.querySelector('#especie')?.value || '',
-        marca: document.querySelector('#marca')?.value || '',
+        marca: marcaSeleccionada,
         costo: parseFloat(document.querySelector('#costo')?.value) || 0,
         precioVenta: parseFloat(document.querySelector('#precioVenta')?.value) || 0,
         stock: parseInt(document.querySelector('#existencia')?.value, 10) || 0,

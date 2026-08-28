@@ -1,5 +1,8 @@
 console.log("===== PAGO.JS CARGADO CORRECTAMENTE =====");
 
+
+
+
 // ==========================================
 // VERIFICACIÓN DE SESIÓN EN PAGO / CHECKOUT
 // ==========================================
@@ -283,28 +286,27 @@ if (formularioCheckout) {
 /*
 * Toma los datos del formulario y los envía por medio de POST
 */
+let direccionConfirmada = false;
+
+
 async function guardarDireccionEnBackend(idUsuario, datosDireccion) {
     try {
         const respuesta = await fetch(`http://localhost:8080/api/direcciones/${idUsuario}`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosDireccion)
         });
 
-        if (!respuesta.ok) {
-            throw new Error('Error al registrar la dirección en el servidor.');
-        }
+        if (!respuesta.ok) throw new Error('Error al registrar la dirección en el servidor.');
 
-        const resultado = await respuesta.json();
-        console.log("Dirección guardada con éxito:", resultado);
-        alert("Dirección guardada correctamente.");
+        await respuesta.json();
+        mostrarModalAlerta("Dirección guardada correctamente.", "success");
+        direccionConfirmada = true;
         return true;
 
     } catch (error) {
         console.error("Error de conexión:", error);
-        alert("No se pudo guardar la dirección. Verifica los datos o tu conexión.");
+        mostrarModalAlerta("No se pudo guardar la dirección. Verifica los datos o tu conexión.", "error");
         return false;
     }
 }
@@ -324,6 +326,18 @@ const formularioPago = document.getElementById("formularioPago");
 if (formularioPago) {
     formularioPago.addEventListener("submit", async function (e) {
         e.preventDefault();
+
+      if (!direccionConfirmada) {
+        const modalElement = document.getElementById('modalDireccionPendiente');
+        if (modalElement) {
+            // Quitamos el foco actual antes de abrir el modal para evitar conflictos de accesibilidad
+            if (document.activeElement) document.activeElement.blur();
+
+            const modalBootstrap = new bootstrap.Modal(modalElement);
+            modalBootstrap.show();
+          }
+            return;
+        }
 
         const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
                            || JSON.parse(sessionStorage.getItem('usuarioActivo'));
@@ -433,15 +447,14 @@ async function ejecutarCheckout(usuarioId, idMetodoPago) {
         headers: { 'Content-Type': 'application/json' }
     });
 
-    if (!respuestaCheckout.ok) {
-        throw new Error("Error al generar el pedido y migrar el carrito.");
-    }
+    if (!respuestaCheckout.ok) throw new Error("Error al generar el pedido y migrar el carrito.");
 
-    const pedidoCreado = await respuestaCheckout.json();
-    console.log("¡Pedido y detalles creados con éxito!", pedidoCreado);
+    mostrarModalAlerta("¡Pago realizado y pedido generado con éxito!", "success");
 
-    alert("¡Pago realizado y pedido generado con éxito!");
-    window.location.href = 'index.html';
+    const modalElement = document.getElementById('modalNotificacion');
+    modalElement.addEventListener('hidden.bs.modal', () => {
+        window.location.href = 'index.html';
+    }, { once: true });
 }
 
 
@@ -583,3 +596,64 @@ async function cargarTarjetasGuardadas(idUsuario) {
         console.error("Error al cargar tarjetas:", error);
     }
 }
+
+(function crearModalesDinamicos() {
+    if (!document.getElementById('modalNotificacion')) {
+        const divModal = document.createElement('div');
+        divModal.innerHTML = `
+            <div class="modal fade" id="modalNotificacion" tabindex="-1" aria-labelledby="modalNotificacionLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header" id="modalNotificacionHeader">
+                    <h5 class="modal-title" id="modalNotificacionLabel"><i class="bi bi-info-circle-fill me-2"></i>Aviso</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body" id="modalNotificacionBody"></div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="modalDireccionPendiente" tabindex="-1" aria-labelledby="modalDireccionPendienteLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="modalDireccionPendienteLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Dirección requerida</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    Primero debes confirmar y guardar tu dirección de entrega antes de proceder con el pago.
+                  </div>
+                </div>
+              </div>
+            </div>
+        `;
+        document.body.appendChild(divModal);
+    }
+})();
+
+function mostrarModalAlerta(mensaje, tipo = 'info') {
+    const modalElement = document.getElementById('modalNotificacion');
+    const cuerpoModal = document.getElementById('modalNotificacionBody');
+    const headerModal = document.getElementById('modalNotificacionHeader');
+
+    if (!modalElement || !cuerpoModal) {
+        alert(mensaje);
+        return;
+    }
+
+    cuerpoModal.innerHTML = mensaje;
+    headerModal.className = "modal-header text-white";
+    if (tipo === 'success') headerModal.classList.add('bg-success');
+    else if (tipo === 'error' || tipo === 'danger') headerModal.classList.add('bg-danger');
+    else if (tipo === 'warning') headerModal.classList.add('bg-warning', 'text-dark');
+    else headerModal.classList.add('bg-primary');
+
+    if (document.activeElement) document.activeElement.blur();
+
+    const modalBootstrap = new bootstrap.Modal(modalElement);
+    modalBootstrap.show();
+}
+

@@ -24,27 +24,6 @@ public class DetalleCarritoService implements IDetalleCarritoService {
     private final CarritoRepository carritoRepository;
     private final ProductosRepository productosRepository;
 
-    private DetalleCarritoResponseDTO convertirADto(DetalleCarrito detalle) {
-        Productos prod = detalle.getProducto();
-
-        BigDecimal precio = prod.getPrecioVenta() != null
-                ? prod.getPrecioVenta()
-                : BigDecimal.ZERO;
-
-        BigDecimal subtotal = precio.multiply(
-                BigDecimal.valueOf(detalle.getCantidad())
-        );
-
-        return DetalleCarritoResponseDTO.builder()
-                .idCarrito(detalle.getCarrito().getIdCarrito())
-                .idProducto(prod.getIdProducto())
-                .nombreProducto(prod.getNombre())
-                .precioUnitario(precio)
-                .cantidad(detalle.getCantidad())
-                .subtotal(subtotal)
-                .build();
-    }
-
     @Override
     @Transactional
     public DetalleCarritoResponseDTO agregarProducto(
@@ -67,8 +46,6 @@ public class DetalleCarritoService implements IDetalleCarritoService {
                 .findById(idCompuesto)
                 .orElse(new DetalleCarrito());
 
-        // Como DetalleCarrito inicializa id automáticamente,
-        // verificamos si la llave compuesta tiene valores
         if (detalle.getId().getIdCarrito() == null) {
 
             detalle.setId(idCompuesto);
@@ -142,7 +119,6 @@ public class DetalleCarritoService implements IDetalleCarritoService {
                         new RuntimeException(
                                 "Producto no encontrado en el carrito"));
 
-        // Si la cantidad es 0 o menor, se elimina del carrito
         if (cantidadNueva <= 0) {
             detalleCarritoRepository.delete(detalle);
             return null;
@@ -154,5 +130,27 @@ public class DetalleCarritoService implements IDetalleCarritoService {
                 detalleCarritoRepository.save(detalle);
 
         return convertirADto(actualizado);
+    }
+
+    private DetalleCarritoResponseDTO convertirADto(DetalleCarrito detalle) {
+        Productos prod = detalle.getProducto();
+
+        BigDecimal precio = prod.getPrecioVenta() != null
+                ? prod.getPrecioVenta()
+                : BigDecimal.ZERO;
+
+        BigDecimal subtotal = precio.multiply(
+                BigDecimal.valueOf(detalle.getCantidad())
+        );
+
+        return DetalleCarritoResponseDTO.builder()
+                .idCarrito(detalle.getCarrito().getIdCarrito())
+                .idProducto(prod.getIdProducto())
+                .nombreProducto(prod.getNombre())
+                .precioUnitario(precio)
+                .cantidad(detalle.getCantidad())
+                .subtotal(subtotal)
+                .imagen(prod.getImagen())
+                .build();
     }
 }

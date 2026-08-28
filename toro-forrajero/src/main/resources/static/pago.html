@@ -253,7 +253,7 @@
 						</div>
 
 						<div class="d-grid gap-2 col-10 mx-auto mb-4">
-							<button class="btn btn-primary" type="submit">Continuar</button>
+							<button class="btn btn-primary" type="submit">Guardar direcciones</button>
 						</div>
 
 					</div>
@@ -500,7 +500,7 @@
 					<li><a href="index.html">Inicio</a></li>
 					<li><a href="acercaNosotros.html">Acerca de Nosotros</a></li>
 					<li><a href="contactanos.html">Contacto</a></li>
-					<li><a href="registro.html">Login / Registro</a></li>
+                    <!--                    <li><a href="registro.html">Login / Registro</a></li>-->
 				</ul>
 			</div>
 
@@ -565,6 +565,21 @@
 	<script src="build/js/carrito.js"></script>
 	<script src="build/js/prueba.js"></script>
 	<script type="module" src="build/js/adminAuth.js"></script>
+
+    <!-- MODAL DE ADVERTENCIA DE DIRECCIÓN -->
+    <div class="modal fade" id="modalDireccionPendiente" tabindex="-1" aria-labelledby="modalDireccionPendienteLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="modalDireccionPendienteLabel"><i class="bi bi-exclamation-triangle-fill me-2"></i>Dirección requerida</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Primero debes confirmar y guardar tu dirección de entrega antes de proceder con el pago.
+                </div>
+            </div>
+        </div>
+    </div>
 
 </body>
 	<script src="build/js/cuenta.js"></script>

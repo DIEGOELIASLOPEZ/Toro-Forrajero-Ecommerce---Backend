@@ -1,5 +1,8 @@
 console.log("===== PAGO.JS CARGADO CORRECTAMENTE =====");
 
+
+
+
 // ==========================================
 // VERIFICACIÓN DE SESIÓN EN PAGO / CHECKOUT
 // ==========================================
@@ -283,6 +286,9 @@ if (formularioCheckout) {
 /*
 * Toma los datos del formulario y los envía por medio de POST
 */
+let direccionConfirmada = false;
+
+
 async function guardarDireccionEnBackend(idUsuario, datosDireccion) {
     try {
         const respuesta = await fetch(`http://localhost:8080/api/direcciones/${idUsuario}`, {
@@ -300,6 +306,9 @@ async function guardarDireccionEnBackend(idUsuario, datosDireccion) {
         const resultado = await respuesta.json();
         console.log("Dirección guardada con éxito:", resultado);
         alert("Dirección guardada correctamente.");
+
+        direccionConfirmada = true;
+
         return true;
 
     } catch (error) {
@@ -324,6 +333,18 @@ const formularioPago = document.getElementById("formularioPago");
 if (formularioPago) {
     formularioPago.addEventListener("submit", async function (e) {
         e.preventDefault();
+
+      if (!direccionConfirmada) {
+        const modalElement = document.getElementById('modalDireccionPendiente');
+        if (modalElement) {
+            // Quitamos el foco actual antes de abrir el modal para evitar conflictos de accesibilidad
+            if (document.activeElement) document.activeElement.blur();
+
+            const modalBootstrap = new bootstrap.Modal(modalElement);
+            modalBootstrap.show();
+          }
+            return;
+        }
 
         const usuarioActivo = JSON.parse(localStorage.getItem('usuarioActivo'))
                            || JSON.parse(sessionStorage.getItem('usuarioActivo'));

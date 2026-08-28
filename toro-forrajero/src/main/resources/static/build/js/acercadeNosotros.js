@@ -160,7 +160,7 @@ function cardIntegrante() {
         }
     const datosKaren = {
         id: "karen",
-        imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/Karen.jpeg",
+        imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/karen.jpeg",
         linkedin: "https://www.linkedin.com/in/karen-luna-dev/",
         gitHub: "https://github.com/KarenLunaS",
         nombreCompleto: "Karen Montserrat Luna Salmerón",
@@ -193,7 +193,7 @@ function cardIntegrante() {
         }
     const datosNatalia = {
         id: "natalia",
-        imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/Nat.jpeg",
+        imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/nat.jpeg",
         linkedin: "https://www.linkedin.com/in/nataliasusana/",
         gitHub: "https://github.com/natalia-susana",
         nombreCompleto: "Natalia Susana Cruz Ruíz",

@@ -4,11 +4,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.toro_forrajero.model.Productos;
 
 @Repository
-public interface ProductosRepository extends JpaRepository<Productos, Long>{
+public interface ProductosRepository extends JpaRepository<Productos, Long> {
     //Mostrar productos por marca
     List<Productos> findByMarcaIgnoreCase(String marca);
 
@@ -21,5 +22,6 @@ public interface ProductosRepository extends JpaRepository<Productos, Long>{
             String especie
     );
 
-    List<Productos> findByDestacadoTrueAndVisibilidadTrue();
+    @Query("SELECT p FROM Productos p WHERE p.destacado = true")
+    List<Productos> obtenerDestacados();
 }

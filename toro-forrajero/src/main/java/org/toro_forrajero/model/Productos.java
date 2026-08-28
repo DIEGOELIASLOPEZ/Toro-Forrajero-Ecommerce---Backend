@@ -49,11 +49,14 @@ public class Productos {
     @Column(name = "precio_venta", nullable = false, precision = 10, scale = 2)
     private BigDecimal precioVenta;
 
-    @Column(name = "destacado", nullable = false)
-    private Boolean destacado;
 
-    @Column(name = "visibilidad", nullable = false)
-    private Boolean visibilidad;
+
+    @Column(name = "destacado", columnDefinition = "BIT")
+    private boolean destacado;
+
+    @Column(name = "visibilidad", columnDefinition = "BIT")
+    private boolean visibilidad;
+
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String descripcion;

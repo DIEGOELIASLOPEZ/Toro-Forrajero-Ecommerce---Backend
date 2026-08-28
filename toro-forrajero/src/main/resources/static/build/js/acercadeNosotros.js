@@ -128,7 +128,7 @@ function cardIntegrante() {
         }
     const datosEsther = {
         id: "esther",
-        imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/esther2.png",
+        imagen: "recursos-graficos/acerca-nosotros/perfiles-rancho/esther.png",
         linkedin: "https://www.linkedin.com/in/esthernilamiranda/",
         gitHub: "https://github.com/eanila",
         nombreCompleto: "Esther Alejandra Nila Miranda",

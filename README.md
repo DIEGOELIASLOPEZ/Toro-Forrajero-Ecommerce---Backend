@@ -35,7 +35,7 @@
 
 Este repositorio contiene la arquitectura de servidor para **El Toro Forrajero**, un ecosistema digital desarrollado por el **404 Error Club** (Generation México) que conecta directamente a proveedores de insumos pecuarios con pequeños productores y ganaderos.
 
-El backend está construido bajo una arquitectura limpia en capas utilizando **Spring Boot**, gestionando la persistencia mediante **Spring Data JPA y Hibernate** conectada a una base de datos relacional en **MySQL**[cite: 11], manejando dependencias con **Gradle**, y se encuentra desplegado en una instancia **AWS EC2** para garantizar alta disponibilidad y seguridad en las transacciones.
+El backend está construido bajo una arquitectura limpia en capas utilizando **Spring Boot**, gestionando la persistencia mediante **Spring Data JPA y Hibernate** conectada a una base de datos relacional en **MySQL**, manejando dependencias con **Gradle**, y se encuentra desplegado en una instancia **AWS EC2** para garantizar alta disponibilidad y seguridad en las transacciones.
 
 ---
 
